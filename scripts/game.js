@@ -11,23 +11,23 @@ const gameRules = {
         speedThreshold: 10,
         levelUpScore: 5,
         nextLevel: "medium",
-        gameOverThreshold: -10,
-        cashProbability: 0.02,
-        caughtProbability: 0.01
+        gameOverThreshold: -5,
+        cashProbability: 0.1,
+        caughtProbability: 0.1
     },
     medium: {
         speedThreshold: 8,
         levelUpScore: 10,
         nextLevel: "hard",
-        gameOverThreshold: -5,
-        cashProbability: 0.3,
+        gameOverThreshold: -2,
+        cashProbability: 0.2,
         caughtProbability: 0.2
     },
     hard: {
         speedThreshold: 6,
         levelUpScore: null,
         gameOverThreshold: -1,
-        cashProbability: 0.4,
+        cashProbability: 0.3,
         caughtProbability: 0.3
     }
 };
@@ -53,7 +53,6 @@ function displayLetter(letter) {
     // Clear previous content
     letterDetailsDisplay.innerHTML = '';
 
-    // Helper function to create a new line of information
     const createInfoLine = (value) => {
         const line = document.createElement('div');
         line.textContent = value;
@@ -61,15 +60,12 @@ function displayLetter(letter) {
         return line;
     };
 
-    // Display each piece of letter information on a new line
     letterDetailsDisplay.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`));
     letterDetailsDisplay.appendChild(createInfoLine(letter.street));
     letterDetailsDisplay.appendChild(createInfoLine(letter.zipCode || "???"));
     letterDetailsDisplay.appendChild(createInfoLine(letter.county || "???"));
-    letterDetailsDisplay.appendChild(createInfoLine(letter.city + ", " + letter.country));
+    letterDetailsDisplay.appendChild(createInfoLine(`${letter.city}, ${letter.country}`));
 
-
-    // Outgoing notice, displayed if the letter requires outgoing sorting
     if (letter.requiresOutgoing) {
         const outgoingNotice = document.createElement('div');
         outgoingNotice.textContent = "This letter needs to be sorted as OUTGOING!";
@@ -77,15 +73,11 @@ function displayLetter(letter) {
         letterDetailsDisplay.appendChild(outgoingNotice);
     }
 
-    // Cash-related notice if applicable
     if (letter.containsCash) {
         const pocketCash = confirm("This letter contains cash? Do you want to steal this cash?");
 
         if (pocketCash) {
             if (Math.random() < gameRules[level].caughtProbability) {
-                messageDisplay.className = 'info-box warning';
-                messageDisplay.textContent = "You got caught stealing! You're fired! Cash pocketed: $0";
-                cash = 0;
                 endGame(true); // Caught stealing
                 return;
             } else {
@@ -101,7 +93,6 @@ function displayLetter(letter) {
     startTimer();
 }
 
-
 function startTimer() {
     timeRemaining = gameRules[level].speedThreshold;
     updateTimer();
@@ -111,9 +102,7 @@ function startTimer() {
 
         if (timeRemaining <= 0) {
             clearInterval(timer);
-            messageDisplay.className = 'info-box warning';
-            messageDisplay.textContent = "You took too long! You are fired!";
-            endGame();
+            endGame(false, true); // Out of time
         }
     }, 1000);
 }
@@ -141,9 +130,7 @@ export function checkAnswer(userInput) {
     updateScore();
 
     if (score < gameRules[level].gameOverThreshold) {
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = "What are you doing?! You are fired!";
-        endGame();
+        endGame(false, false); // Low score
         return;
     }
 
@@ -170,26 +157,49 @@ function generateNewLetter() {
     return currentLetter;
 }
 
-const gridItems = document.querySelectorAll('.grid-item');
-
-function endGame(caughtStealing = false) {
-    if (caughtStealing) {
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = `Game Over! You were caught stealing. Final Score: ${score} | Total Cash Pocketed: $0`;
-    } else {
-        messageDisplay.className = 'info-box neutral';
-        messageDisplay.textContent = `Game Over! Final Score: ${score} | Total Cash Pocketed: $${cash}`;
-    }
-}
+let gridItemClickHandlers = []; // Store the event listener functions
 
 export function startGame() {
     renderGraphics();
     currentLetter = generateNewLetter();
 
+    const gridItems = document.querySelectorAll('.grid-item');
+
+    // Remove any existing event listeners to prevent duplication
+    gridItemClickHandlers.forEach((handler) => {
+        gridItems.forEach((item) => {
+            item.removeEventListener('click', handler);
+        });
+    });
+
+    // Add new event listeners
     gridItems.forEach((item) => {
-        item.addEventListener('click', () => {
+        const handler = () => {
             const zipcode = item.textContent;
             checkAnswer(zipcode);
+        };
+        gridItemClickHandlers.push(handler); // Store the handler for later removal
+        item.addEventListener('click', handler);
+    });
+}
+
+function endGame(caughtStealing = false, outOfTime = false) {
+    if (caughtStealing) {
+        messageDisplay.className = 'info-box warning';
+        messageDisplay.textContent = `YOU'RE FIRED! You were caught stealing! Final Score: ${score} | Total Cash Pocketed: $0`;
+    } else if (outOfTime) {
+        messageDisplay.className = 'info-box warning';
+        messageDisplay.textContent = `YOU'RE FIRED! Too slow! Final Score: ${score} | Total Cash Pocketed: $${cash}`;
+    } else {
+        messageDisplay.className = 'info-box warning';
+        messageDisplay.textContent = `YOU'RE FIRED! You made too many mistakes! Final Score: ${score} | Total Cash Pocketed: $${cash}`;
+    }
+
+    // Deactivate all event listeners by removing them
+    const gridItems = document.querySelectorAll('.grid-item');
+    gridItemClickHandlers.forEach((handler) => {
+        gridItems.forEach((item) => {
+            item.removeEventListener('click', handler);
         });
     });
 }
