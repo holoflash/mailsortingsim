@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mail Sorting Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+        }
+
+        .grid-item {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        #game-info {
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        #letter-details {
+            background-color: #ccc;
+
+        }
+
+        .info-box.success {
+            color: green;
+        }
+
+        .info-box.warning {
+            color: red;
+        }
+
+        .info-box.level-up {
+            color: blue;
+        }
+
+        .info-box.neutral {
+            color: black;
+        }
+
+        p {
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <h4>MAIL SORTING SIMULATOR</h4>
+    <p>
+        Sort letters by the two last digits in the ZIP code.<br>
+        You can get fired if you:<br>
+        - Make too many mistakes<br>
+        - The timer runs out<br>
+        - You get caught stealing
+    </p>
+    <div id="game-info">
+        <div id="score" class="info-box neutral">Score: 0 | Cash: $0</div>
+        <div id="timer" class="info-box neutral">Time remaining: 0 seconds</div>
+        Letter to sort:
+        <div id="letter-details" class="info-box neutral"></div>
+        <div id="message" class="info-box"></div>
+    </div>
+
+    <div id="zipcode-grid" class="grid-container"></div>
+
+    <script type="module" src="main.js"></script>
+</body>
+
+</html>
