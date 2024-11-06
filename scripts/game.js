@@ -1,104 +1,29 @@
 import { generateLetter } from './letterGenerator.js';
-import { renderGraphics } from './renderGraphics.js';
+import { displayMessage, renderGraphics, updateScoreDisplay, updateTimerDisplay, displayLetterDetails, updateElementalDisplay } from './domRenderer.js';
+import { gameRules } from './gameRules.js';
+import { attemptToStealCash } from './cashHandler.js'; // Import the attemptToStealCash function
+import { attemptToInhalePowder } from './powderHandler.js'; // Import the inhale powder handler
 
-let score = 0;
-let cash = 0;
 let level = "easy";
 let currentLetter = null;
-
-const gameRules = {
-    easy: {
-        speedThreshold: 10,
-        levelUpScore: 5,
-        nextLevel: "medium",
-        gameOverThreshold: -5,
-        cashProbability: 0.1,
-        caughtProbability: 0.1
-    },
-    medium: {
-        speedThreshold: 8,
-        levelUpScore: 10,
-        nextLevel: "hard",
-        gameOverThreshold: -2,
-        cashProbability: 0.2,
-        caughtProbability: 0.2
-    },
-    hard: {
-        speedThreshold: 6,
-        levelUpScore: null,
-        gameOverThreshold: -1,
-        cashProbability: 0.3,
-        caughtProbability: 0.3
-    }
-};
-
 let timer;
 let timeRemaining;
+let gridItemClickHandlers = [];
 
-// DOM elements
-const scoreDisplay = document.getElementById('score');
-const timerDisplay = document.getElementById('timer');
-const letterDetailsDisplay = document.getElementById('letter-details');
-const messageDisplay = document.getElementById('message');
-
-function updateScore() {
-    scoreDisplay.textContent = `Score: ${score} | Cash: $${cash}`;
+export function startGame() {
+    gameRules[level].playing = true; // Set the playing state for the current level
+    renderGraphics(gameRules[level].playing);
+    currentLetter = generateNewLetter();
+    setupGridItemListeners();
 }
 
-function updateTimer() {
-    timerDisplay.textContent = `Time remaining: ${timeRemaining} seconds`;
-}
-
-function displayLetter(letter) {
-    // Clear previous content
-    letterDetailsDisplay.innerHTML = '';
-
-    const createInfoLine = (value) => {
-        const line = document.createElement('div');
-        line.textContent = value;
-        line.className = 'info-line';
-        return line;
-    };
-
-    letterDetailsDisplay.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`));
-    letterDetailsDisplay.appendChild(createInfoLine(letter.street));
-    letterDetailsDisplay.appendChild(createInfoLine(letter.zipCode || "???"));
-    letterDetailsDisplay.appendChild(createInfoLine(letter.county || "???"));
-    letterDetailsDisplay.appendChild(createInfoLine(`${letter.city}, ${letter.country}`));
-
-    if (letter.requiresOutgoing) {
-        const outgoingNotice = document.createElement('div');
-        outgoingNotice.textContent = "This letter needs to be sorted as OUTGOING!";
-        outgoingNotice.className = 'info-line warning';
-        letterDetailsDisplay.appendChild(outgoingNotice);
-    }
-
-    if (letter.containsCash) {
-        const pocketCash = confirm("This letter contains cash? Do you want to steal this cash?");
-
-        if (pocketCash) {
-            if (Math.random() < gameRules[level].caughtProbability) {
-                endGame(true); // Caught stealing
-                return;
-            } else {
-                cash += letter.cashAmount;
-                messageDisplay.className = 'info-box success';
-                messageDisplay.textContent = `You pocketed $${letter.cashAmount}. Total cash: $${cash}`;
-                updateScore();
-            }
-        }
-    }
-
-    updateScore();
-    startTimer();
-}
-
-function startTimer() {
+// Starts the countdown timer for each round
+export function startTimer() {
     timeRemaining = gameRules[level].speedThreshold;
-    updateTimer();
+    updateTimerDisplay(timeRemaining);
     timer = setInterval(() => {
         timeRemaining--;
-        updateTimer();
+        updateTimerDisplay(timeRemaining);
 
         if (timeRemaining <= 0) {
             clearInterval(timer);
@@ -107,8 +32,9 @@ function startTimer() {
     }, 1000);
 }
 
+// Checks the player's answer and updates the score
 export function checkAnswer(userInput) {
-    clearInterval(timer);
+    clearInterval(timer);  // Stop the timer to avoid overlapping
     let correct = false;
 
     if (currentLetter.requiresOutgoing) {
@@ -118,51 +44,92 @@ export function checkAnswer(userInput) {
     }
 
     if (correct) {
-        score++;
-        messageDisplay.className = 'info-box success';
-        messageDisplay.textContent = "Correct!";
+        gameRules[level].score++;
+        displayMessage("Correct!", 'info-box success');
     } else {
-        score--;
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = "Incorrect.";
+        gameRules[level].score--;
+        displayMessage("Incorrect.", 'info-box warning');
     }
 
-    updateScore();
+    updateScoreDisplay(gameRules[level].score, gameRules[level].cash);
 
-    if (score < gameRules[level].gameOverThreshold) {
+    if (gameRules[level].score < gameRules[level].gameOverThreshold) {
         endGame(false, false); // Low score
         return;
     }
 
-    if (gameRules[level].levelUpScore && score >= gameRules[level].levelUpScore) {
+    if (gameRules[level].levelUpScore && gameRules[level].score >= gameRules[level].levelUpScore) {
         level = gameRules[level].nextLevel;
-        messageDisplay.className = 'info-box level-up';
-        messageDisplay.textContent = `Level Up! Welcome to ${capitalizeFirstLetter(level)} Mode!`;
+        displayMessage(`Level Up! Welcome to ${capitalizeFirstLetter(level)} Mode!`, 'info-box level-up');
     }
 
     currentLetter = generateNewLetter();
+    startTimer(); // Restart the timer for the next round
 }
 
 function generateNewLetter() {
     currentLetter = generateLetter(level);
 
-    if (Math.random() < gameRules[level].cashProbability) {
-        currentLetter.containsCash = true;
-        currentLetter.cashAmount = Math.floor(Math.random() * 100) + 1;
+    // Handle power-ups, including cash and inhalePowder
+    if (Math.random() < gameRules[level].powerUpProbability) {
+        const powerUpType = getRandomPowerUp(); // Randomly decide the power-up type
+
+        switch (powerUpType) {
+            case 'inhalePowder':
+                currentLetter.powerUp = 'inhalePowder';
+                currentLetter.effectType = Math.random() < 0.5 ? 'intoxication' : 'poison'; // Randomly assign rush or poison
+                currentLetter.inhalePowderEffect = attemptToInhalePowder; // Assign the inhalePowder function
+                displayMessage("You found Inhale Powder!", 'info-box success');
+                break;
+
+            case 'cash':
+                currentLetter.powerUp = 'cash';
+                currentLetter.cashAmount = Math.floor(Math.random() * 100) + 1; // Random cash amount
+                displayMessage(`You found $${currentLetter.cashAmount}! It's a power-up!`, 'info-box success');
+                break;
+
+            default:
+                currentLetter.powerUp = null; // No power-up for this letter
+                break;
+        }
     } else {
-        currentLetter.containsCash = false;
+        currentLetter.powerUp = null; // No power-up for this letter
     }
 
-    displayLetter(currentLetter);
+    // Inhale powder effect logic (ask if the player wants to use it)
+    if (currentLetter.powerUp === 'inhalePowder') {
+        attemptToInhalePowder(currentLetter, (updatedIntoxication, updatedPoison) => {
+            // After inhaling powder, update the display
+            gameRules[level].intoxication = updatedIntoxication; // Update intoxication state
+            gameRules[level].poison = updatedPoison; // Update poison state
+            updateElementalDisplay(gameRules[level].poison, gameRules[level].intoxication); // Update the display with the new poison value
+            updateScoreDisplay(gameRules[level].score, gameRules[level].cash, gameRules[level].intoxication, gameRules[level].poison); // Update all relevant UI values
+        }, gameRules[level].intoxication, gameRules[level].poison); // Pass the current values of intoxication and poison
+    }
+
+    // If cash is found, handle the steal action as usual (cash logic remains unchanged)
+    if (currentLetter.powerUp === 'cash') {
+        const caughtProbability = gameRules[level].caughtProbability;
+        attemptToStealCash(currentLetter, caughtProbability, (amountStolen) => {
+            gameRules[level].cash += amountStolen; // Update the cash
+            updateScoreDisplay(gameRules[level].score, gameRules[level].cash); // Update display with updated cash
+            displayMessage(`Total Cash Pocketed: $${gameRules[level].cash}`, 'info-box info');
+        });
+    }
+
+    displayLetterDetails(currentLetter);
     return currentLetter;
 }
 
-let gridItemClickHandlers = []; // Store the event listener functions
+// Helper function to randomly choose a power-up type (only cash and inhalePowder now)
+function getRandomPowerUp() {
+    const powerUps = ['inhalePowder', 'cash']; // Only include inhalePowder and cash as power-ups
+    const randomIndex = Math.floor(Math.random() * powerUps.length);
+    return powerUps[randomIndex];
+}
 
-export function startGame() {
-    renderGraphics();
-    currentLetter = generateNewLetter();
-
+// Sets up listeners on grid items for the player's answers
+function setupGridItemListeners() {
     const gridItems = document.querySelectorAll('.grid-item');
 
     // Remove any existing event listeners to prevent duplication
@@ -178,24 +145,24 @@ export function startGame() {
             const zipcode = item.textContent;
             checkAnswer(zipcode);
         };
-        gridItemClickHandlers.push(handler); // Store the handler for later removal
+        gridItemClickHandlers.push(handler);
         item.addEventListener('click', handler);
     });
 }
 
+// Ends the game with a specific message
 function endGame(caughtStealing = false, outOfTime = false) {
     if (caughtStealing) {
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = `YOU'RE FIRED! You were caught stealing! Final Score: ${score} | Total Cash Pocketed: $0`;
+        displayMessage(`YOU'RE FIRED! You were caught stealing! Final Score: ${gameRules[level].score} | Total Cash Pocketed: $0`, 'info-box warning');
     } else if (outOfTime) {
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = `YOU'RE FIRED! Too slow! Final Score: ${score} | Total Cash Pocketed: $${cash}`;
+        displayMessage(`YOU'RE FIRED! Too slow! Final Score: ${gameRules[level].score} | Total Cash Pocketed: $${gameRules[level].cash}`, 'info-box warning');
     } else {
-        messageDisplay.className = 'info-box warning';
-        messageDisplay.textContent = `YOU'RE FIRED! You made too many mistakes! Final Score: ${score} | Total Cash Pocketed: $${cash}`;
+        displayMessage(`YOU'RE FIRED! You made too many mistakes! Final Score: ${gameRules[level].score} | Total Cash Pocketed: $${gameRules[level].cash}`, 'info-box warning');
     }
 
-    // Deactivate all event listeners by removing them
+    gameRules[level].playing = false;
+
+    // Remove event listeners from grid items
     const gridItems = document.querySelectorAll('.grid-item');
     gridItemClickHandlers.forEach((handler) => {
         gridItems.forEach((item) => {
@@ -203,3 +170,4 @@ function endGame(caughtStealing = false, outOfTime = false) {
         });
     });
 }
+
