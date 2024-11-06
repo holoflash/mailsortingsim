@@ -1,7 +1,7 @@
 export const gameRules = {
     easy: {
         speedThreshold: 10,
-        levelUpScore: 20,
+        levelUpScore: 5,
         nextLevel: "medium",
         gameOverThreshold: -5,
         powerUpProbability: 0.2,
@@ -14,7 +14,7 @@ export const gameRules = {
     },
     medium: {
         speedThreshold: 8,
-        levelUpScore: 40,
+        levelUpScore: 20,
         nextLevel: "hard",
         gameOverThreshold: -2,
         caughtProbability: 0.05,
@@ -28,7 +28,7 @@ export const gameRules = {
     hard: {
         speedThreshold: 6,
         levelUpScore: null,
-        gameOverThreshold: -1,
+        gameOverThreshold: -11,
         caughtProbability: 0.09,
         powerUpProbability: 0.1,
         score: 0,

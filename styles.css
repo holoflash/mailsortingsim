@@ -1,0 +1,53 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 10px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 50px));
+}
+
+.grid-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    text-align: center;
+    cursor: pointer;
+}
+
+#game-info {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.info-box {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.info-box.success {
+    color: green;
+}
+
+.info-box.warning {
+    color: red;
+}
+
+.info-box.level-up {
+    color: blue;
+}
+
+.info-box.neutral {
+    color: black;
+}
+
+#header-title {
+    font-style: oblique;
+}
+
+#instructions {
+    font-family: monospace;
+    white-space: wrap;
+}
