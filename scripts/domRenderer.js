@@ -45,23 +45,24 @@ export function displayLetterDetails(letter) {
     const letterDetailsDisplay = document.getElementById('letter-details');
     letterDetailsDisplay.textContent = '';
 
-    const createInfoLine = (label, value, className = "info-line") => {
+    const createInfoLine = (label = "", value, className = "info-line") => {
         const line = document.createElement('div');
         line.textContent = `${label}: ${value}`;
         line.className = className;
         return line;
     };
 
-    letterDetailsDisplay.appendChild(createInfoLine('Name', `${letter.firstName} ${letter.lastName}`));
-    letterDetailsDisplay.appendChild(createInfoLine('Street', letter.street));
-    letterDetailsDisplay.appendChild(createInfoLine('Zip Code', letter.zipCode || messages.unknownZipCode));
-    letterDetailsDisplay.appendChild(createInfoLine('County', letter.county));
-    letterDetailsDisplay.appendChild(createInfoLine('Location', `${letter.city}, ${letter.country}`));
+    letterDetailsDisplay.appendChild(createInfoLine(messages.labels.name, `${letter.firstName} ${letter.lastName}`));
+    letterDetailsDisplay.appendChild(createInfoLine(messages.labels.street, letter.street));
+    letterDetailsDisplay.appendChild(createInfoLine(messages.labels.zipCode, letter.zipCode || messages.unknownZipCode));
+    letterDetailsDisplay.appendChild(createInfoLine(messages.labels.county, letter.county));
+    letterDetailsDisplay.appendChild(createInfoLine(messages.labels.location, `${letter.city}, ${letter.country}`));
 
     if (letter.requiresOutgoing) {
         displayMessage(messages.outgoingLetterMessage, "info-line warning");
     }
 }
+
 
 export function displayMessage(content, type = 'info-box') {
     const messageDisplay = document.getElementById('message');

@@ -290,6 +290,13 @@ export const otherCities = ["Baghdad", "New York", "Uppsala", "Västerås"];
 export const otherCountries = ["Afrika", "Indien", "Grekland", "Nigeria"];
 
 export const messages = {
+    labels: {
+        name: "Name",
+        street: "Street",
+        zipCode: "Zip Code",
+        county: "County",
+        location: "Location"
+    },
     title: "Mail Sorting Game",
     headerTitle: "MAIL SORTING SIMULATOR",
     instructions: "Sort letters by the two last digits in the ZIP code. You can get fired if you make too many mistakes, the timer runs out, or if you get caught stealing.",
