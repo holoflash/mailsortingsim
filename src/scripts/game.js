@@ -2,31 +2,20 @@ import * as data from '../data/data_en.js';
 import { handleCashPowerUp } from './powerUps.js';
 import * as render from './render.js';
 
-const defaultGameRules = {
-    score: 0,
-    cash: 0,
-    playing: false,
-    caughtProbability: 0.2,
-    powerUpProbability: 0.2
-};
-
 export const gameRules = {
     easy: {
-        ...defaultGameRules,
         speedThreshold: 10,
         levelUpScore: 5,
         nextLevel: "medium",
         gameOverThreshold: -5
     },
     medium: {
-        ...defaultGameRules,
         speedThreshold: 8,
         levelUpScore: 20,
         nextLevel: "hard",
         gameOverThreshold: -2
     },
     hard: {
-        ...defaultGameRules,
         speedThreshold: 6,
         levelUpScore: null,
         nextLevel: "insane",
@@ -34,20 +23,29 @@ export const gameRules = {
     }
 };
 
-export let level = "easy";
+export const player = {
+    score: 0,
+    cash: 0,
+    level: "easy",
+    playing: false,
+    caughtProbability: 0.2,
+    cashProbability: 0.2
+};
+
 let currentLetter = null;
 let timer;
 let timeRemaining;
 
 export function startGame() {
-    gameRules[level].playing = true;
-    render.graphics(gameRules[level].playing);
-    currentLetter = generateNewLetter();
+    player.playing = true;
+    render.graphics(player.playing);
+    currentLetter = generateLetter();
     render.setupGridItemListeners();
+    startTimer();
 }
 
 function startTimer() {
-    timeRemaining = gameRules[level].speedThreshold;
+    timeRemaining = gameRules[player.level].speedThreshold;
     render.updateTimerDisplay(timeRemaining);
     timer = setInterval(() => {
         timeRemaining--;
@@ -71,31 +69,30 @@ export function checkAnswer(userInput) {
     }
 
     if (correct) {
-        gameRules[level].score++;
+        player.score++;
         render.displayMessage(data.messages.correctMessage, 'info-box success');
     } else {
-        gameRules[level].score--;
+        player.score--;
         render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
     }
 
-    render.updateScoreDisplay(gameRules[level].score);
-    render.updateCashDisplay(gameRules[level].cash);
+    render.updateScoreDisplay(player.score);
+    render.updateCashDisplay(player.cash);
 
-    if (gameRules[level].score < gameRules[level].gameOverThreshold) {
+    if (player.score < gameRules[player.level].gameOverThreshold) {
         endGame(false, false);
         return;
     }
 
-    if (gameRules[level].levelUpScore && gameRules[level].score >= gameRules[level].levelUpScore) {
-        level = gameRules[level].nextLevel;
-        render.displayMessage(data.messages.levelUpMessage.replace("{level}", level), 'info-box level-up');
+    if (gameRules[player.level].levelUpScore && player.score >= gameRules[player.level].levelUpScore) {
+        player.level = gameRules[player.level].nextLevel;
+        render.displayMessage(data.messages.levelUpMessage.replace("{level}", player.level), 'info-box level-up');
     }
 
-    currentLetter = generateNewLetter();
-    startTimer();
+    currentLetter = generateLetter();
 }
 
-function endGame(caughtStealing = false, outOfTime = false) {
+export function endGame(caughtStealing = false, outOfTime = false) {
     const getMessage = () => {
         if (caughtStealing) {
             return data.messages.firedCaughtStealingMessage;
@@ -106,7 +103,7 @@ function endGame(caughtStealing = false, outOfTime = false) {
     };
 
     render.displayMessage(getMessage(), 'info-box warning');
-    gameRules[level].playing = false;
+    player.playing = false;
     render.removeGridItemClickListeners();
 }
 
@@ -114,28 +111,9 @@ function getRandomElement(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function generateNewLetter() {
-    currentLetter = generateLetter(level);
-
-    if (Math.random() < gameRules[level].powerUpProbability) {
-        handleCashPowerUp(amount => {
-            gameRules[level].cash += amount;
-            render.updateScoreDisplay(gameRules[level].score);
-            render.updateCashDisplay(gameRules[level].cash);
-        });
-    } else {
-        currentLetter.powerUp = null;
-    }
-
-    render.displayLetterDetails(currentLetter);
-    return currentLetter;
-}
-
-function generateLetter(level) {
+function generateLetter() {
     const firstName = getRandomElement(data.firstNames);
     const lastName = getRandomElement(data.lastNames);
-
-    // Retrieve a random address entry, including zip code, county, and street options
     let [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
     const street = `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`;
     const county = addressInfo.county;
@@ -144,10 +122,10 @@ function generateLetter(level) {
     let country = data.defaultCountry;
     let requiresOutgoing = false;
 
-    if (level === "medium") {
+    if (player.level === "medium") {
         if (Math.random() < 0.5) city = getRandomElement(data.otherCities);
         if (Math.random() < 0.5) country = getRandomElement(data.otherCountries);
-    } else if (level === "hard") {
+    } else if (player.level === "hard") {
         if (Math.random() < 0.3) {
             zipCode = `${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 90) + 10}`;
             requiresOutgoing = true;
@@ -162,7 +140,7 @@ function generateLetter(level) {
         }
     }
 
-    return {
+    let letter = {
         firstName,
         lastName,
         street,
@@ -172,4 +150,14 @@ function generateLetter(level) {
         country,
         requiresOutgoing
     };
+
+    if (Math.random() < player.cashProbability) {
+        handleCashPowerUp(amount => {
+            player.cash += amount;
+            render.updateScoreDisplay(player.score);
+            render.updateCashDisplay(player.cash);
+        });
+    }
+    render.displayLetterDetails(letter);
+    return letter;
 }
