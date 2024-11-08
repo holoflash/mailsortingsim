@@ -7,23 +7,29 @@ export function displayLetterDetails(letter) {
     const letterDetailsDisplay = document.getElementById('letter-details');
     letterDetailsDisplay.textContent = '';
 
-    const createInfoLine = (label = "", value, className = "info-line") => {
-        const line = document.createElement('div');
-        line.textContent = `${label}: ${value}`;
-        line.className = className;
+    const createInfoLine = (value, className = "") => {
+        const line = document.createElement('p');
+        line.textContent = value;
+        if (className) line.classList.add(className);
         return line;
     };
 
-    letterDetailsDisplay.appendChild(createInfoLine(data.messages.labels.name, `${letter.firstName} ${letter.lastName}`));
-    letterDetailsDisplay.appendChild(createInfoLine(data.messages.labels.street, letter.street));
-    letterDetailsDisplay.appendChild(createInfoLine(data.messages.labels.zipCode, letter.zipCode || data.messages.unknownZipCode));
-    letterDetailsDisplay.appendChild(createInfoLine(data.messages.labels.county, letter.county));
-    letterDetailsDisplay.appendChild(createInfoLine(data.messages.labels.location, `${letter.city}, ${letter.country}`));
+    const letterContainer = document.createElement('div');
+    letterContainer.classList.add('letter-container');
+
+    letterContainer.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`, 'letter-name'));
+    letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
+    letterContainer.appendChild(createInfoLine(`${letter.zipCode || data.messages.unknownZipCode} ${letter.county}`, 'letter-zip-county'));
+    letterContainer.appendChild(createInfoLine(`${letter.city}, ${letter.country}`, 'letter-location'));
 
     if (letter.requiresOutgoing) {
-        displayMessage(data.messages.outgoingLetterMessage, "info-line warning");
+        const outgoingNotice = createInfoLine(data.messages.outgoingLetterMessage, 'outgoing-warning');
+        letterContainer.appendChild(outgoingNotice);
     }
+
+    letterDetailsDisplay.appendChild(letterContainer);
 }
+
 
 export function createGridItem(labelText) {
     const gridItem = document.createElement('button');
@@ -51,19 +57,19 @@ export function graphics() {
     gridContainer.appendChild(createGridItem(data.messages.outLabel));
 }
 
-export function updateScoreDisplay(score, cash) {
+export function updateScoreDisplay(score) {
     const scoreDisplay = document.getElementById('score');
-    scoreDisplay.textContent = data.messages.scoreMessage.replace("{score}", score).replace("{cash}", cash);
+    scoreDisplay.textContent = data.messages.scoreMessage.replace("{score}", score);
+}
+
+export function updateCashDisplay(cash) {
+    const cashDisplay = document.getElementById('cash');
+    cashDisplay.textContent = data.messages.cashMessage.replace("{cash}", cash);
 }
 
 export function updateTimerDisplay(timeRemaining) {
     const timerDisplay = document.getElementById('timer');
     timerDisplay.textContent = data.messages.timerMessage.replace("{time}", timeRemaining);
-}
-
-export function updateElementalDisplay(poison, intoxication) {
-    const poisonDisplay = document.getElementById('elemental');
-    poisonDisplay.textContent = data.messages.elementalMessage.replace("{poison}", poison).replace("{intoxication}", intoxication);
 }
 
 export function displayMessage(content, type = 'info-box') {
@@ -111,7 +117,7 @@ export function showDialog(message, options = {}) {
 
 export function removeGridItemClickListeners() {
     const gridItems = document.querySelectorAll('.grid-item');
-    render.gridItemClickHandlers.forEach(handler => {
+    gridItemClickHandlers.forEach(handler => {
         gridItems.forEach(item => {
             item.removeEventListener('click', handler);
         });

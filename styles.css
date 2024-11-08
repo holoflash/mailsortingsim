@@ -1,53 +1,198 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
+    font-family: "Press Start 2P", sans-serif;
+    background-color: #8b9bb4;
+    color: #ffffff;
+    margin: 0 auto;
     padding: 10px;
-}
-
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 50px));
-}
-
-.grid-item {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    text-align: center;
-    cursor: pointer;
-}
-
-#game-info {
-    margin-bottom: 20px;
-    padding: 10px;
-}
-
-.info-box {
-    margin-bottom: 10px;
-    font-weight: bold;
-}
-
-.info-box.success {
-    color: green;
-}
-
-.info-box.warning {
-    color: red;
-}
-
-.info-box.level-up {
-    color: blue;
-}
-
-.info-box.neutral {
-    color: black;
+    max-width: 500px;
 }
 
 #header-title {
-    font-style: oblique;
+    font-size: 1.8em;
+    text-align: center;
+    color: #f4d03f;
+    text-shadow: 2px 2px #333;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ffffff;
 }
 
 #instructions {
     font-family: monospace;
-    white-space: wrap;
+    font-size: 0.8em;
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+#game-info {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: #577590;
+    color: #ffffff;
+    padding: 5px;
+}
+
+.info-box {
+    font-size: 0.8em;
+    padding: 5px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.info-box.success {
+    background-color: #4caf50;
+    color: #ffffff;
+}
+
+.info-box.warning {
+    background-color: #e74c3c;
+    color: #ffffff;
+}
+
+.info-box.level-up {
+    background-color: #f1c40f;
+    color: #ffffff;
+}
+
+.info-box.neutral {
+    color: #ffffff;
+}
+
+#letter-details {
+    font-size: 0.7em;
+    background-color: #1f4068;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 10px;
+    margin: 5px;
+}
+
+.letter-container {
+    border: 2px solid #ffffff;
+    padding: 15px;
+    background-color: #34495e;
+    color: #ffffff;
+    display: grid;
+    gap: 5px;
+}
+
+.letter-container p {
+    margin: 4px 0;
+}
+
+.letter-name {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #f4d03f;
+}
+
+.letter-street,
+.letter-zip,
+.letter-location,
+.letter-county {
+    font-size: 1em;
+}
+
+.outgoing-warning {
+    color: #e74c3c;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #ffffff;
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    gap: 0;
+    padding: 10px;
+    border: 2px solid #ffffff;
+    background-color: #577590;
+}
+
+.grid-item {
+    background-color: #4a69bd;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    text-align: center;
+    font-size: 0.6em;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    transition: background-color 0.3s;
+}
+
+.grid-item:hover {
+    background-color: #82ccdd;
+}
+
+button {
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 1em;
+    background-color: #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 12px 24px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #82ccdd;
+}
+
+#score,
+#cash,
+#timer {
+    font-size: 0.6rem;
+    color: #ffffff;
+}
+
+* {
+    image-rendering: pixelated;
+}
+
+dialog {
+    display: flex;
+    flex-direction: column;
+    background-color: #34495e;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dialog-button {
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 0.8em;
+    background-color: #4a69bd;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.dialog-button:hover {
+    background-color: #82ccdd;
+}
+
+.action-button {
+    background-color: #4caf50;
+}
+
+.cancel-button {
+    background-color: #e74c3c;
 }

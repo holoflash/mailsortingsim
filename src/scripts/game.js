@@ -1,15 +1,13 @@
 import * as data from '../data/data_en.js';
-import { getRandomPowerUp, handlePowerUp } from './powerUps.js';
+import { handleCashPowerUp } from './powerUps.js';
 import * as render from './render.js';
 
 const defaultGameRules = {
     score: 0,
     cash: 0,
-    intoxication: 0,
-    poison: 0,
     playing: false,
     caughtProbability: 0.2,
-    powerUpProbability: 0.2,
+    powerUpProbability: 0.2
 };
 
 export const gameRules = {
@@ -18,20 +16,21 @@ export const gameRules = {
         speedThreshold: 10,
         levelUpScore: 5,
         nextLevel: "medium",
-        gameOverThreshold: -5,
+        gameOverThreshold: -5
     },
     medium: {
         ...defaultGameRules,
         speedThreshold: 8,
         levelUpScore: 20,
         nextLevel: "hard",
-        gameOverThreshold: -2,
+        gameOverThreshold: -2
     },
     hard: {
         ...defaultGameRules,
         speedThreshold: 6,
         levelUpScore: null,
-        gameOverThreshold: -11,
+        nextLevel: "insane",
+        gameOverThreshold: -11
     }
 };
 
@@ -44,7 +43,7 @@ export function startGame() {
     gameRules[level].playing = true;
     render.graphics(gameRules[level].playing);
     currentLetter = generateNewLetter();
-    render.setupGridItemListeners()
+    render.setupGridItemListeners();
 }
 
 function startTimer() {
@@ -60,6 +59,7 @@ function startTimer() {
         }
     }, 1000);
 }
+
 export function checkAnswer(userInput) {
     clearInterval(timer);
     let correct = false;
@@ -78,7 +78,8 @@ export function checkAnswer(userInput) {
         render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
     }
 
-    render.updateScoreDisplay(gameRules[level].score, gameRules[level].cash);  // Updated to pass the combined message string
+    render.updateScoreDisplay(gameRules[level].score);
+    render.updateCashDisplay(gameRules[level].cash);
 
     if (gameRules[level].score < gameRules[level].gameOverThreshold) {
         endGame(false, false);
@@ -95,26 +96,18 @@ export function checkAnswer(userInput) {
 }
 
 function endGame(caughtStealing = false, outOfTime = false) {
-    const renderMessage = (messageType, messageContent) => {
-        render.displayMessage(messageContent, 'info-box warning');
-    };
-
     const getMessage = () => {
         if (caughtStealing) {
-            return data.messages.firedCaughtStealingMessage.replace("{score}", gameRules[level].score);
+            return data.messages.firedCaughtStealingMessage;
         } else if (outOfTime) {
-            return data.messages.firedOutOfTimeMessage.replace("{score}", gameRules[level].score).replace("{totalCash}", gameRules[level].cash);
+            return data.messages.firedOutOfTimeMessage;
         }
-        return data.messages.firedMistakesMessage.replace("{score}", gameRules[level].score).replace("{totalCash}", gameRules[level].cash);
+        return data.messages.firedMistakesMessage;
     };
 
-    const messageType = caughtStealing ? 'caughtStealing' : outOfTime ? 'outOfTime' : 'mistake';
-
-    renderMessage(data.messages[`fired${messageType}Message`], getMessage());
-
+    render.displayMessage(getMessage(), 'info-box warning');
     gameRules[level].playing = false;
-
-    removeGridItemClickListeners();
+    render.removeGridItemClickListeners();
 }
 
 function getRandomElement(arr) {
@@ -125,8 +118,11 @@ function generateNewLetter() {
     currentLetter = generateLetter(level);
 
     if (Math.random() < gameRules[level].powerUpProbability) {
-        const powerUpType = getRandomPowerUp();
-        handlePowerUp(powerUpType, currentLetter);
+        handleCashPowerUp(amount => {
+            gameRules[level].cash += amount;
+            render.updateScoreDisplay(gameRules[level].score);
+            render.updateCashDisplay(gameRules[level].cash);
+        });
     } else {
         currentLetter.powerUp = null;
     }
@@ -138,11 +134,12 @@ function generateNewLetter() {
 function generateLetter(level) {
     const firstName = getRandomElement(data.firstNames);
     const lastName = getRandomElement(data.lastNames);
-    const address = getRandomElement(Object.entries(data.addresses));
 
-    let zipCode = address[0];
-    let street = `${getRandomElement(address[1])} ${Math.floor(Math.random() * 1000) + 1}`;
-    let county = data.defaultCounty;
+    // Retrieve a random address entry, including zip code, county, and street options
+    let [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
+    const street = `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`;
+    const county = addressInfo.county;
+
     let city = data.defaultCity;
     let country = data.defaultCountry;
     let requiresOutgoing = false;
@@ -173,6 +170,6 @@ function generateLetter(level) {
         county,
         city,
         country,
-        requiresOutgoing,
+        requiresOutgoing
     };
 }

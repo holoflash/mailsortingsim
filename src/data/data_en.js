@@ -13,18 +13,13 @@ export const messages = {
     incorrectMessage: "Incorrect.",
     levelUpMessage: "Level Up! Welcome to {level} Mode!",
     totalCashPocketedMessage: "Total Cash Pocketed: ${totalCash}",
-    firedCaughtStealingMessage: "YOU'RE FIRED! You were caught stealing! Final Score: {score} | Total Cash Pocketed: $0",
-    firedOutOfTimeMessage: "YOU'RE FIRED! Too slow! Final Score: {score} | Total Cash Pocketed: ${totalCash}",
-    firedMistakesMessage: "YOU'RE FIRED! You made too many mistakes! Final Score: {score} | Total Cash Pocketed: ${totalCash}",
+    firedCaughtStealingMessage: "YOU'RE FIRED! You were caught stealing!",
+    firedOutOfTimeMessage: "YOU'RE FIRED! Too slow!",
+    firedMistakesMessage: "YOU'RE FIRED! You made too many mistakes!",
 
-    scoreMessage: "Score: {score} | Cash: ${cash}",
+    scoreMessage: "Score: {score}",
+    cashMessage: "Cash: ${cash}",
     timerMessage: "Time remaining: {time} seconds",
-    elementalMessage: "Poison: {poison} | Intoxication: {intoxication}",
-
-    inhalePowderDialogMessage: "This letter contains a strange white powder. Do you want to inhale it?",
-    inhalePowderActionText: "Inhale Powder",
-    inhalePowderCancelText: "Decline",
-    declineInhalePowderMessage: "You declined the Inhale Powder.",
 
     stealCashDialogMessage: "This letter contains cash. Do you want to steal ${amount}?",
     stealCashActionText: "Steal Cash",
@@ -35,49 +30,135 @@ export const messages = {
     outLabel: "OUT",
     unknownZipCode: "???",
     outgoingLetterMessage: "This letter needs to be sorted as OUT",
-
-    intoxicationIncreasedMessage: "Intoxication increased: {intoxication}",
-    poisonIncreasedMessage: "Poison increased: {poison}",
 };
-
 
 export const addresses = {
-    "145 04": ["Big Laughsvägen", "Baj Linjen", "Dj. Toastmastergatan"],
-    "145 08": ["Beror På Vad Man Röstar På I Valetgatan", "Marrevägen", "Maxgatan"],
-    "145 09": ["King Finders Väg", "1p-gränd", "Och Nej Jag Har Inte Pruttat På De-stigen"],
-    "145 10": ["Guy Huntervägen", "Visst Är Det Så Gatan", "Kommer Vid 22:00 allé"],
-    "145 11": ["Naaah... Gatan", "Gordon Ramsey Kommer Vägen", "Alltid En Sunk Kommentarväg"],
-    "145 12": ["Bah Uuuuhh Väg", "PT - Posten Tishagatan", "NBK - Nerbajasade Kallingarstig"],
-    "145 33": ["Mr. Lemonvägen", "Kalla Föttergatan", "Siftpjvägen"],
-    "145 34": ["LP Under Armarna Allé", "Blue Visionvägen", "Ah Steve Averygatan"],
-    "145 35": ["Blue Balls Managementsgatan", "Jag Blir Outraged Gatan", "Med Gumman Torg"],
-    "145 36": ["Fronten Väg", "Ah HB-gatan", "Ah Juste Väg"],
-    "145 37": ["Skoja Bah Jellyvägen", "Bira I Pepsin Gatan", "Rough Start Väg"],
-    "145 38": ["Dagge Idag Eller? Stigen", "Bubbavägen", "Ham-Rider Gatan"],
-    "145 39": ["E Den Startklar Eller? Väg", "Big Nightgatan", "Lufta Doggevägen"],
-    "145 40": ["Å Så 30 Egna Gatan", "Vilket Filter Gatan", "Rain Man Gatan"],
-    "145 41": ["PDF På Det Här Väg", "King Väg", "Mr. Popcorn Väg"],
-    "145 42": ["Ändå Fredag Gatan", "Kanske Står I Boken Väg", "Wizdomm Gatan"],
-    "145 43": ["Han Är Rädd För Sågen Väg", "Saved By Jesus Gatan", "Hyundai Hyundai Bilen Gatan"],
-    "145 44": ["Det Blir Inte Mer 80-Tal Än Det Här Väg", "Ska Hem Å Ride'a Väg", "Bra Yeah Väg"],
-    "145 45": ["Jag Kör, Jag Kör Väg", "Cheers 4 Beers Gatan", "When Sesh Väg"],
-    "145 46": ["POSTNORD Gatan", "IRL Väg", "Is It Pj Or Gatan"],
-    "145 47": ["Ba Relli Väg", "Kör En Ray Gatan", "Roasted Maple Väg"],
-    "145 48": ["When New Album Gatan", "When Part 1 Gatan", "Tard-Mode Väg"],
-    "145 49": ["Jason Becker Och Farsan Gatan", "Biran På Kylning Väg", "Sunkväg"],
-    "145 50": ["På Blocket Väg", "Löning På Fredag Gatan", "Birakungen Väg"],
-    "145 51": ["Ah Nara Gatan", "De E Bald Väg", "PS4'an E På Väg"],
-    "145 52": ["Han Kör Väg", "Att Nån Är Hemma Hos En Och Lägger Sång Gatan", "One Good Day At Väg"],
-    "145 53": ["När Tas Första Biran? Väg", "Protsin Väg", "Mnaaa Väg"],
-    "145 54": ["Fyyf Gatan", "Älskar Upplägget Väg", "Eeeeeeraaase My Life Gatan"],
-    "145 55": ["ICA Nu Då Väg", "Näven I Köksluckorna Gatan", "Pajja Glajjerna Väg"],
-    "145 56": ["GB Gatan", "BB Väg", "EZ Livin Väg"],
-    "145 57": ["Med Gumman Väg", "Jag Ringer Skatteverket Gatan", "Harpermode Väg"],
-    "145 58": ["Vindaloo Väg", "Avdrag Gatan", "Har Serafino Godkänt Det? Gatan"],
-    "145 59": ["No Thanks! Gatan", "Vad Säger Polarno Om Det Då? Gatan", "Jag Bryr Mig Inte Väg"],
-    "145 77": ["Ska Bara Ta En Kopp Väg", "GAY EXPOSED Väg", "*CAPS LOCK* VÄGEN", "Combo Stig"],
-    "145 78": ["Rawdog Gatan", "Big Night Gatan", "Lufta Dogge Väg"],
+    "145 04": {
+        county: "Skrattskog",
+        streets: ["Big Laughsvägen", "Baj Linjen", "Dj. Toastmastergatan"]
+    },
+    "145 08": {
+        county: "Bronxtuna",
+        streets: ["Beror På Vad Man Röstar På I Valetgatan", "Marrevägen", "Maxgatan"]
+    },
+    "145 09": {
+        county: "Finderholm",
+        streets: ["King Finders Väg", "1p-gränd", "Och Nej Jag Har Inte Pruttat På De-stigen"]
+    },
+    "145 10": {
+        county: "Jägarnäs",
+        streets: ["Guy Huntervägen", "Visst Är Det Så Gatan", "Kommer Vid 22:00 allé"]
+    },
+    "145 11": {
+        county: "Ironstorp",
+        streets: ["Naaah... Gatan", "Gordon Ramsey Kommer Vägen", "Alltid En Sunk Kommentarväg"]
+    },
+    "145 12": {
+        county: "Sunkås",
+        streets: ["Bah Uuuuhh Väg", "PT - Posten Tishagatan", "NBK - Nerbajasade Kallingarstig"]
+    },
+    "145 33": {
+        county: "Citronäng",
+        streets: ["Mr. Lemonvägen", "Kalla Föttergatan", "Siftpjvägen"]
+    },
+    "145 34": {
+        county: "Visionholm",
+        streets: ["LP Under Armarna Allé", "Blue Visionvägen", "Ah Steve Averygatan"]
+    },
+    "145 35": {
+        county: "Outrageby",
+        streets: ["Blue Balls Managementsgatan", "Jag Blir Outraged Gatan", "Med Gumman Torg"]
+    },
+    "145 36": {
+        county: "HBholm",
+        streets: ["Fronten Väg", "Ah HB-gatan", "Ah Juste Väg"]
+    },
+    "145 37": {
+        county: "Jellystad",
+        streets: ["Skoja Bah Jellyvägen", "Bira I Pepsin Gatan", "Rough Start Väg"]
+    },
+    "145 38": {
+        county: "Bubbagård",
+        streets: ["Dagge Idag Eller? Stigen", "Bubbavägen", "Ham-Rider Gatan"]
+    },
+    "145 39": {
+        county: "Doggehult",
+        streets: ["E Den Startklar Eller? Väg", "Big Nightgatan", "Lufta Doggevägen"]
+    },
+    "145 40": {
+        county: "Filmstaden",
+        streets: ["Å Så 30 Egna Gatan", "Vilket Filter Gatan", "Rain Man Gatan"]
+    },
+    "145 41": {
+        county: "PDFland",
+        streets: ["PDF På Det Här Väg", "King Väg", "Mr. Popcorn Väg"]
+    },
+    "145 42": {
+        county: "Fredagstad",
+        streets: ["Ändå Fredag Gatan", "Kanske Står I Boken Väg", "Wizdomm Gatan"]
+    },
+    "145 43": {
+        county: "Hyundaiville",
+        streets: ["Han Är Rädd För Sågen Väg", "Saved By Jesus Gatan", "Hyundai Hyundai Bilen Gatan"]
+    },
+    "145 44": {
+        county: "80s Corner",
+        streets: ["Det Blir Inte Mer 80-Tal Än Det Här Väg", "Ska Hem Å Ride'a Väg", "Bra Yeah Väg"]
+    },
+    "145 45": {
+        county: "Birkön",
+        streets: ["Jag Kör, Jag Kör Väg", "Cheers 4 Beers Gatan", "When Sesh Väg"]
+    },
+    "145 46": {
+        county: "Nordholm",
+        streets: ["POSTNORD Gatan", "IRL Väg", "Is It Pj Or Gatan"]
+    },
+    "145 47": {
+        county: "Rostedby",
+        streets: ["Ba Relli Väg", "Kör En Ray Gatan", "Roasted Maple Väg"]
+    },
+    "145 48": {
+        county: "Soundaryd",
+        streets: ["When New Album Gatan", "When Part 1 Gatan", "Tard-Mode Väg"]
+    },
+    "145 49": {
+        county: "Birastad",
+        streets: ["Jason Becker Och Farsan Gatan", "Biran På Kylning Väg", "Sunkväg"]
+    },
+    "145 50": {
+        county: "Blåsenby",
+        streets: ["På Blocket Väg", "Löning På Fredag Gatan", "Birakungen Väg"]
+    },
+    "145 51": {
+        county: "Näraholm",
+        streets: ["Ah Nara Gatan", "De E Bald Väg", "PS4'an E På Väg"]
+    },
+    "145 52": {
+        county: "Sångstad",
+        streets: ["Han Kör Väg", "Att Nån Är Hemma Hos En Och Lägger Sång Gatan", "One Good Day At Väg"]
+    },
+    "145 53": {
+        county: "Protsby",
+        streets: ["När Tas Första Biran? Väg", "Protsin Väg", "Mnaaa Väg"]
+    },
+    "145 54": {
+        county: "Eraseholm",
+        streets: ["Fyyf Gatan", "Älskar Upplägget Väg", "Eeeeeeraaase My Life Gatan"]
+    },
+    "145 55": {
+        county: "Köksviken",
+        streets: ["ICA Nu Då Väg", "Näven I Köksluckorna Gatan", "Pajja Glajjerna Väg"]
+    },
+    "145 56": {
+        county: "EZtown",
+        streets: ["GB Gatan", "BB Väg", "EZ Livin Väg"]
+    },
+    "145 57": {
+        county: "Harperholm",
+        streets: ["Med Gumman Väg", "Jag Ringer Skatteverket Gatan", "Harpermode Väg"]
+    },
 };
+
 
 export const defaultCity = "Stockholm";
 export const defaultCounty = "Norsborg";
