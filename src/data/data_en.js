@@ -6,9 +6,9 @@ export const messages = {
         county: "County",
         location: "Location"
     },
-    title: "Mail Sorting Game",
-    headerTitle: "MAIL SORTING SIMULATOR",
-    instructions: "Sort letters by the two last digits in the ZIP code. You can get fired if you make too many mistakes, the timer runs out, or if you get caught stealing.",
+    title: "Pigeonholed",
+    headerTitle: "PIGEONHOLED",
+    instructions: "Mail sorting sim. Sort letters by the two last digits in the ZIP code. You can get fired if you make too many mistakes, the timer runs out, or if you get caught stealing.",
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
     levelUpMessage: "Level Up! Welcome to {level} Mode!",
