@@ -30,7 +30,6 @@ export function displayLetterDetails(letter) {
     letterDetailsDisplay.appendChild(letterContainer);
 }
 
-
 export function createGridItem(labelText) {
     const gridItem = document.createElement('button');
     gridItem.className = 'grid-item';
@@ -57,9 +56,9 @@ export function graphics() {
     gridContainer.appendChild(createGridItem(data.messages.outLabel));
 }
 
-export function updateScoreDisplay(score) {
-    const scoreDisplay = document.getElementById('score');
-    scoreDisplay.textContent = data.messages.scoreMessage.replace("{score}", score);
+export function updateLivesDisplay(lives) {
+    const livesDisplay = document.getElementById('lives');
+    livesDisplay.textContent = data.messages.livesMessage.replace("{lives}", lives);
 }
 
 export function updateCashDisplay(cash) {
@@ -141,16 +140,4 @@ export function setupGridItemListeners() {
         gridItemClickHandlers.push(handler);
         item.addEventListener('click', handler);
     });
-}
-
-export function updateLivesDisplay(lives) {
-    const livesDisplay = document.getElementById('lives');
-    livesDisplay.innerHTML = ''; // Clear previous hearts
-
-    for (let i = 0; i < lives; i++) {
-        const heart = document.createElement('span');
-        heart.classList.add('heart-icon'); // Add a CSS class for styling
-        heart.textContent = '❤️'; // Use a heart symbol or image
-        livesDisplay.appendChild(heart);
-    }
 }

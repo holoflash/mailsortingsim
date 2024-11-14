@@ -4,33 +4,33 @@ import * as render from './render.js';
 
 export const gameRules = {
     easy: {
-        speedThreshold: 10,
-        levelUpScore: 5,
+        levelUpScore: 100,
         nextLevel: "medium",
-        initialLives: 5 // Positive number of lives
+        initialLives: 5,
+        cashReward: 5
     },
     medium: {
-        speedThreshold: 8,
-        levelUpScore: 20,
+        levelUpScore: 200,
         nextLevel: "hard",
-        initialLives: 2
+        initialLives: 3,
+        cashReward: 10
     },
     hard: {
-        speedThreshold: 6,
         levelUpScore: null,
         nextLevel: "insane",
-        initialLives: 11
+        initialLives: 1,
+        cashReward: 20
     }
 };
 
 export const player = {
-    score: 0,
     cash: 0,
     level: "easy",
+    lives: gameRules.easy.initialLives,
+    timeGiven: 10,
     playing: false,
     caughtProbability: 0.2,
-    cashProbability: 0.2,
-    lives: gameRules.easy.initialLives // Initialize based on easy level
+    cashProbability: 0.08
 };
 
 let currentLetter = null;
@@ -39,8 +39,6 @@ let timeRemaining;
 
 export function startGame() {
     player.playing = true;
-    player.lives = gameRules[player.level].initialLives; // Reset lives based on current level
-    render.updateLivesDisplay(player.lives); // Display initial lives
     render.graphics(player.playing);
     currentLetter = generateLetter();
     render.setupGridItemListeners();
@@ -48,8 +46,10 @@ export function startGame() {
 }
 
 function startTimer() {
-    timeRemaining = gameRules[player.level].speedThreshold;
+    clearInterval(timer);
+    timeRemaining = player.timeGiven;
     render.updateTimerDisplay(timeRemaining);
+
     timer = setInterval(() => {
         timeRemaining--;
         render.updateTimerDisplay(timeRemaining);
@@ -62,7 +62,6 @@ function startTimer() {
 }
 
 export function checkAnswer(userInput) {
-    clearInterval(timer);
     let correct = false;
 
     if (currentLetter.requiresOutgoing) {
@@ -72,26 +71,28 @@ export function checkAnswer(userInput) {
     }
 
     if (correct) {
-        player.score++;
-        render.displayMessage(data.messages.correctMessage, 'info-box success');
+        const cashReward = gameRules[player.level].cashReward;
+        player.cash += cashReward;
+        render.displayMessage(`${data.messages.correctMessage} +$${cashReward}`, 'info-box success');
+
+        timeRemaining += 7;
+        render.updateTimerDisplay(timeRemaining);
     } else {
-        player.lives--; // Decrement lives on incorrect answer
-        render.updateLivesDisplay(player.lives); // Update lives display
+        player.lives--;
         render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
     }
 
-    render.updateScoreDisplay(player.score);
     render.updateCashDisplay(player.cash);
+    render.updateLivesDisplay(player.lives);
 
-    if (player.lives <= 0) { // Check for game over based on lives
+    if (player.lives <= 0) {
         endGame(false, false);
         return;
     }
 
-    if (gameRules[player.level].levelUpScore && player.score >= gameRules[player.level].levelUpScore) {
+    if (gameRules[player.level].levelUpScore && player.cash >= gameRules[player.level].levelUpScore) {
         player.level = gameRules[player.level].nextLevel;
-        player.lives = gameRules[player.level].initialLives; // Update lives on level-up
-        render.updateLivesDisplay(player.lives);
+        player.lives = gameRules[player.level].initialLives;
         render.displayMessage(data.messages.levelUpMessage.replace("{level}", player.level), 'info-box level-up');
     }
 
@@ -99,6 +100,8 @@ export function checkAnswer(userInput) {
 }
 
 export function endGame(caughtStealing = false, outOfTime = false) {
+    clearInterval(timer);
+
     const getMessage = () => {
         if (caughtStealing) {
             return data.messages.firedCaughtStealingMessage;
@@ -111,11 +114,6 @@ export function endGame(caughtStealing = false, outOfTime = false) {
     render.displayMessage(getMessage(), 'info-box warning');
     player.playing = false;
     render.removeGridItemClickListeners();
-}
-
-// Function to display player's lives
-function displayLives(lives) {
-    render.updateLivesDisplay(lives); // Render function to display hearts based on lives count
 }
 
 function getRandomElement(arr) {
@@ -165,11 +163,9 @@ function generateLetter() {
     if (Math.random() < player.cashProbability) {
         handleCashPowerUp(amount => {
             player.cash += amount;
-            render.updateScoreDisplay(player.score);
             render.updateCashDisplay(player.cash);
         });
     }
     render.displayLetterDetails(letter);
-    console.log(letter);
     return letter;
 }

@@ -17,7 +17,7 @@ export const messages = {
     firedOutOfTimeMessage: "YOU'RE FIRED! Too slow!",
     firedMistakesMessage: "YOU'RE FIRED! You made too many mistakes!",
 
-    scoreMessage: "Score: {score}",
+    livesMessage: "Lives: {lives}",
     cashMessage: "Cash: ${cash}",
     timerMessage: "Time remaining: {time} seconds",
 
