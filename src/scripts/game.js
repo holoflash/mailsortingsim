@@ -7,19 +7,19 @@ export const gameRules = {
         speedThreshold: 10,
         levelUpScore: 5,
         nextLevel: "medium",
-        gameOverThreshold: -5
+        initialLives: 5 // Positive number of lives
     },
     medium: {
         speedThreshold: 8,
         levelUpScore: 20,
         nextLevel: "hard",
-        gameOverThreshold: -2
+        initialLives: 2
     },
     hard: {
         speedThreshold: 6,
         levelUpScore: null,
         nextLevel: "insane",
-        gameOverThreshold: -11
+        initialLives: 11
     }
 };
 
@@ -29,7 +29,8 @@ export const player = {
     level: "easy",
     playing: false,
     caughtProbability: 0.2,
-    cashProbability: 0.2
+    cashProbability: 0.2,
+    lives: gameRules.easy.initialLives // Initialize based on easy level
 };
 
 let currentLetter = null;
@@ -38,6 +39,8 @@ let timeRemaining;
 
 export function startGame() {
     player.playing = true;
+    player.lives = gameRules[player.level].initialLives; // Reset lives based on current level
+    render.updateLivesDisplay(player.lives); // Display initial lives
     render.graphics(player.playing);
     currentLetter = generateLetter();
     render.setupGridItemListeners();
@@ -72,20 +75,23 @@ export function checkAnswer(userInput) {
         player.score++;
         render.displayMessage(data.messages.correctMessage, 'info-box success');
     } else {
-        player.score--;
+        player.lives--; // Decrement lives on incorrect answer
+        render.updateLivesDisplay(player.lives); // Update lives display
         render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
     }
 
     render.updateScoreDisplay(player.score);
     render.updateCashDisplay(player.cash);
 
-    if (player.score < gameRules[player.level].gameOverThreshold) {
+    if (player.lives <= 0) { // Check for game over based on lives
         endGame(false, false);
         return;
     }
 
     if (gameRules[player.level].levelUpScore && player.score >= gameRules[player.level].levelUpScore) {
         player.level = gameRules[player.level].nextLevel;
+        player.lives = gameRules[player.level].initialLives; // Update lives on level-up
+        render.updateLivesDisplay(player.lives);
         render.displayMessage(data.messages.levelUpMessage.replace("{level}", player.level), 'info-box level-up');
     }
 
@@ -105,6 +111,11 @@ export function endGame(caughtStealing = false, outOfTime = false) {
     render.displayMessage(getMessage(), 'info-box warning');
     player.playing = false;
     render.removeGridItemClickListeners();
+}
+
+// Function to display player's lives
+function displayLives(lives) {
+    render.updateLivesDisplay(lives); // Render function to display hearts based on lives count
 }
 
 function getRandomElement(arr) {
@@ -159,5 +170,6 @@ function generateLetter() {
         });
     }
     render.displayLetterDetails(letter);
+    console.log(letter);
     return letter;
 }

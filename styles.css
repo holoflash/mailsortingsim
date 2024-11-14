@@ -196,3 +196,15 @@ dialog::backdrop {
 .cancel-button {
     background-color: #e74c3c;
 }
+
+#lives {
+    margin: 0 auto;
+    display: flex;
+    align-items: content;
+    display: flex;
+}
+
+.heart-icon {
+    width: 24px;
+    height: 24px;
+}

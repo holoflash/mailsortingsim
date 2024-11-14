@@ -8,7 +8,7 @@ const cashPowerUp = {
     getAmount: () => Math.floor(Math.random() * 100) + 1,
 
     showCashDialog: (amount, onEffect) => {
-        const caughtProbability = player.caughtProbability;  // Access caughtProbability from player
+        const caughtProbability = player.caughtProbability;
         const dialogOptions = {
             actionText: data.messages.stealCashActionText,
             cancelText: data.messages.stealCashCancelText,
@@ -29,7 +29,7 @@ const cashPowerUp = {
         if (caught) {
             endGame(true, true);
         } else {
-            onEffect(amountStolen); // Proceed if not caught
+            onEffect(amountStolen);
         }
     },
 

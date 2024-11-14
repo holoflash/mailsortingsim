@@ -142,3 +142,15 @@ export function setupGridItemListeners() {
         item.addEventListener('click', handler);
     });
 }
+
+export function updateLivesDisplay(lives) {
+    const livesDisplay = document.getElementById('lives');
+    livesDisplay.innerHTML = ''; // Clear previous hearts
+
+    for (let i = 0; i < lives; i++) {
+        const heart = document.createElement('span');
+        heart.classList.add('heart-icon'); // Add a CSS class for styling
+        heart.textContent = '❤️'; // Use a heart symbol or image
+        livesDisplay.appendChild(heart);
+    }
+}
