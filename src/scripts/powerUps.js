@@ -1,5 +1,3 @@
-
-import { endGame } from './game.js';
 import * as render from './render.js';
 import { Player } from './game.js';
 import * as data from '../data/data_en.js';
@@ -27,7 +25,15 @@ const cashPowerUp = {
         render.displayMessage(data.messages[messageKey].replace("{amount}", amount), messageType);
 
         if (caught) {
-            endGame('caught');
+            Player.lives--;
+            Player.cash -= amount; // Allow negative cash
+            render.updateLivesDisplay(Player.lives);
+            render.updateCashDisplay(Player.cash);
+
+            if (Player.lives <= 0) {
+                render.displayMessage(data.messages.firedMistakesMessage, 'info-box warning');
+                render.removeGridItemClickListeners();
+            }
         } else {
             onEffect(amountStolen);
         }

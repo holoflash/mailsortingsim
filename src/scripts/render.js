@@ -21,12 +21,6 @@ export function displayLetterDetails(letter) {
     letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
     letterContainer.appendChild(createInfoLine(`${letter.zipCode || data.messages.unknownZipCode} ${letter.county}`, 'letter-zip-county'));
     letterContainer.appendChild(createInfoLine(`${letter.city}, ${letter.country}`, 'letter-location'));
-
-    if (letter.requiresOutgoing) {
-        const outgoingNotice = createInfoLine(data.messages.outgoingLetterMessage, 'outgoing-warning');
-        letterContainer.appendChild(outgoingNotice);
-    }
-
     letterDetailsDisplay.appendChild(letterContainer);
 }
 
@@ -47,14 +41,20 @@ export function graphics() {
     document.getElementById("instructions").textContent = data.messages.instructions;
 
     const gridContainer = document.getElementById('zipcode-grid');
+    const sortAsValues = [];
 
-    for (const [zipcode] of Object.entries(data.addresses)) {
-        const zipCodeDisplay = zipcode.slice(-2);
-        gridContainer.appendChild(createGridItem(zipCodeDisplay));
+    for (const addressInfo of Object.values(data.addresses)) {
+        if (!sortAsValues.includes(addressInfo.sortAs)) {
+            sortAsValues.push(addressInfo.sortAs);
+        }
     }
-
-    gridContainer.appendChild(createGridItem(data.messages.outLabel));
+    sortAsValues.forEach(sortAs => {
+        gridContainer.appendChild(createGridItem(sortAs));
+    });
 }
+
+
+
 
 export function updateLivesDisplay(lives) {
     const livesDisplay = document.getElementById('lives');

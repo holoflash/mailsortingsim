@@ -5,98 +5,74 @@ import * as render from './render.js';
 let isRunning = false;
 let timer = null;
 let timeRemaining = 0;
+let currentLetter = null;
 
 export const Player = {
     cash: 0,
     level: 1,
-    lives: 5,
-    caughtProbability: 0.2,
-    cashProbability: 0.05,
+    lives: 3,
+    caughtProbability: 0.5,
+    cashProbability: 0.08,
 };
 
-function getLevelConfig(level) {
-    return {
-        levelUpScore: level * 100,
-        cashReward: 5 + level * 2,
-        randomizationDepth: Math.min(level, 5),
-    };
-}
-
-function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function chance(probability) {
-    return Math.random() < probability;
-}
-
-function resetGameState() {
-    isRunning = true;
-    timeRemaining = 10;
-    Player.cash = 0;
-    Player.level = 1;
-    Player.lives = 5;
-}
+export const gameConfig = {
+    levelMultiplier: 100,
+    baseCashReward: 5,
+    cashRewardIncrement: 2,
+    randomizationCap: 0.9,
+    randomizationBaseDivisor: 20,
+    initialTime: 10,
+    timeBonus: 3,
+};
 
 export function startGame() {
-    resetGameState();
+    isRunning = true;
+    timeRemaining = gameConfig.initialTime;
+    Player.cash = 0;
+    Player.level = 1;
+    Player.lives = 3;
 
     render.graphics(isRunning);
     render.setupGridItemListeners();
 
     generateNextLetter();
-    startGameLoop();
-}
-
-function startGameLoop() {
     render.updateTimerDisplay(timeRemaining);
+
     clearInterval(timer);
     timer = setInterval(() => {
-        timeRemaining--;
+        if (--timeRemaining <= 0) endGame('time');
         render.updateTimerDisplay(timeRemaining);
-
-        if (timeRemaining <= 0) {
-            endGame('time');
-        }
     }, 1000);
 }
 
-
 export function endGame(reason) {
-    console.log(reason)
     clearInterval(timer);
     isRunning = false;
 
-    const messages = {
+    const message = {
         time: data.messages.firedOutOfTimeMessage,
         lives: data.messages.firedMistakesMessage,
         caught: data.messages.firedCaughtStealingMessage,
-    };
+    }[reason];
 
-    const message = messages[reason];
     render.displayMessage(message, 'info-box warning');
     render.removeGridItemClickListeners();
 }
 
 export function checkAnswer(userInput) {
-    const currentLetter = getCurrentLetter();
-    const levelConfig = getLevelConfig(Player.level);
+    const { levelMultiplier, baseCashReward, cashRewardIncrement, timeBonus } = gameConfig;
+    const cashReward = baseCashReward + Player.level * cashRewardIncrement;
+    const levelUpScore = Player.level * levelMultiplier;
 
-    let isCorrect;
-
-    if (currentLetter.requiresOutgoing) {
-        isCorrect = userInput === 'OUT';
-    } else {
-        isCorrect = currentLetter.zipCode && userInput === currentLetter.zipCode.slice(-2);
-    }
+    const isCorrect = userInput === currentLetter.sortAs;
 
     if (isCorrect) {
-        Player.cash += levelConfig.cashReward;
+        Player.cash += cashReward;
+        timeRemaining += timeBonus;
         render.displayMessage(
-            `${data.messages.correctMessage} +$${levelConfig.cashReward}`,
+            `${data.messages.correctMessage} +$${cashReward}`,
             'info-box success'
         );
-        timeRemaining += 5;
         render.updateTimerDisplay(timeRemaining);
     } else {
         Player.lives--;
@@ -106,12 +82,9 @@ export function checkAnswer(userInput) {
     render.updateCashDisplay(Player.cash);
     render.updateLivesDisplay(Player.lives);
 
-    if (Player.lives <= 0) {
-        endGame('lives');
-        return;
-    }
+    if (Player.lives <= 0) return endGame('lives');
 
-    if (Player.cash >= levelConfig.levelUpScore) {
+    if (Player.cash >= levelUpScore) {
         Player.level++;
         render.displayMessage(
             data.messages.levelUpMessage.replace('{level}', Player.level),
@@ -122,58 +95,31 @@ export function checkAnswer(userInput) {
     generateNextLetter();
 }
 
-let currentLetter = null;
 
-function generateNextLetter() {
-    currentLetter = generateLetter();
-    render.displayLetterDetails(currentLetter);
-}
-
-function getCurrentLetter() {
-    return currentLetter;
-}
-
-function generateLetter() {
-    const firstName = getRandomElement(data.firstNames);
-    const lastName = getRandomElement(data.lastNames);
+export function generateNextLetter() {
     const [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
-    const street = `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`;
-    const county = addressInfo.county;
 
-    let letter = {
-        firstName,
-        lastName,
-        street,
+    const letter = {
+        firstName: getRandomElement(data.firstNames),
+        lastName: getRandomElement(data.lastNames),
+        street: `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`,
         zipCode,
-        county,
-        city: data.defaultCity,
-        country: data.defaultCountry,
-        requiresOutgoing: false,
+        county: addressInfo.county,
+        city: addressInfo.city,
+        country: addressInfo.country,
+        sortAs: addressInfo.sortAs,
     };
 
-    const randomizationChance = Math.min((Player.level - 1) / 30, 0.7);
-
-    const randomizations = [
-        () => (letter.city = getRandomElement(data.otherCities)), // Random city
-        () => (letter.country = getRandomElement(data.otherCountries)), // Random country
-        () => (letter.zipCode = null), // Null zip code
-    ];
-
-    // Apply randomizations based on the randomization chance
-    randomizations.forEach(randomize => {
-        if (chance(randomizationChance)) randomize();
-    });
-
-    if (!letter.zipCode || letter.country !== data.defaultCountry || letter.city !== data.defaultCity) {
-        letter.requiresOutgoing = true;
-    }
-
-    if (chance(Player.cashProbability)) {
+    if (Math.random() < Player.cashProbability) {
         handleCashPowerUp(amount => {
             Player.cash += amount;
             render.updateCashDisplay(Player.cash);
         });
     }
 
-    return letter;
+    currentLetter = letter;
+    render.displayLetterDetails(currentLetter);
 }
+
+const getRandomElement = arr => arr[Math.floor(Math.random() * arr.length)];
+

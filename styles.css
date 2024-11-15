@@ -21,7 +21,6 @@ body {
     font-family: monospace;
     font-size: 0.8em;
     text-align: center;
-    color: #ffffff;
     margin-bottom: 20px;
 }
 
@@ -29,7 +28,6 @@ body {
     display: grid;
     grid-template-columns: auto auto auto;
     background-color: #577590;
-    color: #ffffff;
     padding: 5px;
 }
 
@@ -37,42 +35,30 @@ body {
     font-size: 0.8em;
     padding: 5px;
     text-align: center;
-    border-radius: 4px;
+    color: #ffffff;
 }
 
 .info-box.success {
     background-color: #4caf50;
-    color: #ffffff;
 }
 
 .info-box.warning {
     background-color: #e74c3c;
-    color: #ffffff;
 }
 
 .info-box.level-up {
     background-color: #f1c40f;
-    color: #ffffff;
-}
-
-.info-box.neutral {
-    color: #ffffff;
 }
 
 #letter-details {
     font-size: 0.7em;
     background-color: #1f4068;
-    color: #ffffff;
-    border: 2px solid #ffffff;
     padding: 10px;
-    margin: 5px;
 }
 
 .letter-container {
-    border: 2px solid #ffffff;
     padding: 15px;
     background-color: #34495e;
-    color: #ffffff;
     display: grid;
     gap: 5px;
 }
@@ -87,13 +73,6 @@ body {
     color: #f4d03f;
 }
 
-.letter-street,
-.letter-zip,
-.letter-location,
-.letter-county {
-    font-size: 1em;
-}
-
 .outgoing-warning {
     color: #e74c3c;
     text-align: center;
@@ -104,10 +83,10 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto auto;
+    grid-template-columns: repeat(6, 1fr);
+
     gap: 0;
     padding: 10px;
-    border: 2px solid #ffffff;
     background-color: #577590;
 }
 
@@ -118,7 +97,7 @@ body {
     text-align: center;
     font-size: 0.6em;
     cursor: pointer;
-    padding: 0;
+
     margin: 0;
     transition: background-color 0.3s;
 }
@@ -135,10 +114,8 @@ button {
     border: 2px solid #ffffff;
     padding: 12px 24px;
     cursor: pointer;
-    margin-top: 20px;
+    margin: 20px auto 0;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
     transition: background-color 0.3s;
 }
 
@@ -150,7 +127,6 @@ button:hover {
 #cash,
 #timer {
     font-size: 0.6rem;
-    color: #ffffff;
 }
 
 * {
@@ -200,11 +176,5 @@ dialog::backdrop {
 #lives {
     margin: 0 auto;
     display: flex;
-    align-items: content;
-    display: flex;
-}
-
-.heart-icon {
-    width: 24px;
-    height: 24px;
+    align-items: center;
 }

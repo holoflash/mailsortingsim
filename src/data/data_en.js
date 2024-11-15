@@ -33,138 +33,469 @@ export const messages = {
 };
 
 export const addresses = {
-    "145 04": {
-        county: "Skrattskog",
-        streets: ["Big Laughsvägen", "Baj Linjen", "Dj. Toastmastergatan"]
-    },
-    "145 08": {
-        county: "Bronxtuna",
-        streets: ["Beror På Vad Man Röstar På I Valetgatan", "Marrevägen", "Maxgatan"]
-    },
-    "145 09": {
-        county: "Finderholm",
-        streets: ["King Finders Väg", "1p-gränd", "Och Nej Jag Har Inte Pruttat På De-stigen"]
-    },
-    "145 10": {
-        county: "Jägarnäs",
-        streets: ["Guy Huntervägen", "Visst Är Det Så Gatan", "Kommer Vid 22:00 allé"]
-    },
-    "145 11": {
-        county: "Ironstorp",
-        streets: ["Naaah... Gatan", "Gordon Ramsey Kommer Vägen", "Alltid En Sunk Kommentarväg"]
-    },
-    "145 12": {
-        county: "Sunkås",
-        streets: ["Bah Uuuuhh Väg", "PT - Posten Tishagatan", "NBK - Nerbajasade Kallingarstig"]
-    },
     "145 33": {
-        county: "Citronäng",
-        streets: ["Mr. Lemonvägen", "Kalla Föttergatan", "Siftpjvägen"]
+        county: "Botkyrka",
+        streets: ["Tumba Centrum", "Norsborgsvägen", "Bromstensvägen"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "33"
     },
-    "145 34": {
-        county: "Visionholm",
-        streets: ["LP Under Armarna Allé", "Blue Visionvägen", "Ah Steve Averygatan"]
+    "123 45": {
+        county: "Farsta",
+        streets: ["Riksvägen", "Skogsvägen", "Östervägen"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "45"
     },
-    "145 35": {
-        county: "Outrageby",
-        streets: ["Blue Balls Managementsgatan", "Jag Blir Outraged Gatan", "Med Gumman Torg"]
+    "111 22": {
+        county: "Gamla Stan",
+        streets: ["Stora Nygatan", "Lilla Nygatan", "Västerlånggatan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "22"
     },
-    "145 36": {
-        county: "HBholm",
-        streets: ["Fronten Väg", "Ah HB-gatan", "Ah Juste Väg"]
+    "114 28": {
+        county: "Östermalm",
+        streets: ["Karlavägen", "Stureplan", "Nybroplan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "28"
     },
-    "145 37": {
-        county: "Jellystad",
-        streets: ["Skoja Bah Jellyvägen", "Bira I Pepsin Gatan", "Rough Start Väg"]
+    "116 38": {
+        county: "Södermalm",
+        streets: ["Götgatan", "Hornsgatan", "Västerbroplan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "38"
     },
-    "145 38": {
-        county: "Bubbagård",
-        streets: ["Dagge Idag Eller? Stigen", "Bubbavägen", "Ham-Rider Gatan"]
+    "121 23": {
+        county: "Vårby",
+        streets: ["Albyvägen", "Fittja Torg", "Vårby Allé"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "23"
     },
-    "145 39": {
-        county: "Doggehult",
-        streets: ["E Den Startklar Eller? Väg", "Big Nightgatan", "Lufta Doggevägen"]
+    "113 62": {
+        county: "Vasastan",
+        streets: ["Karlbergsvägen", "Sveavägen", "Norrtullsgatan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "62"
     },
-    "145 40": {
-        county: "Filmstaden",
-        streets: ["Å Så 30 Egna Gatan", "Vilket Filter Gatan", "Rain Man Gatan"]
+    "120 55": {
+        county: "Älvsjö",
+        streets: ["Stora Albyvägen", "Kanskevägen", "Hästhagsvägen"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "55"
     },
-    "145 41": {
-        county: "PDFland",
-        streets: ["PDF På Det Här Väg", "King Väg", "Mr. Popcorn Väg"]
+    "103 21": {
+        county: "Norrmalm",
+        streets: ["Drottninggatan", "Kungsträdgårdsgatan", "Biblioteksgatan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "21"
     },
-    "145 42": {
-        county: "Fredagstad",
-        streets: ["Ändå Fredag Gatan", "Kanske Står I Boken Väg", "Wizdomm Gatan"]
+    "107 76": {
+        county: "Kungsholmen",
+        streets: ["Fridhemsgatan", "Stadshuset", "Hornsgatan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "76"
     },
-    "145 43": {
-        county: "Hyundaiville",
-        streets: ["Han Är Rädd För Sågen Väg", "Saved By Jesus Gatan", "Hyundai Hyundai Bilen Gatan"]
+
+    // Adding more Stockholm zip codes
+    "115 26": {
+        county: "Vasastan",
+        streets: ["Sankt Eriksgatan", "Birger Jarlsgatan", "Odengatan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "26"
     },
-    "145 44": {
-        county: "80s Corner",
-        streets: ["Det Blir Inte Mer 80-Tal Än Det Här Väg", "Ska Hem Å Ride'a Väg", "Bra Yeah Väg"]
+    "141 35": {
+        county: "Flemingsberg",
+        streets: ["Huddingevägen", "Fleminggatan", "Rudansvägen"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "35"
     },
-    "145 45": {
-        county: "Birkön",
-        streets: ["Jag Kör, Jag Kör Väg", "Cheers 4 Beers Gatan", "When Sesh Väg"]
+
+    // Swedish Addresses
+    "352 41": {
+        county: "Fagerås",
+        streets: ["Storgatan", "Fjällgatan", "Lilla Vägen"],
+        city: "Växjö",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 46": {
-        county: "Nordholm",
-        streets: ["POSTNORD Gatan", "IRL Väg", "Is It Pj Or Gatan"]
+    "751 03": {
+        county: "Kungsängen",
+        streets: ["Bäckgatan", "Östervägen", "Brunnsvägen"],
+        city: "Östersund",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 47": {
-        county: "Rostedby",
-        streets: ["Ba Relli Väg", "Kör En Ray Gatan", "Roasted Maple Väg"]
+    "413 21": {
+        county: "Hisingen",
+        streets: ["Hisingensgatan", "Lilla Varholmen", "Hisingeleden"],
+        city: "Gothenburg",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 48": {
-        county: "Soundaryd",
-        streets: ["When New Album Gatan", "When Part 1 Gatan", "Tard-Mode Väg"]
+    "831 53": {
+        county: "Norrland",
+        streets: ["Granitgatan", "Björnvägen", "Österlånggatan"],
+        city: "Luleå",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 49": {
-        county: "Birastad",
-        streets: ["Jason Becker Och Farsan Gatan", "Biran På Kylning Väg", "Sunkväg"]
+    "491 61": {
+        county: "Strängnäs",
+        streets: ["Storgatan", "Strandvägen", "Nygatan"],
+        city: "Strängnäs",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 50": {
-        county: "Blåsenby",
-        streets: ["På Blocket Väg", "Löning På Fredag Gatan", "Birakungen Väg"]
+    "742 34": {
+        county: "Fagersta",
+        streets: ["Hedvägen", "Björngatan", "Södergatan"],
+        city: "Fagersta",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 51": {
-        county: "Näraholm",
-        streets: ["Ah Nara Gatan", "De E Bald Väg", "PS4'an E På Väg"]
+    "796 22": {
+        county: "Hedemora",
+        streets: ["Malmvägen", "Hagalundsgatan", "Östra Allén"],
+        city: "Hedemora",
+        country: "Sweden",
+        sortAs: "SE"
     },
-    "145 52": {
-        county: "Sångstad",
-        streets: ["Han Kör Väg", "Att Nån Är Hemma Hos En Och Lägger Sång Gatan", "One Good Day At Väg"]
+
+    "1000": {
+        county: "Shkoder",
+        streets: ["Rruga e Dajti", "Sheshi Skenderbeu", "Rruga Kalivo"],
+        city: "Tirana",
+        country: "Albania",
+        sortAs: "AL"
     },
-    "145 53": {
-        county: "Protsby",
-        streets: ["När Tas Första Biran? Väg", "Protsin Väg", "Mnaaa Väg"]
+    "0001": {
+        county: "Ararat",
+        streets: ["Abovyan Street", "Ararat Highway", "Vahramaberd Street"],
+        city: "Yerevan",
+        country: "Armenia",
+        sortAs: "AM"
     },
-    "145 54": {
-        county: "Eraseholm",
-        streets: ["Fyyf Gatan", "Älskar Upplägget Väg", "Eeeeeeraaase My Life Gatan"]
+    "2000": {
+        county: "Sydney Suburb",
+        streets: ["Circular Quay", "Macquarie Street", "George St."],
+        city: "Sydney",
+        country: "Australia",
+        sortAs: "AU"
     },
-    "145 55": {
-        county: "Köksviken",
-        streets: ["ICA Nu Då Väg", "Näven I Köksluckorna Gatan", "Pajja Glajjerna Väg"]
+    "1010": {
+        county: "Wiener Neustadt",
+        streets: ["Stephansplatz", "Mariahilfer Strasse", "Gumpendorfer Strasse"],
+        city: "Vienna",
+        country: "Austria",
+        sortAs: "AT"
     },
-    "145 56": {
-        county: "EZtown",
-        streets: ["GB Gatan", "BB Väg", "EZ Livin Väg"]
+    "1000": {
+        county: "Baku",
+        streets: ["Fountain Square", "Baku Boulevard", "Targovishte"],
+        city: "Baku",
+        country: "Azerbaijan",
+        sortAs: "AZ"
     },
-    "145 57": {
-        county: "Harperholm",
-        streets: ["Med Gumman Väg", "Jag Ringer Skatteverket Gatan", "Harpermode Väg"]
+    "2200": {
+        county: "Minsk",
+        streets: ["Nezavisimosti Avenue", "Oktyabrskaya Square", "Frantsisk Skorina"],
+        city: "Minsk",
+        country: "Belarus",
+        sortAs: "BY"
+    },
+    "1000": {
+        county: "Brussels",
+        streets: ["Grand Place", "Rue de la Loi", "Avenue Louise"],
+        city: "Brussels",
+        country: "Belgium",
+        sortAs: "BE"
+    },
+    "71000": {
+        county: "Sarajevo",
+        streets: ["Baščaršija", "Titova Street", "Maršala Tita"],
+        city: "Sarajevo",
+        country: "Bosnia & Herzegovina",
+        sortAs: "BA"
+    },
+    "1000": {
+        county: "Sofia",
+        streets: ["Vitosha Boulevard", "St. Alexander Nevsky Cathedral", "Sofia Square"],
+        city: "Sofia",
+        country: "Bulgaria",
+        sortAs: "BG"
+    },
+    "10000": {
+        county: "Zagreb",
+        streets: ["Ban Jelačić Square", "Ilica Street", "Trg Kralja Tomislava"],
+        city: "Zagreb",
+        country: "Croatia",
+        sortAs: "HR"
+    },
+    "1010": {
+        county: "Nicosia",
+        streets: ["Makarios Avenue", "Stasikratous", "Ledra Street"],
+        city: "Nicosia",
+        country: "Cyprus",
+        sortAs: "CY"
+    },
+    "11000": {
+        county: "Prague",
+        streets: ["Old Town Square", "Wenceslas Square", "Charles Bridge"],
+        city: "Prague",
+        country: "Czech Republic",
+        sortAs: "CZ"
+    },
+    "1000": {
+        county: "Copenhagen",
+        streets: ["Nyhavn", "Strøget", "Vesterbrogade"],
+        city: "Copenhagen",
+        country: "Denmark",
+        sortAs: "DK"
+    },
+    "10100": {
+        county: "Tallinn",
+        streets: ["Viru Street", "Tallinn Old Town", "Pärnu Road"],
+        city: "Tallinn",
+        country: "Estonia",
+        sortAs: "EE"
+    },
+    "00100": {
+        county: "Helsinki",
+        streets: ["Mannerheimintie", "Esplanadi", "Aleksanterinkatu"],
+        city: "Helsinki",
+        country: "Finland",
+        sortAs: "FI"
+    },
+    "75000": {
+        county: "Paris",
+        streets: ["Champs-Élysées", "Montmartre", "Rue de Rivoli"],
+        city: "Paris",
+        country: "France",
+        sortAs: "FR"
+    },
+    "0100": {
+        county: "Tbilisi",
+        streets: ["Rustaveli Avenue", "Freedom Square", "Chavchavadze Avenue"],
+        city: "Tbilisi",
+        country: "Georgia",
+        sortAs: "GE"
+    },
+    "10100": {
+        county: "Berlin",
+        streets: ["Brandenburger Tor", "Unter den Linden", "Alexanderplatz"],
+        city: "Berlin",
+        country: "Germany",
+        sortAs: "DE"
+    },
+    "10557": {
+        county: "Athens",
+        streets: ["Syntagma Square", "Athenian Riviera", "Acropolis"],
+        city: "Athens",
+        country: "Greece",
+        sortAs: "GR"
+    },
+    "1011": {
+        county: "Budapest",
+        streets: ["Andrássy Avenue", "Heroes' Square", "Chain Bridge"],
+        city: "Budapest",
+        country: "Hungary",
+        sortAs: "HU"
+    },
+    "10101": {
+        county: "Reykjavík",
+        streets: ["Laugavegur", "Skólavörðustígur", "Höfðatorg"],
+        city: "Reykjavík",
+        country: "Iceland",
+        sortAs: "IS"
+    },
+    "2D01": {
+        county: "Dublin",
+        streets: ["O'Connell Street", "Temple Bar", "St. Stephen's Green"],
+        city: "Dublin",
+        country: "Ireland",
+        sortAs: "IE"
+    },
+    "64725": {
+        county: "Tel Aviv",
+        streets: ["Rothschild Boulevard", "Dizengoff Street", "Allenby Street"],
+        city: "Tel Aviv",
+        country: "Israel",
+        sortAs: "IL"
+    },
+    "00100": {
+        county: "Rome",
+        streets: ["Piazza Venezia", "Via del Corso", "Piazza del Popolo"],
+        city: "Rome",
+        country: "Italy",
+        sortAs: "IT"
+    },
+    "LV-1050": {
+        county: "Riga",
+        streets: ["Old Town", "Elizabetes Street", "Jurmala"],
+        city: "Riga",
+        country: "Latvia",
+        sortAs: "LV"
+    },
+    "2015": {
+        county: "Vilnius",
+        streets: ["Gedimino Avenue", "Pilies Street", "Naugarduko Street"],
+        city: "Vilnius",
+        country: "Lithuania",
+        sortAs: "LT"
+    },
+    "12100": {
+        county: "Valletta",
+        streets: ["Republic Street", "St. John's Co-Cathedral", "The Grand Harbour"],
+        city: "Valletta",
+        country: "Malta",
+        sortAs: "MT"
+    },
+    "2020": {
+        county: "Chisinau",
+        streets: ["Stefan Cel Mare", "Mihai Eminescu Street", "Pushkin Street"],
+        city: "Chisinau",
+        country: "Moldova",
+        sortAs: "MD"
+    },
+    "98000": {
+        county: "Monaco",
+        streets: ["Casino Square", "Avenue de la Costa", "Boulevard de Belgique"],
+        city: "Monaco",
+        country: "Monaco",
+        sortAs: "MC"
+    },
+    "81000": {
+        county: "Podgorica",
+        streets: ["Slobode Boulevard", "Njegoševa Street", "Stari Grad"],
+        city: "Podgorica",
+        country: "Montenegro",
+        sortAs: "ME"
+    },
+    "1012": {
+        county: "Amsterdam",
+        streets: ["Dam Square", "Leidseplein", "Red Light District"],
+        city: "Amsterdam",
+        country: "Netherlands",
+        sortAs: "NL"
+    },
+    "1000": {
+        county: "Skopje",
+        streets: ["Macedonia Square", "Boris Trajkovski Blvd", "Vardar River"],
+        city: "Skopje",
+        country: "North Macedonia",
+        sortAs: "MK"
+    },
+    "0130": {
+        county: "Oslo",
+        streets: ["Karl Johans Gate", "Aker Brygge", "Vigeland Sculpture Park"],
+        city: "Oslo",
+        country: "Norway",
+        sortAs: "NO"
+    },
+    "00-001": {
+        county: "Warsaw",
+        streets: ["Krakowskie Przedmieście", "Nowy Świat", "Castle Square"],
+        city: "Warsaw",
+        country: "Poland",
+        sortAs: "PL"
+    },
+    "1000": {
+        county: "Lisbon",
+        streets: ["Avenida da Liberdade", "Baixa District", "Alfama"],
+        city: "Lisbon",
+        country: "Portugal",
+        sortAs: "PT"
+    },
+    "0500": {
+        county: "Bucharest",
+        streets: ["Calea Victoriei", "Piata Unirii", "Romanian Athenaeum"],
+        city: "Bucharest",
+        country: "Romania",
+        sortAs: "RO"
+    },
+    "101000": {
+        county: "Moscow",
+        streets: ["Red Square", "Arbat Street", "Tverskaya Street"],
+        city: "Moscow",
+        country: "Russia",
+        sortAs: "RU"
+    },
+    "50000": {
+        county: "San Marino",
+        streets: ["Piazza della Libertà", "Viale Federico", "Piazza del Titano"],
+        city: "San Marino",
+        country: "San Marino",
+        sortAs: "SM"
+    },
+    "11000": {
+        county: "Belgrade",
+        streets: ["Knez Mihailova", "Republic Square", "Terazije"],
+        city: "Belgrade",
+        country: "Serbia",
+        sortAs: "RS"
+    },
+    "82100": {
+        county: "Bratislava",
+        streets: ["Špitálska Street", "St. Michael's Tower", "Main Square"],
+        city: "Bratislava",
+        country: "Slovakia",
+        sortAs: "SK"
+    },
+    "1000": {
+        county: "Ljubljana",
+        streets: ["Prešeren Square", "Stari Trg", "Tivoli Park"],
+        city: "Ljubljana",
+        country: "Slovenia",
+        sortAs: "SI"
+    },
+    "28000": {
+        county: "Madrid",
+        streets: ["Puerta del Sol", "Gran Vía", "Plaza Mayor"],
+        city: "Madrid",
+        country: "Spain",
+        sortAs: "ES"
+    },
+    "10100": {
+        county: "Stockholm",
+        streets: ["Gamla Stan", "Drottninggatan", "Stureplan"],
+        city: "Stockholm",
+        country: "Sweden",
+        sortAs: "SE"
+    },
+    "8000": {
+        county: "Zurich",
+        streets: ["Bahnhofstrasse", "Lake Zurich", "Old Town"],
+        city: "Zurich",
+        country: "Switzerland",
+        sortAs: "CH"
+    },
+    "01001": {
+        county: "Kyiv",
+        streets: ["Khreshchatyk", "Independence Square", "Andriyivskyy Descent"],
+        city: "Kyiv",
+        country: "Ukraine",
+        sortAs: "UA"
+    },
+    "E1 6AN": {
+        county: "London",
+        streets: ["Buckingham Palace", "Oxford Street", "Westminster"],
+        city: "London",
+        country: "United Kingdom",
+        sortAs: "GB"
     },
 };
 
 
-export const defaultCity = "Stockholm";
-export const defaultCountry = "Sweden";
-
-export const otherCities = ["Baghdad", "New York", "Uppsala", "Västerås"];
-export const otherCountries = ["Afrika", "Indien", "Grekland", "Nigeria"];
 
 export const firstNames = [
     "Adam",
