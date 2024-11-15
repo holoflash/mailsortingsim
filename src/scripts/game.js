@@ -2,152 +2,143 @@ import * as data from '../data/data_en.js';
 import { handleCashPowerUp } from './powerUps.js';
 import * as render from './render.js';
 
-export const gameRules = {
-    easy: {
-        levelUpScore: 100,
-        nextLevel: "medium",
-        initialLives: 5,
-        cashReward: 5
-    },
-    medium: {
-        levelUpScore: 200,
-        nextLevel: "hard",
-        initialLives: 3,
-        cashReward: 10
-    },
-    hard: {
-        levelUpScore: null,
-        nextLevel: "insane",
-        initialLives: 1,
-        cashReward: 20
-    }
-};
+let isRunning = false;
+let timer = null;
+let timeRemaining = 0;
 
-export const player = {
+export const Player = {
     cash: 0,
-    level: "easy",
-    lives: gameRules.easy.initialLives,
-    timeGiven: 10,
-    playing: false,
+    level: 1,
+    lives: 5,
     caughtProbability: 0.2,
-    cashProbability: 0.08
+    cashProbability: 0.05,
 };
 
-let currentLetter = null;
-let timer;
-let timeRemaining;
-
-export function startGame() {
-    player.playing = true;
-    render.graphics(player.playing);
-    currentLetter = generateLetter();
-    render.setupGridItemListeners();
-    startTimer();
-}
-
-function startTimer() {
-    clearInterval(timer);
-    timeRemaining = player.timeGiven;
-    render.updateTimerDisplay(timeRemaining);
-
-    timer = setInterval(() => {
-        timeRemaining--;
-        render.updateTimerDisplay(timeRemaining);
-
-        if (timeRemaining <= 0) {
-            clearInterval(timer);
-            endGame(false, true);
-        }
-    }, 1000);
-}
-
-export function checkAnswer(userInput) {
-    let correct = false;
-
-    if (currentLetter.requiresOutgoing) {
-        correct = userInput === "OUT";
-    } else if (currentLetter.zipCode) {
-        correct = userInput === currentLetter.zipCode.slice(-2);
-    }
-
-    if (correct) {
-        const cashReward = gameRules[player.level].cashReward;
-        player.cash += cashReward;
-        render.displayMessage(`${data.messages.correctMessage} +$${cashReward}`, 'info-box success');
-
-        timeRemaining += 7;
-        render.updateTimerDisplay(timeRemaining);
-    } else {
-        player.lives--;
-        render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
-    }
-
-    render.updateCashDisplay(player.cash);
-    render.updateLivesDisplay(player.lives);
-
-    if (player.lives <= 0) {
-        endGame(false, false);
-        return;
-    }
-
-    if (gameRules[player.level].levelUpScore && player.cash >= gameRules[player.level].levelUpScore) {
-        player.level = gameRules[player.level].nextLevel;
-        player.lives = gameRules[player.level].initialLives;
-        render.displayMessage(data.messages.levelUpMessage.replace("{level}", player.level), 'info-box level-up');
-    }
-
-    currentLetter = generateLetter();
-}
-
-export function endGame(caughtStealing = false, outOfTime = false) {
-    clearInterval(timer);
-
-    const getMessage = () => {
-        if (caughtStealing) {
-            return data.messages.firedCaughtStealingMessage;
-        } else if (outOfTime) {
-            return data.messages.firedOutOfTimeMessage;
-        }
-        return data.messages.firedMistakesMessage;
+function getLevelConfig(level) {
+    return {
+        levelUpScore: level * 100,
+        cashReward: 5 + level * 2,
+        randomizationDepth: Math.min(level, 5),
     };
-
-    render.displayMessage(getMessage(), 'info-box warning');
-    player.playing = false;
-    render.removeGridItemClickListeners();
 }
 
 function getRandomElement(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
+function chance(probability) {
+    return Math.random() < probability;
+}
+
+function resetGameState() {
+    isRunning = true;
+    timeRemaining = 10;
+    Player.cash = 0;
+    Player.level = 1;
+    Player.lives = 5;
+}
+
+export function startGame() {
+    resetGameState();
+
+    render.graphics(isRunning);
+    render.setupGridItemListeners();
+
+    generateNextLetter();
+    startGameLoop();
+}
+
+function startGameLoop() {
+    render.updateTimerDisplay(timeRemaining);
+    clearInterval(timer);
+    timer = setInterval(() => {
+        timeRemaining--;
+        render.updateTimerDisplay(timeRemaining);
+
+        if (timeRemaining <= 0) {
+            endGame('time');
+        }
+    }, 1000);
+}
+
+
+export function endGame(reason) {
+    console.log(reason)
+    clearInterval(timer);
+    isRunning = false;
+
+    const messages = {
+        time: data.messages.firedOutOfTimeMessage,
+        lives: data.messages.firedMistakesMessage,
+        caught: data.messages.firedCaughtStealingMessage,
+    };
+
+    const message = messages[reason];
+    render.displayMessage(message, 'info-box warning');
+    render.removeGridItemClickListeners();
+}
+
+export function checkAnswer(userInput) {
+    const currentLetter = getCurrentLetter();
+    const levelConfig = getLevelConfig(Player.level);
+
+    let isCorrect;
+
+    if (currentLetter.requiresOutgoing) {
+        isCorrect = userInput === 'OUT';
+    } else {
+        isCorrect = currentLetter.zipCode && userInput === currentLetter.zipCode.slice(-2);
+    }
+
+    if (isCorrect) {
+        Player.cash += levelConfig.cashReward;
+        render.displayMessage(
+            `${data.messages.correctMessage} +$${levelConfig.cashReward}`,
+            'info-box success'
+        );
+        timeRemaining += 5;
+        render.updateTimerDisplay(timeRemaining);
+    } else {
+        Player.lives--;
+        render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
+    }
+
+    render.updateCashDisplay(Player.cash);
+    render.updateLivesDisplay(Player.lives);
+
+    if (Player.lives <= 0) {
+        endGame('lives');
+        return;
+    }
+
+    if (Player.cash >= levelConfig.levelUpScore) {
+        Player.level++;
+        render.displayMessage(
+            data.messages.levelUpMessage.replace('{level}', Player.level),
+            'info-box level-up'
+        );
+    }
+
+    generateNextLetter();
+}
+
+let currentLetter = null;
+
+function generateNextLetter() {
+    currentLetter = generateLetter();
+    render.displayLetterDetails(currentLetter);
+}
+
+function getCurrentLetter() {
+    return currentLetter;
+}
+
 function generateLetter() {
     const firstName = getRandomElement(data.firstNames);
     const lastName = getRandomElement(data.lastNames);
-    let [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
+    const [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
     const street = `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`;
     const county = addressInfo.county;
-
-    let city = data.defaultCity;
-    let country = data.defaultCountry;
-    let requiresOutgoing = false;
-
-    if (player.level === "medium") {
-        if (Math.random() < 0.5) city = getRandomElement(data.otherCities);
-        if (Math.random() < 0.5) country = getRandomElement(data.otherCountries);
-    } else if (player.level === "hard") {
-        if (Math.random() < 0.3) {
-            zipCode = `${Math.floor(Math.random() * 900) + 100} ${Math.floor(Math.random() * 90) + 10}`;
-            requiresOutgoing = true;
-        } else if (Math.random() < 0.3) {
-            zipCode = null;
-            requiresOutgoing = true;
-        }
-        if (Math.random() < 0.2) {
-            city = getRandomElement(data.otherCities);
-            country = getRandomElement(data.otherCountries);
-            requiresOutgoing = true;
-        }
-    }
 
     let letter = {
         firstName,
@@ -155,17 +146,34 @@ function generateLetter() {
         street,
         zipCode,
         county,
-        city,
-        country,
-        requiresOutgoing
+        city: data.defaultCity,
+        country: data.defaultCountry,
+        requiresOutgoing: false,
     };
 
-    if (Math.random() < player.cashProbability) {
+    const randomizationChance = Math.min((Player.level - 1) / 30, 0.7);
+
+    const randomizations = [
+        () => (letter.city = getRandomElement(data.otherCities)), // Random city
+        () => (letter.country = getRandomElement(data.otherCountries)), // Random country
+        () => (letter.zipCode = null), // Null zip code
+    ];
+
+    // Apply randomizations based on the randomization chance
+    randomizations.forEach(randomize => {
+        if (chance(randomizationChance)) randomize();
+    });
+
+    if (!letter.zipCode || letter.country !== data.defaultCountry || letter.city !== data.defaultCity) {
+        letter.requiresOutgoing = true;
+    }
+
+    if (chance(Player.cashProbability)) {
         handleCashPowerUp(amount => {
-            player.cash += amount;
-            render.updateCashDisplay(player.cash);
+            Player.cash += amount;
+            render.updateCashDisplay(Player.cash);
         });
     }
-    render.displayLetterDetails(letter);
+
     return letter;
 }

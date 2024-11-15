@@ -1,14 +1,14 @@
-// Assuming endGame is imported from './game.js' or it's within the same file
-import { endGame } from './game.js'; // Add this import if endGame is external
+
+import { endGame } from './game.js';
 import * as render from './render.js';
-import { player } from './game.js';
+import { Player } from './game.js';
 import * as data from '../data/data_en.js';
 
 const cashPowerUp = {
     getAmount: () => Math.floor(Math.random() * 100) + 1,
 
     showCashDialog: (amount, onEffect) => {
-        const caughtProbability = player.caughtProbability;
+        const caughtProbability = Player.caughtProbability;
         const dialogOptions = {
             actionText: data.messages.stealCashActionText,
             cancelText: data.messages.stealCashCancelText,
@@ -27,7 +27,7 @@ const cashPowerUp = {
         render.displayMessage(data.messages[messageKey].replace("{amount}", amount), messageType);
 
         if (caught) {
-            endGame(true, true);
+            endGame('caught');
         } else {
             onEffect(amountStolen);
         }

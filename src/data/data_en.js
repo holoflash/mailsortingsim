@@ -11,7 +11,7 @@ export const messages = {
     instructions: "Mail sorting sim. Sort letters by the two last digits in the ZIP code. You can get fired if you make too many mistakes, the timer runs out, or if you get caught stealing.",
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
-    levelUpMessage: "Level Up! Welcome to {level} Mode!",
+    levelUpMessage: "Level Up! Welcome to level {level}!",
     totalCashPocketedMessage: "Total Cash Pocketed: ${totalCash}",
     firedCaughtStealingMessage: "YOU'RE FIRED! You were caught stealing!",
     firedOutOfTimeMessage: "YOU'RE FIRED! Too slow!",
@@ -161,7 +161,6 @@ export const addresses = {
 
 
 export const defaultCity = "Stockholm";
-export const defaultCounty = "Norsborg";
 export const defaultCountry = "Sweden";
 
 export const otherCities = ["Baghdad", "New York", "Uppsala", "Västerås"];
