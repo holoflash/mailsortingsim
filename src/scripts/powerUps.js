@@ -1,5 +1,5 @@
 import * as render from './render.js';
-import { Player } from './game.js';
+import { Player, sounds } from './game.js';
 import * as data from '../data/data_en.js';
 
 export const cashPowerUp = {
@@ -14,6 +14,7 @@ export const cashPowerUp = {
         render.displayMessage(data.messages[messageKey].replace("{amount}", amount), messageType);
 
         if (caught) {
+            sounds.caughtStealing.play()
             Player.lives--;
             Player.cash -= amount;
             render.updateLivesDisplay(Player.lives);
@@ -24,6 +25,7 @@ export const cashPowerUp = {
                 render.removeGridItemClickListeners();
             }
         } else {
+            sounds.coins.play()
             Player.cash += amount;
             render.updateCashDisplay(Player.cash);
         }

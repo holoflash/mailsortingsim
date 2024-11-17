@@ -7,12 +7,23 @@ let timer = null;
 let timeRemaining = 0;
 let currentLetter = null;
 
+export const sounds = {
+    coins: new Audio('./sounds/coins.wav'),
+    correct: new Audio('./sounds/correct.wav'),
+    mistake: new Audio('./sounds/mistake.wav'),
+    fired: new Audio('./sounds/fired.wav'),
+    letterHandling: new Audio('./sounds/letterHandling.wav'),
+    letterSort: new Audio('./sounds/letterSort.wav'),
+    stealing: new Audio('./sounds/stealing.wav'),
+};
+
+
 export const Player = {
     cash: 0,
     level: 1,
     lives: 3,
-    caughtProbability: 0.1,
-    cashProbability: 0.3,
+    caughtProbability: 0.5,
+    cashProbability: 0.5,
 };
 
 export const gameConfig = {
@@ -21,7 +32,7 @@ export const gameConfig = {
     cashRewardIncrement: 2,
     randomizationCap: 0.9,
     randomizationBaseDivisor: 20,
-    initialTime: 20,
+    initialTime: 15,
     timeBonus: 5,
 };
 
@@ -47,6 +58,7 @@ export function startGame() {
 }
 
 export function endGame(reason) {
+    sounds.fired.play()
     clearInterval(timer);
     timeRemaining = 0;
     render.updateTimerDisplay(timeRemaining);
@@ -62,7 +74,6 @@ export function endGame(reason) {
     render.removeGridItemClickListeners();
 }
 
-
 export function checkAnswer(userInput) {
     const { levelMultiplier, baseCashReward, cashRewardIncrement, timeBonus } = gameConfig;
     const cashReward = baseCashReward + Player.level * cashRewardIncrement;
@@ -71,6 +82,7 @@ export function checkAnswer(userInput) {
     const isCorrect = userInput === currentLetter.sortAs;
 
     if (isCorrect) {
+        sounds.correct.play()
         Player.cash += cashReward;
         timeRemaining += timeBonus;
         render.displayMessage(
@@ -79,6 +91,7 @@ export function checkAnswer(userInput) {
         );
         render.updateTimerDisplay(timeRemaining);
     } else {
+        sounds.mistake.play()
         Player.lives--;
         render.displayMessage(data.messages.incorrectMessage, 'info-box warning');
     }
@@ -100,6 +113,7 @@ export function checkAnswer(userInput) {
 }
 
 export function generateNextLetter() {
+    sounds.letterHandling.play()
     const addressInfo = getRandomElement(data.addresses);
 
     const streetName = getRandomElement(addressInfo.streets);
