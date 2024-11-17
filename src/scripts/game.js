@@ -14,9 +14,8 @@ export const sounds = {
     fired: new Audio('./sounds/fired.wav'),
     letterHandling: new Audio('./sounds/letterHandling.wav'),
     letterSort: new Audio('./sounds/letterSort.wav'),
-    stealing: new Audio('./sounds/stealing.wav'),
+    caughtStealing: new Audio('./sounds/caughtStealing.wav'),
 };
-
 
 export const Player = {
     cash: 0,
@@ -27,7 +26,7 @@ export const Player = {
 };
 
 export const gameConfig = {
-    levelMultiplier: 100,
+    levelMultiplier: 200,
     baseCashReward: 5,
     cashRewardIncrement: 2,
     randomizationCap: 0.9,

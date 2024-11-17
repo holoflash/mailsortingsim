@@ -42,8 +42,8 @@ function createCashButton(letter) {
     button.appendChild(cashText);
 
     button.addEventListener('click', () => {
-        cashPowerUp.handleAction(letter.cashAmount, Player.caughtProbability);
         button.remove();
+        cashPowerUp.handleAction(letter.cashAmount, Player.caughtProbability);
     });
 
     return button;
