@@ -11,8 +11,8 @@ export const Player = {
     cash: 0,
     level: 1,
     lives: 3,
-    caughtProbability: 0.5,
-    cashProbability: 0.1,
+    caughtProbability: 0.1,
+    cashProbability: 0.3,
 };
 
 export const gameConfig = {
@@ -21,7 +21,7 @@ export const gameConfig = {
     cashRewardIncrement: 2,
     randomizationCap: 0.9,
     randomizationBaseDivisor: 20,
-    initialTime: 10,
+    initialTime: 20,
     timeBonus: 5,
 };
 
@@ -107,6 +107,9 @@ export function generateNextLetter() {
         ? streetName.replace("##", "").trim()
         : `${streetName} ${Math.floor(Math.random() * 1000) + 1}`;
 
+    const hasCash = Math.random() < Player.cashProbability;
+    const cashAmount = hasCash ? Math.max(cashPowerUp.getAmount(), 1) : 0;
+
     const letter = {
         firstName: getRandomElement(data.firstNames),
         lastName: getRandomElement(data.lastNames),
@@ -116,13 +119,14 @@ export function generateNextLetter() {
         city: addressInfo.city,
         country: addressInfo.country,
         sortAs: addressInfo.sortAs,
-        hasCash: Math.random() < Player.cashProbability,
-        cashAmount: Math.random() < Player.cashProbability ? cashPowerUp.getAmount() : 0
+        hasCash: hasCash,
+        cashAmount: cashAmount
     };
 
     currentLetter = letter;
     render.displayLetterDetails(currentLetter);
 }
+
 
 
 

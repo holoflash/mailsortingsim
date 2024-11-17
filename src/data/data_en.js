@@ -45,43 +45,64 @@ export const addresses = [
     { zipCode: "113 62", county: "Vasastan", streets: ["Karlbergsvägen", "Sveavägen", "Norrtullsgatan"], city: "Stockholm", country: "Sweden", sortAs: "62" },
     { zipCode: "145 76", county: "Norsborg", streets: ["Hundhamravägen", "Iduns väg", "Höders väg", "Noyans Livs"], city: "Stockholm", country: "Sweden", sortAs: "76" },
 
-    { zipCode: "1011", county: "Shkoder", streets: ["Rruga e Dajti", "Sheshi Skenderbeu", "Rruga Kalivo"], city: "Tirana", country: "Albania", sortAs: "AL" },
-    { zipCode: "2007", county: "Sydney Suburb", streets: ["Circular Quay", "Macquarie Street", "George St."], city: "Sydney", country: "Australia", sortAs: "AU" },
-    { zipCode: "1020", county: "Wiener Neustadt", streets: ["Stephansplatz", "Mariahilfer Strasse", "Gumpendorfer Strasse"], city: "Vienna", country: "Austria", sortAs: "AT" },
-    { zipCode: "1012", county: "Brussels", streets: ["Grand Place", "Rue de la Loi", "Avenue Louise"], city: "Brussels", country: "Belgium", sortAs: "BE" },
-    { zipCode: "1002", county: "Sofia", streets: ["Vitosha Boulevard", "St. Alexander Nevsky Cathedral", "Sofia Square"], city: "Sofia", country: "Bulgaria", sortAs: "BG" },
-    { zipCode: "1025", county: "Nicosia", streets: ["Makarios Avenue", "Stasikratous", "Ledra Street"], city: "Nicosia", country: "Cyprus", sortAs: "CY" },
-    { zipCode: "1111", county: "Prague", streets: ["Old Town Square", "Wenceslas Square", "Charles Bridge"], city: "Prague", country: "Czech Republic", sortAs: "CZ" },
-    { zipCode: "1100", county: "Copenhagen", streets: ["Nyhavn", "Strøget", "Vesterbrogade"], city: "Copenhagen", country: "Denmark", sortAs: "DK" },
-    { zipCode: "28001", county: "Madrid", streets: ["Puerta del Sol", "Gran Via", "Retiro Park"], city: "Madrid", country: "Spain", sortAs: "ES" },
-    { zipCode: "0011", county: "Helsinki", streets: ["Mannerheimintie", "Esplanadi", "Aleksanterinkatu"], city: "Helsinki", country: "Finland", sortAs: "FI" },
-    { zipCode: "75001", county: "Paris", streets: ["Champs-Élysées", "Montmartre", "Rue de Rivoli"], city: "Paris", country: "France", sortAs: "FR" },
-    { zipCode: "1020", county: "Berlin", streets: ["Brandenburger Tor", "Unter den Linden", "Alexanderplatz"], city: "Berlin", country: "Germany", sortAs: "DE" },
-    { zipCode: "71201", county: "Heraklion", streets: ["Venetian Harbour", "25th August Street", "Karteros Beach Road"], city: "Heraklion", country: "Greece", sortAs: "GR" },
-    { zipCode: "00100", county: "Rome", streets: ["Colosseum", "Vatican City", "Piazza del Popolo"], city: "Rome", country: "Italy", sortAs: "IT" },
-    { zipCode: "100-0001", county: "Chiyoda", streets: ["Tokyo Imperial Palace", "Chiyoda Avenue", "Akasaka"], city: "Tokyo", country: "Japan", sortAs: "JP" },
-    { zipCode: "92100", county: "Klaipeda", streets: ["Maironio Street", "S. Daukanto Street", "Tiltų Street"], city: "Klaipeda", country: "Lithuania", sortAs: "LT" },
-    { zipCode: "01000", county: "Mexico City", streets: ["Paseo de la Reforma", "Chapultepec", "Calle 16 de Septiembre"], city: "Mexico City", country: "Mexico", sortAs: "MX" },
-    { zipCode: "1012", county: "Amsterdam", streets: ["Dam Square", "Leidseplein", "Vondelpark"], city: "Amsterdam", country: "Netherlands", sortAs: "NL" },
-    { zipCode: "1010", county: "Auckland", streets: ["Queen Street", "Aotea Square", "Victoria Park"], city: "Auckland", country: "New Zealand", sortAs: "NZ" },
-    { zipCode: "00-001", county: "Warsaw", streets: ["Royal Route", "Nowy Swiat", "Old Town Market Square"], city: "Warsaw", country: "Poland", sortAs: "PL" },
-    { zipCode: "1100-001", county: "Lisbon", streets: ["Baixa", "Alfama", "Avenida da Liberdade"], city: "Lisbon", country: "Portugal", sortAs: "PT" },
-    { zipCode: "101000", county: "Moscow", streets: ["Red Square", "Arbat Street", "Tverskaya Street"], city: "Moscow", country: "Russia", sortAs: "RU" },
+    // *** Asia (All Countries + Major Ones Missing) ***
+    { zipCode: "100-0001", county: "Chiyoda", streets: ["Tokyo Imperial Palace", "Chiyoda Avenue", "Akasaka"], city: "Tokyo", country: "Japan", sortAs: "ASIA" },
+    { zipCode: "11000", county: "Seoul", streets: ["Gyeongbokgung Palace", "Myeongdong", "Bukchon Hanok Village"], city: "Seoul", country: "South Korea", sortAs: "ASIA" },
+    { zipCode: "2020", county: "Kolkata", streets: ["Park Street", "Howrah Bridge", "Victoria Memorial"], city: "Kolkata", country: "India", sortAs: "ASIA" },
+    { zipCode: "2000", county: "Beijing", streets: ["Forbidden City", "Tiananmen Square", "Wangfujing"], city: "Beijing", country: "China", sortAs: "ASIA" },
+    { zipCode: "1010", county: "Hanoi", streets: ["Hoan Kiem Lake", "Old Quarter", "Temple of Literature"], city: "Hanoi", country: "Vietnam", sortAs: "ASIA" },
+    { zipCode: "2022", county: "Dubai", streets: ["Burj Khalifa", "Dubai Mall", "Jumeirah Beach"], city: "Dubai", country: "UAE", sortAs: "ASIA" },
+    { zipCode: "7000", county: "Manila", streets: ["Intramuros", "Rizal Park", "Binondo"], city: "Manila", country: "Philippines", sortAs: "ASIA" },
+    { zipCode: "15102", county: "Jakarta", streets: ["Monas", "Kota Tua", "Sudirman"], city: "Jakarta", country: "Indonesia", sortAs: "ASIA" },
+    { zipCode: "90000", county: "Bangkok", streets: ["Grand Palace", "Wat Arun", "Khao San Road"], city: "Bangkok", country: "Thailand", sortAs: "ASIA" },
+    { zipCode: "31000", county: "Kuala Lumpur", streets: ["Petronas Towers", "Batu Caves", "Merdeka Square"], city: "Kuala Lumpur", country: "Malaysia", sortAs: "ASIA" },
 
-    { zipCode: "211 18", county: "Malmö", streets: ["Drottninggatan", "Gustav Adolfs Torg", "Södra Förstadsgatan"], city: "Malmö", country: "Sweden", sortAs: "SE" },
-    { zipCode: "411 05", county: "Göteborg", streets: ["Avenyn", "Magasinsgatan", "Linnégatan"], city: "Göteborg", country: "Sweden", sortAs: "SE" },
-    { zipCode: "252 23", county: "Helsingborg", streets: ["Kullagatan", "Drottninggatan", "Stortorget"], city: "Helsingborg", country: "Sweden", sortAs: "SE" },
-    { zipCode: "795 30", county: "Rättvik", streets: ["Storgatan", "Järnvägsgatan", "Långbryggan"], city: "Rättvik", country: "Sweden", sortAs: "SE" },
-    { zipCode: "441 30", county: "Alingsås", streets: ["Kungsgatan", "Nygatan", "Bryggaregatan"], city: "Alingsås", country: "Sweden", sortAs: "SE" },
-    { zipCode: "371 33", county: "Karlskrona", streets: ["Ronnebygatan", "Amiralitetsgatan", "Borgmästaregatan"], city: "Karlskrona", country: "Sweden", sortAs: "SE" },
-    { zipCode: "921 31", county: "Lycksele", streets: ["Storgatan", "Björkvägen", "Lappgatan"], city: "Lycksele", country: "Sweden", sortAs: "SE" },
-    { zipCode: "261 31", county: "Landskrona", streets: ["Ödmanssonsgatan", "Järnvägsgatan", "Storgatan"], city: "Landskrona", country: "Sweden", sortAs: "SE" },
+    // *** Added Key Countries: Russia, India, Middle East ***
+    { zipCode: "101000", county: "Moscow", streets: ["Red Square", "Arbat Street", "Tverskaya Street"], city: "Moscow", country: "Russia", sortAs: "ASIA" },
+    { zipCode: "11000", county: "New Delhi", streets: ["India Gate", "Qutub Minar", "Connaught Place"], city: "New Delhi", country: "India", sortAs: "ASIA" },
+    { zipCode: "90001", county: "Tehran", streets: ["Golestan Palace", "Niavaran Palace", "Azadi Tower"], city: "Tehran", country: "Iran", sortAs: "ASIA" },
+    { zipCode: "20000", county: "Riyadh", streets: ["Kingdom Centre", "Al-Murabba Palace", "National Museum"], city: "Riyadh", country: "Saudi Arabia", sortAs: "ASIA" },
+    { zipCode: "64000", county: "Baghdad", streets: ["Tahrir Square", "Al-Mutanabbi Street", "Green Zone"], city: "Baghdad", country: "Iraq", sortAs: "ASIA" },
 
-    { zipCode: "EC1A 1BB", county: "London", streets: ["Buckingham Palace", "Big Ben", "Oxford Street"], city: "London", country: "United Kingdom", sortAs: "GB" },
-    { zipCode: "10001", county: "New York", streets: ["Times Square", "Central Park", "Broadway"], city: "New York", country: "United States", sortAs: "US" },
+    // *** Europe (Important Countries + Lithuania) ***
+    { zipCode: "1011", county: "Shkoder", streets: ["Rruga e Dajti", "Sheshi Skenderbeu", "Rruga Kalivo"], city: "Tirana", country: "Albania", sortAs: "EU" },
+    { zipCode: "1020", county: "Wiener Neustadt", streets: ["Stephansplatz", "Mariahilfer Strasse", "Gumpendorfer Strasse"], city: "Vienna", country: "Austria", sortAs: "EU" },
+    { zipCode: "1012", county: "Brussels", streets: ["Grand Place", "Rue de la Loi", "Avenue Louise"], city: "Brussels", country: "Belgium", sortAs: "EU" },
+    { zipCode: "1002", county: "Sofia", streets: ["Vitosha Boulevard", "St. Alexander Nevsky Cathedral", "Sofia Square"], city: "Sofia", country: "Bulgaria", sortAs: "EU" },
+    { zipCode: "1111", county: "Prague", streets: ["Old Town Square", "Wenceslas Square", "Charles Bridge"], city: "Prague", country: "Czech Republic", sortAs: "EU" },
+    { zipCode: "1100", county: "Copenhagen", streets: ["Nyhavn", "Strøget", "Vesterbrogade"], city: "Copenhagen", country: "Denmark", sortAs: "EU" },
+    { zipCode: "92000", county: "Vilnius", streets: ["Gedimino Avenue", "Pilies Street", "Bernardinu Garden"], city: "Vilnius", country: "Lithuania", sortAs: "EU" },
+    { zipCode: "75001", county: "Paris", streets: ["Champs-Élysées", "Montmartre", "Rue de Rivoli"], city: "Paris", country: "France", sortAs: "EU" },
+    { zipCode: "1010", county: "Madrid", streets: ["Puerta del Sol", "Gran Via", "Retiro Park"], city: "Madrid", country: "Spain", sortAs: "EU" },
+    { zipCode: "50123", county: "Rome", streets: ["Colosseum", "Vatican City", "Piazza del Popolo"], city: "Rome", country: "Italy", sortAs: "EU" },
 
+    // *** United States (Notable States) ***
+    { zipCode: "10001", county: "New York", streets: ["Times Square", "Central Park", "Broadway"], city: "New York", country: "United States", sortAs: "USA" },
+    { zipCode: "20005", county: "Washington, D.C.", streets: ["National Mall", "Lincoln Memorial", "Smithsonian"], city: "Washington, D.C.", country: "United States", sortAs: "USA" },
+    { zipCode: "90001", county: "Los Angeles", streets: ["Hollywood Blvd", "Venice Beach", "Griffith Observatory"], city: "Los Angeles", country: "United States", sortAs: "USA" },
+    { zipCode: "30301", county: "Atlanta", streets: ["Centennial Park", "Georgia Aquarium", "Martin Luther King Jr. National Historical Park"], city: "Atlanta", country: "United States", sortAs: "USA" },
+    { zipCode: "60601", county: "Chicago", streets: ["Millennium Park", "Navy Pier", "Magnificent Mile"], city: "Chicago", country: "United States", sortAs: "USA" },
+    { zipCode: "33101", county: "Miami", streets: ["South Beach", "Little Havana", "Wynwood Walls"], city: "Miami", country: "United States", sortAs: "USA" },
 
-];
+    // *** South America (Notable Countries) ***
+    { zipCode: "1010", county: "Buenos Aires", streets: ["Plaza de Mayo", "Recoleta Cemetery", "Calle Florida"], city: "Buenos Aires", country: "Argentina", sortAs: "LATIN" },
+    { zipCode: "2000", county: "São Paulo", streets: ["Avenida Paulista", "Ibirapuera Park", "Rua Oscar Freire"], city: "São Paulo", country: "Brazil", sortAs: "LATIN" },
+    { zipCode: "5000", county: "Lima", streets: ["Plaza Mayor", "Miraflores", "Parque Kennedy"], city: "Lima", country: "Peru", sortAs: "LATIN" },
+    { zipCode: "3000", county: "Bogotá", streets: ["La Candelaria", "Monserrate", "Gold Museum"], city: "Bogotá", country: "Colombia", sortAs: "LATIN" },
+    { zipCode: "7000", county: "Santiago", streets: ["Plaza de Armas", "Cerro San Cristóbal", "Barrio Bellavista"], city: "Santiago", country: "Chile", sortAs: "LATIN" },
+    { zipCode: "20000", county: "Quito", streets: ["Plaza de la Independencia", "La Ronda", "Calle La Mariscal"], city: "Quito", country: "Ecuador", sortAs: "LATIN" },
+
+    // *** Africa (Notable Countries) ***
+    { zipCode: "1010", county: "Lagos", streets: ["Lekki Market", "Victoria Island", "National Theatre"], city: "Lagos", country: "Nigeria", sortAs: "AFRICA" },
+    { zipCode: "1234", county: "Cairo", streets: ["Pyramids of Giza", "Tahrir Square", "Khan el-Khalili"], city: "Cairo", country: "Egypt", sortAs: "AFRICA" },
+    { zipCode: "1000", county: "Nairobi", streets: ["Nairobi National Park", "Karen Blixen Museum", "Giraffe Centre"], city: "Nairobi", country: "Kenya", sortAs: "AFRICA" },
+    { zipCode: "20100", county: "Cape Town", streets: ["Table Mountain", "V&A Waterfront", "Robben Island"], city: "Cape Town", country: "South Africa", sortAs: "AFRICA" },
+    { zipCode: "44101", county: "Accra", streets: ["Labadi Beach", "Kwame Nkrumah Memorial Park", "Osu Castle"], city: "Accra", country: "Ghana", sortAs: "AFRICA" },
+    { zipCode: "1000", county: "Addis Ababa", streets: ["National Museum", "Bole", "Menelik II Square"], city: "Addis Ababa", country: "Ethiopia", sortAs: "AFRICA" },
+
+    // *** Oceania (Couple of Countries) **
+]
+
 
 
 

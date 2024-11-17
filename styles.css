@@ -82,11 +82,8 @@ body {
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-
-    gap: 0;
-    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
     background-color: #577590;
 }
 
@@ -97,14 +94,13 @@ body {
     text-align: center;
     font-size: 0.6em;
     cursor: pointer;
-
     margin: 0;
-    transition: background-color 0.3s;
+    flex: 1 1 calc(25% - 2px);
+    box-sizing: border-box;
 }
 
 .grid-item-number {
-    background-color: #47a6ff;
-    /* Light red or any color you prefer */
+    background-color: #7954a9;
 }
 
 .grid-item:hover {
