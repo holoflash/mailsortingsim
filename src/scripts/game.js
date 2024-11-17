@@ -1,6 +1,6 @@
 import * as data from '../data/data_en.js';
-import { handleCashPowerUp } from './powerUps.js';
 import * as render from './render.js';
+import { cashPowerUp } from './powerUps.js';
 
 let isRunning = false;
 let timer = null;
@@ -12,7 +12,7 @@ export const Player = {
     level: 1,
     lives: 3,
     caughtProbability: 0.5,
-    cashProbability: 0.08,
+    cashProbability: 0.1,
 };
 
 export const gameConfig = {
@@ -22,31 +22,34 @@ export const gameConfig = {
     randomizationCap: 0.9,
     randomizationBaseDivisor: 20,
     initialTime: 10,
-    timeBonus: 3,
+    timeBonus: 5,
 };
 
 export function startGame() {
     isRunning = true;
     timeRemaining = gameConfig.initialTime;
-    Player.cash = 0;
-    Player.level = 1;
-    Player.lives = 3;
-
     render.graphics(isRunning);
     render.setupGridItemListeners();
 
     generateNextLetter();
     render.updateTimerDisplay(timeRemaining);
+    render.updateLivesDisplay(Player.lives);
+    render.updateCashDisplay(Player.cash);
+    render.displayMessage(data.messages.gameStart, 'info-box level-up');
 
-    clearInterval(timer);
+
     timer = setInterval(() => {
-        if (--timeRemaining <= 0) endGame('time');
+        if (--timeRemaining <= 0) {
+            endGame('time');
+        }
         render.updateTimerDisplay(timeRemaining);
     }, 1000);
 }
 
 export function endGame(reason) {
     clearInterval(timer);
+    timeRemaining = 0;
+    render.updateTimerDisplay(timeRemaining);
     isRunning = false;
 
     const message = {
@@ -58,6 +61,7 @@ export function endGame(reason) {
     render.displayMessage(message, 'info-box warning');
     render.removeGridItemClickListeners();
 }
+
 
 export function checkAnswer(userInput) {
     const { levelMultiplier, baseCashReward, cashRewardIncrement, timeBonus } = gameConfig;
@@ -95,31 +99,31 @@ export function checkAnswer(userInput) {
     generateNextLetter();
 }
 
-
 export function generateNextLetter() {
-    const [zipCode, addressInfo] = getRandomElement(Object.entries(data.addresses));
+    const addressInfo = getRandomElement(data.addresses);
+
+    const streetName = getRandomElement(addressInfo.streets);
+    const formattedStreet = streetName.includes("##")
+        ? streetName.replace("##", "").trim()
+        : `${streetName} ${Math.floor(Math.random() * 1000) + 1}`;
 
     const letter = {
         firstName: getRandomElement(data.firstNames),
         lastName: getRandomElement(data.lastNames),
-        street: `${getRandomElement(addressInfo.streets)} ${Math.floor(Math.random() * 1000) + 1}`,
-        zipCode,
+        street: formattedStreet,
+        zipCode: addressInfo.zipCode,
         county: addressInfo.county,
         city: addressInfo.city,
         country: addressInfo.country,
         sortAs: addressInfo.sortAs,
+        hasCash: Math.random() < Player.cashProbability,
+        cashAmount: Math.random() < Player.cashProbability ? cashPowerUp.getAmount() : 0
     };
-
-    if (Math.random() < Player.cashProbability) {
-        handleCashPowerUp(amount => {
-            Player.cash += amount;
-            render.updateCashDisplay(Player.cash);
-        });
-    }
 
     currentLetter = letter;
     render.displayLetterDetails(currentLetter);
 }
 
-const getRandomElement = arr => arr[Math.floor(Math.random() * arr.length)];
 
+
+const getRandomElement = arr => arr[Math.floor(Math.random() * arr.length)];

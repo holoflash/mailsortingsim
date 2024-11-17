@@ -2,21 +2,10 @@ import * as render from './render.js';
 import { Player } from './game.js';
 import * as data from '../data/data_en.js';
 
-const cashPowerUp = {
+export const cashPowerUp = {
     getAmount: () => Math.floor(Math.random() * 100) + 1,
 
-    showCashDialog: (amount, onEffect) => {
-        const caughtProbability = Player.caughtProbability;
-        const dialogOptions = {
-            actionText: data.messages.stealCashActionText,
-            cancelText: data.messages.stealCashCancelText,
-            onAction: () => cashPowerUp.handleAction(amount, caughtProbability, onEffect),
-            onCancel: () => cashPowerUp.handleCancel(onEffect)
-        };
-        render.showDialog(data.messages.stealCashDialogMessage.replace("{amount}", amount), dialogOptions);
-    },
-
-    handleAction: (amount, caughtProbability, onEffect) => {
+    handleAction: (amount, caughtProbability) => {
         const caught = Math.random() < caughtProbability;
         const amountStolen = caught ? 0 : amount;
         const messageKey = amountStolen ? 'pocketCashMessage' : 'caughtStealingMessage';
@@ -26,7 +15,7 @@ const cashPowerUp = {
 
         if (caught) {
             Player.lives--;
-            Player.cash -= amount; // Allow negative cash
+            Player.cash -= amount;
             render.updateLivesDisplay(Player.lives);
             render.updateCashDisplay(Player.cash);
 
@@ -35,17 +24,13 @@ const cashPowerUp = {
                 render.removeGridItemClickListeners();
             }
         } else {
-            onEffect(amountStolen);
+            Player.cash += amount;
+            render.updateCashDisplay(Player.cash);
         }
-    },
-
-    handleCancel: (onEffect) => {
-        render.displayMessage(data.messages.declineStealMessage, 'info-box info');
-        onEffect(0);
     }
 };
 
 export function handleCashPowerUp(onEffect) {
     const amount = cashPowerUp.getAmount();
-    cashPowerUp.showCashDialog(amount, onEffect);
+    cashPowerUp.handleAction(amount, Player.caughtProbability);
 }

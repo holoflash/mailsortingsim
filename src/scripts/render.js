@@ -1,5 +1,6 @@
 import * as data from '../data/data_en.js';
-import { checkAnswer } from './game.js';
+import { checkAnswer, Player } from './game.js';
+import { cashPowerUp } from './powerUps.js';
 
 export let gridItemClickHandlers = [];
 
@@ -21,8 +22,33 @@ export function displayLetterDetails(letter) {
     letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
     letterContainer.appendChild(createInfoLine(`${letter.zipCode || data.messages.unknownZipCode} ${letter.county}`, 'letter-zip-county'));
     letterContainer.appendChild(createInfoLine(`${letter.city}, ${letter.country}`, 'letter-location'));
+
+    if (letter.hasCash) {
+        const cashButton = createCashButton(letter);
+        letterContainer.appendChild(cashButton);
+    }
+
     letterDetailsDisplay.appendChild(letterContainer);
 }
+
+function createCashButton(letter) {
+    const button = document.createElement('button');
+    button.className = 'cash-button';
+
+    const cashText = document.createElement('span');
+    const actionText = data.messages.stealCashActionText.replace("{amount}", letter.cashAmount); // Replace the placeholder with actual cash amount
+    cashText.textContent = actionText;
+
+    button.appendChild(cashText);
+
+    button.addEventListener('click', () => {
+        cashPowerUp.handleAction(letter.cashAmount, Player.caughtProbability);
+        button.remove();
+    });
+
+    return button;
+}
+
 
 export function createGridItem(labelText) {
     const gridItem = document.createElement('button');
@@ -32,6 +58,11 @@ export function createGridItem(labelText) {
     label.textContent = labelText;
 
     gridItem.appendChild(label);
+
+    if (/\d/.test(labelText)) {
+        gridItem.classList.add('grid-item-number');
+    }
+
     return gridItem;
 }
 
@@ -41,19 +72,10 @@ export function graphics() {
     document.getElementById("instructions").textContent = data.messages.instructions;
 
     const gridContainer = document.getElementById('zipcode-grid');
-    const sortAsValues = [];
-
-    for (const addressInfo of Object.values(data.addresses)) {
-        if (!sortAsValues.includes(addressInfo.sortAs)) {
-            sortAsValues.push(addressInfo.sortAs);
-        }
-    }
-    sortAsValues.forEach(sortAs => {
-        gridContainer.appendChild(createGridItem(sortAs));
-    });
+    [...new Set(data.addresses.map(({ sortAs }) => sortAs))].forEach(sortAs =>
+        gridContainer.appendChild(createGridItem(sortAs))
+    );
 }
-
-
 
 
 export function updateLivesDisplay(lives) {
@@ -75,43 +97,6 @@ export function displayMessage(content, type = 'info-box') {
     const messageDisplay = document.getElementById('message');
     messageDisplay.className = type;
     messageDisplay.textContent = content;
-}
-
-export function showDialog(message, options = {}) {
-    const dialog = document.createElement('dialog');
-    const dialogMessage = document.createElement('p');
-    const actionButton = document.createElement('button');
-    const cancelButton = document.createElement('button');
-
-    dialogMessage.textContent = message;
-    actionButton.textContent = options.actionText || "Take Action";
-    cancelButton.textContent = options.cancelText || "Cancel";
-
-    actionButton.classList.add('dialog-button', 'action-button');
-    cancelButton.classList.add('dialog-button', 'cancel-button');
-
-    dialog.appendChild(dialogMessage);
-    dialog.appendChild(actionButton);
-    dialog.appendChild(cancelButton);
-
-    document.body.appendChild(dialog);
-
-    const onActionClick = () => {
-        options.onAction();
-        dialog.close();
-        document.body.removeChild(dialog);
-    };
-
-    const onCancelClick = () => {
-        if (options.onCancel) options.onCancel();
-        dialog.close();
-        document.body.removeChild(dialog);
-    };
-
-    actionButton.addEventListener('click', onActionClick);
-    cancelButton.addEventListener('click', onCancelClick);
-
-    dialog.showModal();
 }
 
 export function removeGridItemClickListeners() {
