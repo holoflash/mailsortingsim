@@ -23,7 +23,6 @@ body {
     font-family: monospace;
     font-size: 0.8em;
     text-align: center;
-    margin-bottom: 20px;
 }
 
 #game-info {
@@ -56,17 +55,19 @@ body {
     font-size: 0.7em;
     background-color: #1f4068;
     padding: 10px;
+    margin-top: 10px;
 }
 
 .letter-container {
     padding: 15px;
     background-color: #34495e;
     display: grid;
-    gap: 5px;
+    position: relative;
+    /* Make this container relative to position absolute child elements */
 }
 
 .letter-container p {
-    margin: 4px 0;
+    margin: 4px;
 }
 
 .letter-name {
@@ -97,8 +98,7 @@ body {
     font-size: 0.6em;
     cursor: pointer;
     margin: 0;
-    flex: 1 1 calc(25% - 2px);
-    box-sizing: border-box;
+    flex: 1 1 calc(20% - 10px);
 }
 
 .grid-item-number {
@@ -119,11 +119,6 @@ button {
     cursor: pointer;
     margin: 20px auto 0;
     display: block;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #82ccdd;
 }
 
 #lives,
@@ -145,10 +140,18 @@ button:hover {
 .cash-button {
     background: linear-gradient(145deg, #2d7f3a, #4b9e6b);
     color: white;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
-    padding: 10px 20px;
     border: 2px solid #1b5e20;
     border-radius: 8px;
     cursor: pointer;
+    margin: 0;
+    position: absolute;
+    top: -18%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    min-width: 180px;
+    white-space: nowrap;
+    text-align: center;
 }

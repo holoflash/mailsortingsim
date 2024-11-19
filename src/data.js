@@ -6,9 +6,8 @@ export const messages = {
         county: "County",
         location: "Location"
     },
-    title: "Pigeonholed",
     headerTitle: "PIGEONHOLED",
-    instructions: "Mail sorting sim. Sort letters by the two last digits in the ZIP code. You can get fired if you make too many mistakes, the timer runs out, or if you get caught stealing.",
+    instructions: "",
     gameStart: "Start sorting!",
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
@@ -32,20 +31,38 @@ export const messages = {
 };
 
 export const addresses = [
-    { zipCode: "103 21", county: "Norrmalm", streets: ["Drottninggatan", "Kungsträdgårdsgatan", "Biblioteksgatan"], city: "Stockholm", country: "Sweden", sortAs: "21" },
-    { zipCode: "115 26", county: "Vasastan", streets: ["Sankt Eriksgatan", "Birger Jarlsgatan", "Odengatan"], city: "Stockholm", country: "Sweden", sortAs: "26" },
-    { zipCode: "114 28", county: "Östermalm", streets: ["Karlavägen", "Stureplan", "Nybroplan"], city: "Stockholm", country: "Sweden", sortAs: "28" },
-    { zipCode: "141 35", county: "Flemingsberg", streets: ["Huddingevägen", "Fleminggatan", "Rudansvägen"], city: "Stockholm", country: "Sweden", sortAs: "35" },
-    { zipCode: "116 38", county: "Södermalm", streets: ["Götgatan", "Hornsgatan", "Västerbroplan"], city: "Stockholm", country: "Sweden", sortAs: "38" },
-    { zipCode: "143 41", county: "Vårby", streets: ["Bäckgårdsvägen", "Verdandi##", "Mogårdsvägen"], city: "Stockholm", country: "Sweden", sortAs: "41" },
-    { zipCode: "143 42", county: "Vårby", streets: ["Krongårdsvägen", "Nygårdsvägen", "Duvbergsvägen"], city: "Stockholm", country: "Sweden", sortAs: "42" },
-    { zipCode: "143 43", county: "Vårby", streets: ["Solhagavägen", "Lammholmsbacken", "Vårby allé"], city: "Stockholm", country: "Sweden", sortAs: "43" },
-    { zipCode: "145 55", county: "Norsborg", streets: ["Rådmansbacken", "Albyvägen", "Alhagsvägen", "Noyans livs"], city: "Stockholm", country: "Sweden", sortAs: "55" },
-    { zipCode: "120 55", county: "Älvsjö", streets: ["Stora Albyvägen", "Kanskevägen", "Hästhagsvägen"], city: "Stockholm", country: "Sweden", sortAs: "55" },
-    { zipCode: "113 62", county: "Vasastan", streets: ["Karlbergsvägen", "Sveavägen", "Norrtullsgatan"], city: "Stockholm", country: "Sweden", sortAs: "62" },
-    { zipCode: "145 76", county: "Norsborg", streets: ["Hundhamravägen", "Iduns väg", "Höders väg", "Noyans Livs"], city: "Stockholm", country: "Sweden", sortAs: "76" },
+    { zipCode: "145 04", county: "Skrattskog", streets: ["Big Laughsvägen", "Baj Linjen", "Dj. Toastmastergatan"], city: "Stockholm", country: "Sweden", sortAs: "04" },
+    { zipCode: "145 04", county: "Bronxtuna", streets: ["Beror På Vad Man Röstar På I Valetgatan", "Marrevägen", "Maxgatan"], city: "Stockholm", country: "Sweden", sortAs: "04" },
+    { zipCode: "145 04", county: "Finderholm", streets: ["King Finders Väg", "1p-gränd", "Och Nej Jag Har Inte Pruttat På De-stigen"], city: "Stockholm", country: "Sweden", sortAs: "04" },
+    { zipCode: "145 04", county: "Jägarnäs", streets: ["Guy Huntervägen", "Visst Är Det Så Gatan", "Kommer Vid 22:00 allé"], city: "Stockholm", country: "Sweden", sortAs: "04" },
+    { zipCode: "145 04", county: "Ironstorp", streets: ["Naaah... Gatan", "Gordon Ramsey Kommer Vägen", "Alltid En Sunk Kommentarväg"], city: "Stockholm", country: "Sweden", sortAs: "04" },
+    { zipCode: "145 12", county: "Sunkås", streets: ["Bah Uuuuhh Väg", "PT - Posten Tishagatan", "NBK - Nerbajasade Kallingarstig"], city: "Stockholm", country: "Sweden", sortAs: "12" },
+    { zipCode: "145 33", county: "Citronäng", streets: ["Mr. Lemonvägen", "Kalla Föttergatan", "Siftpjvägen"], city: "Stockholm", country: "Sweden", sortAs: "33" },
+    { zipCode: "145 34", county: "Visionholm", streets: ["LP Under Armarna Allé", "Blue Visionvägen", "Ah Steve Averygatan"], city: "Stockholm", country: "Sweden", sortAs: "34" },
+    { zipCode: "145 35", county: "Outrageby", streets: ["Blue Balls Managementsgatan", "Jag Blir Outraged Gatan", "Med Gumman Torg"], city: "Stockholm", country: "Sweden", sortAs: "35" },
+    { zipCode: "145 36", county: "HBholm", streets: ["Fronten Väg", "Ah HB-gatan", "Ah Juste Väg"], city: "Stockholm", country: "Sweden", sortAs: "36" },
+    { zipCode: "145 37", county: "Jellystad", streets: ["Skoja Bah Jellyvägen", "Bira I Pepsin Gatan", "Rough Start Väg"], city: "Stockholm", country: "Sweden", sortAs: "37" },
+    { zipCode: "145 38", county: "Bubbagård", streets: ["Dagge Idag Eller? Stigen", "Bubbavägen", "Ham-Rider Gatan"], city: "Stockholm", country: "Sweden", sortAs: "38" },
+    { zipCode: "145 39", county: "Doggehult", streets: ["E Den Startklar Eller? Väg", "Big Nightgatan", "Lufta Doggevägen"], city: "Stockholm", country: "Sweden", sortAs: "39" },
+    { zipCode: "145 40", county: "Filmstaden", streets: ["Å Så 30 Egna Gatan", "Vilket Filter Gatan", "Rain Man Gatan"], city: "Stockholm", country: "Sweden", sortAs: "40" },
+    { zipCode: "145 41", county: "PDFland", streets: ["PDF På Det Här Väg", "King Väg", "Mr. Popcorn Väg"], city: "Stockholm", country: "Sweden", sortAs: "41" },
+    { zipCode: "145 42", county: "Fredagstad", streets: ["Ändå Fredag Gatan", "Kanske Står I Boken Väg", "Wizdomm Gatan"], city: "Stockholm", country: "Sweden", sortAs: "42" },
+    { zipCode: "145 43", county: "Hyundaiville", streets: ["Han Är Rädd För Sågen Väg", "Saved By Jesus Gatan", "Hyundai Hyundai Bilen Gatan"], city: "Stockholm", country: "Sweden", sortAs: "43" },
+    { zipCode: "145 44", county: "80s Corner", streets: ["Det Blir Inte Mer 80-Tal Än Det Här Väg", "Ska Hem Å Ride'a Väg", "Bra Yeah Väg"], city: "Stockholm", country: "Sweden", sortAs: "44" },
+    { zipCode: "145 45", county: "Birkön", streets: ["Jag Kör, Jag Kör Väg", "Cheers 4 Beers Gatan", "When Sesh Väg"], city: "Stockholm", country: "Sweden", sortAs: "45" },
+    { zipCode: "145 46", county: "Nordholm", streets: ["POSTNORD Gatan", "IRL Väg", "Is It Pj Or Gatan"], city: "Stockholm", country: "Sweden", sortAs: "46" },
+    { zipCode: "145 47", county: "Rostedby", streets: ["Ba Relli Väg", "Kör En Ray Gatan", "Roasted Maple Väg"], city: "Stockholm", country: "Sweden", sortAs: "47" },
+    { zipCode: "145 48", county: "Soundaryd", streets: ["When New Album Gatan", "When Part 1 Gatan", "Tard-Mode Väg"], city: "Stockholm", country: "Sweden", sortAs: "48" },
+    { zipCode: "145 49", county: "Birastad", streets: ["Jason Becker Och Farsan Gatan", "Biran På Kylning Väg", "Sunkväg"], city: "Stockholm", country: "Sweden", sortAs: "49" },
+    { zipCode: "145 50", county: "Blåsenby", streets: ["På Blocket Väg", "Löning På Fredag Gatan", "Birakungen Väg"], city: "Stockholm", country: "Sweden", sortAs: "50" },
+    { zipCode: "145 51", county: "Näraholm", streets: ["Ah Nara Gatan", "De E Bald Väg", "PS4'an E På Väg"], city: "Stockholm", country: "Sweden", sortAs: "51" },
+    { zipCode: "145 52", county: "Sångstad", streets: ["Han Kör Väg", "Att Nån Är Hemma Hos En Och Lägger Sång Gatan", "One Good Day At Väg"], city: "Stockholm", country: "Sweden", sortAs: "52" },
+    { zipCode: "145 53", county: "Protsby", streets: ["När Tas Första Biran? Väg", "Protsin Väg", "Mnaaa Väg"], city: "Stockholm", country: "Sweden", sortAs: "53" },
+    { zipCode: "145 54", county: "Eraseholm", streets: ["Fyyf Gatan", "Älskar Upplägget Väg", "Eeeeeeraaase My Life Gatan"], city: "Stockholm", country: "Sweden", sortAs: "54" },
+    { zipCode: "145 55", county: "Köksviken", streets: ["ICA Nu Då Väg", "Näven I Köksluckorna Gatan", "Pajja Glajjerna Väg"], city: "Stockholm", country: "Sweden", sortAs: "55" },
+    { zipCode: "145 56", county: "EZtown", streets: ["GB Gatan", "BB Väg", "EZ Livin Väg"], city: "Stockholm", country: "Sweden", sortAs: "56" },
+    { zipCode: "145 57", county: "Harperholm", streets: ["Med Gumman Väg", "Jag Ringer Skatteverket Gatan", "Harpermode Väg"], city: "Stockholm", country: "Sweden", sortAs: "57" },
 
-    // *** Asia (All Countries + Major Ones Missing) ***
     { zipCode: "100-0001", county: "Chiyoda", streets: ["Tokyo Imperial Palace", "Chiyoda Avenue", "Akasaka"], city: "Tokyo", country: "Japan", sortAs: "ASIA" },
     { zipCode: "11000", county: "Seoul", streets: ["Gyeongbokgung Palace", "Myeongdong", "Bukchon Hanok Village"], city: "Seoul", country: "South Korea", sortAs: "ASIA" },
     { zipCode: "2020", county: "Kolkata", streets: ["Park Street", "Howrah Bridge", "Victoria Memorial"], city: "Kolkata", country: "India", sortAs: "ASIA" },
@@ -57,14 +74,12 @@ export const addresses = [
     { zipCode: "90000", county: "Bangkok", streets: ["Grand Palace", "Wat Arun", "Khao San Road"], city: "Bangkok", country: "Thailand", sortAs: "ASIA" },
     { zipCode: "31000", county: "Kuala Lumpur", streets: ["Petronas Towers", "Batu Caves", "Merdeka Square"], city: "Kuala Lumpur", country: "Malaysia", sortAs: "ASIA" },
 
-    // *** Added Key Countries: Russia, India, Middle East ***
     { zipCode: "101000", county: "Moscow", streets: ["Red Square", "Arbat Street", "Tverskaya Street"], city: "Moscow", country: "Russia", sortAs: "ASIA" },
     { zipCode: "11000", county: "New Delhi", streets: ["India Gate", "Qutub Minar", "Connaught Place"], city: "New Delhi", country: "India", sortAs: "ASIA" },
     { zipCode: "90001", county: "Tehran", streets: ["Golestan Palace", "Niavaran Palace", "Azadi Tower"], city: "Tehran", country: "Iran", sortAs: "ASIA" },
     { zipCode: "20000", county: "Riyadh", streets: ["Kingdom Centre", "Al-Murabba Palace", "National Museum"], city: "Riyadh", country: "Saudi Arabia", sortAs: "ASIA" },
     { zipCode: "64000", county: "Baghdad", streets: ["Tahrir Square", "Al-Mutanabbi Street", "Green Zone"], city: "Baghdad", country: "Iraq", sortAs: "ASIA" },
 
-    // *** Europe (Important Countries + Lithuania) ***
     { zipCode: "1011", county: "Shkoder", streets: ["Rruga e Dajti", "Sheshi Skenderbeu", "Rruga Kalivo"], city: "Tirana", country: "Albania", sortAs: "EU" },
     { zipCode: "1020", county: "Wiener Neustadt", streets: ["Stephansplatz", "Mariahilfer Strasse", "Gumpendorfer Strasse"], city: "Vienna", country: "Austria", sortAs: "EU" },
     { zipCode: "1012", county: "Brussels", streets: ["Grand Place", "Rue de la Loi", "Avenue Louise"], city: "Brussels", country: "Belgium", sortAs: "EU" },
@@ -76,7 +91,6 @@ export const addresses = [
     { zipCode: "1010", county: "Madrid", streets: ["Puerta del Sol", "Gran Via", "Retiro Park"], city: "Madrid", country: "Spain", sortAs: "EU" },
     { zipCode: "50123", county: "Rome", streets: ["Colosseum", "Vatican City", "Piazza del Popolo"], city: "Rome", country: "Italy", sortAs: "EU" },
 
-    // *** United States (Notable States) ***
     { zipCode: "10001", county: "New York", streets: ["Times Square", "Central Park", "Broadway"], city: "New York", country: "United States", sortAs: "USA" },
     { zipCode: "20005", county: "Washington, D.C.", streets: ["National Mall", "Lincoln Memorial", "Smithsonian"], city: "Washington, D.C.", country: "United States", sortAs: "USA" },
     { zipCode: "90001", county: "Los Angeles", streets: ["Hollywood Blvd", "Venice Beach", "Griffith Observatory"], city: "Los Angeles", country: "United States", sortAs: "USA" },
@@ -84,7 +98,6 @@ export const addresses = [
     { zipCode: "60601", county: "Chicago", streets: ["Millennium Park", "Navy Pier", "Magnificent Mile"], city: "Chicago", country: "United States", sortAs: "USA" },
     { zipCode: "33101", county: "Miami", streets: ["South Beach", "Little Havana", "Wynwood Walls"], city: "Miami", country: "United States", sortAs: "USA" },
 
-    // *** South America (Notable Countries) ***
     { zipCode: "1010", county: "Buenos Aires", streets: ["Plaza de Mayo", "Recoleta Cemetery", "Calle Florida"], city: "Buenos Aires", country: "Argentina", sortAs: "LATIN" },
     { zipCode: "2000", county: "São Paulo", streets: ["Avenida Paulista", "Ibirapuera Park", "Rua Oscar Freire"], city: "São Paulo", country: "Brazil", sortAs: "LATIN" },
     { zipCode: "5000", county: "Lima", streets: ["Plaza Mayor", "Miraflores", "Parque Kennedy"], city: "Lima", country: "Peru", sortAs: "LATIN" },
@@ -92,15 +105,12 @@ export const addresses = [
     { zipCode: "7000", county: "Santiago", streets: ["Plaza de Armas", "Cerro San Cristóbal", "Barrio Bellavista"], city: "Santiago", country: "Chile", sortAs: "LATIN" },
     { zipCode: "20000", county: "Quito", streets: ["Plaza de la Independencia", "La Ronda", "Calle La Mariscal"], city: "Quito", country: "Ecuador", sortAs: "LATIN" },
 
-    // *** Africa (Notable Countries) ***
     { zipCode: "1010", county: "Lagos", streets: ["Lekki Market", "Victoria Island", "National Theatre"], city: "Lagos", country: "Nigeria", sortAs: "AFRICA" },
     { zipCode: "1234", county: "Cairo", streets: ["Pyramids of Giza", "Tahrir Square", "Khan el-Khalili"], city: "Cairo", country: "Egypt", sortAs: "AFRICA" },
     { zipCode: "1000", county: "Nairobi", streets: ["Nairobi National Park", "Karen Blixen Museum", "Giraffe Centre"], city: "Nairobi", country: "Kenya", sortAs: "AFRICA" },
     { zipCode: "20100", county: "Cape Town", streets: ["Table Mountain", "V&A Waterfront", "Robben Island"], city: "Cape Town", country: "South Africa", sortAs: "AFRICA" },
     { zipCode: "44101", county: "Accra", streets: ["Labadi Beach", "Kwame Nkrumah Memorial Park", "Osu Castle"], city: "Accra", country: "Ghana", sortAs: "AFRICA" },
     { zipCode: "1000", county: "Addis Ababa", streets: ["National Museum", "Bole", "Menelik II Square"], city: "Addis Ababa", country: "Ethiopia", sortAs: "AFRICA" },
-
-    // *** Oceania (Couple of Countries) **
 ]
 
 export const firstNames = [
