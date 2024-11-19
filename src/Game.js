@@ -10,12 +10,9 @@ function startGame() {
     timeRemaining = gameSettings.initialTime;
     graphics();
     setupGridItemListeners();
-
     generateNextLetter();
     updateHUD();
     displayMessage(data.messages.gameStart, 'info-box level-up');
-
-
     timer = setInterval(() => {
         if (--timeRemaining <= 0) endGame('time');
         updateHUD();
@@ -41,7 +38,6 @@ function endGame(reason) {
 function checkAnswer(userInput) {
     const { baseCashReward, cashRewardIncrement, levelMultiplier, timeBonus } = gameSettings;
     const cashReward = baseCashReward + gameSettings.level * cashRewardIncrement;
-
     const isCorrect = userInput === currentLetter.sortAs;
     const messageKey = isCorrect ? 'correctMessage' : 'incorrectMessage';
 
@@ -58,27 +54,25 @@ function checkAnswer(userInput) {
     updateHUD();
 
     if (gameSettings.lives <= 0) return endGame('lives');
-    if (gameSettings.cash >= gameSettings.level * levelMultiplier) levelUp();
+    if (gameSettings.cash >= gameSettings.level * levelMultiplier) {
+        gameSettings.level++;
+        displayMessage(data.messages.levelUpMessage.replace('{level}', gameSettings.level), 'info-box level-up');
+    }
 
     generateNextLetter();
 }
 
-function levelUp() {
-    gameSettings.level++;
-    displayMessage(data.messages.levelUpMessage.replace('{level}', gameSettings.level), 'info-box level-up');
-}
-
 function generateNextLetter() {
     const { addresses, firstNames, lastNames } = data;
-    const addressInfo = getRandomElement(addresses);
-    const streetName = getRandomElement(addressInfo.streets).replace("##", "").trim();
+    const addressInfo = addresses[Math.floor(Math.random() * addresses.length)]
+    const streetName = addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].replace("##", "").trim();
     const formattedStreet = streetName.includes("##")
         ? streetName
         : `${streetName} ${Math.floor(Math.random() * 1000) + 1}`;
 
     currentLetter = {
-        firstName: getRandomElement(firstNames),
-        lastName: getRandomElement(lastNames),
+        firstName: firstNames[Math.floor(Math.random() * firstNames.length)],
+        lastName: lastNames[Math.floor(Math.random() * lastNames.length)],
         street: formattedStreet,
         ...addressInfo,
         hasCash: Math.random() < gameSettings.cashProbability,
@@ -87,8 +81,6 @@ function generateNextLetter() {
 
     displayLetterDetails(currentLetter);
 }
-
-const getRandomElement = arr => arr[Math.floor(Math.random() * arr.length)];
 
 const cashPowerUp = {
     getAmount: () => Math.floor(Math.random() * 100) + 1,
@@ -148,7 +140,6 @@ function displayLetterDetails(letter) {
 
     const letterContainer = document.createElement('div');
     letterContainer.classList.add('letter-container');
-
     letterContainer.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`, 'letter-name'));
     letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
     letterContainer.appendChild(createInfoLine(`${letter.zipCode || data.messages.unknownZipCode} ${letter.county}`, 'letter-zip-county'));
@@ -166,37 +157,60 @@ function graphics() {
     const body = document.body;
     body.textContent = '';
 
-    const createElement = (tag, options = {}, parent = body) => {
-        const el = document.createElement(tag);
-        Object.entries(options).forEach(([key, value]) => {
-            if (key === 'text') el.textContent = value;
-            else if (key === 'classList') el.classList.add(...value);
-            else el[key] = value;
-        });
-        parent.appendChild(el);
-        return el;
-    };
+    const headerTitle = document.createElement('div');
+    headerTitle.id = 'header-title';
+    headerTitle.textContent = data.messages.headerTitle;
+    body.appendChild(headerTitle);
 
-    createElement('div', { id: 'header-title', text: data.messages.headerTitle });
-    createElement('div', { id: 'instructions', text: data.messages.instructions });
+    const instructions = document.createElement('div');
+    instructions.id = 'instructions';
+    instructions.textContent = data.messages.instructions;
+    body.appendChild(instructions);
 
-    const gameInfo = createElement('div', { id: 'game-info' });
-    ['lives', 'cash'].forEach(id =>
-        createElement('div', { id, classList: ['info-box', 'neutral'] }, gameInfo)
+    const gameInfo = document.createElement('div');
+    gameInfo.id = 'game-info';
+
+    const livesBox = document.createElement('div');
+    livesBox.id = 'lives';
+    livesBox.classList.add('info-box', 'neutral');
+    gameInfo.appendChild(livesBox);
+
+    const cashBox = document.createElement('div');
+    cashBox.id = 'cash';
+    cashBox.classList.add('info-box', 'neutral');
+    gameInfo.appendChild(cashBox);
+
+    body.appendChild(gameInfo);
+
+    const messageBox = document.createElement('div');
+    messageBox.id = 'message';
+    messageBox.classList.add('info-box');
+    body.appendChild(messageBox);
+
+    const timerBox = document.createElement('div');
+    timerBox.id = 'timer';
+    timerBox.classList.add('info-box', 'neutral');
+    body.appendChild(timerBox);
+
+    const letterDetailsBox = document.createElement('div');
+    letterDetailsBox.id = 'letter-details';
+    letterDetailsBox.classList.add('info-box', 'neutral');
+    body.appendChild(letterDetailsBox);
+
+    const gridContainer = document.createElement('div');
+    gridContainer.id = 'zipcode-grid';
+    gridContainer.classList.add('grid-container');
+    body.appendChild(gridContainer);
+
+    // const restartButton = document.createElement('button');
+    // restartButton.textContent = 'RESTART';
+    // restartButton.addEventListener('click', () => location.reload());
+    // body.appendChild(restartButton);
+
+    [...new Set(data.addresses.map(({ sortAs }) => sortAs))].forEach(sortAs =>
+        gridContainer.appendChild(createGridItem(sortAs))
     );
-
-    ['message', 'timer', 'letter-details'].forEach(id =>
-        createElement('div', { id, classList: id === 'message' ? ['info-box'] : ['info-box', 'neutral'] })
-    );
-
-    const gridContainer = createElement('div', { id: 'zipcode-grid', classList: ['grid-container'] });
-    //Restart button for debugging
-    // createElement('button', { text: 'RESTART' }, body).addEventListener('click', () => location.reload());
-
-    [...new Set(data.addresses.map(({ sortAs }) => sortAs))]
-        .forEach(sortAs => gridContainer.appendChild(createGridItem(sortAs)));
 }
-
 
 function createGridItem(labelText) {
     const gridItem = document.createElement('button');
