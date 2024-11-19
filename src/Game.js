@@ -190,7 +190,8 @@ function graphics() {
     );
 
     const gridContainer = createElement('div', { id: 'zipcode-grid', classList: ['grid-container'] });
-    createElement('button', { text: 'RESTART' }, body).addEventListener('click', () => location.reload());
+    //Restart button for debugging
+    // createElement('button', { text: 'RESTART' }, body).addEventListener('click', () => location.reload());
 
     [...new Set(data.addresses.map(({ sortAs }) => sortAs))]
         .forEach(sortAs => gridContainer.appendChild(createGridItem(sortAs)));
