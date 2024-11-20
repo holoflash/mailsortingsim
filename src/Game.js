@@ -12,11 +12,11 @@ const sounds = {
 const gameSettings = {
     cash: 0,
     level: 1,
-    maxLevel: 9,
-    lives: 3,
-    levelMultiplier: 40,
+    maxLevel: Object.entries(data.addresses).length,
+    lives: 10,
+    levelMultiplier: 15,
     baseCashReward: 5,
-    initialTime: 15,
+    initialTime: 20,
     timeBonus: 3,
 };
 
@@ -64,12 +64,14 @@ function checkAnswer(userInput) {
         sounds.correct.play();
         gameSettings.cash += cashReward;
         timeRemaining += timeBonus;
+        displayMessage(data.messages[messageKey] + ` +$${cashReward}`, 'info-box success');
     } else {
         sounds.mistake.play();
+        // Show the correct answer when incorrect
         gameSettings.lives--;
+        displayMessage(`Correct answer was: ${currentLetter.sortAs}`, 'info-box warning');
     }
 
-    displayMessage(data.messages[messageKey] + (isCorrect ? ` +$${cashReward}` : ''), isCorrect ? 'info-box success' : 'info-box warning');
     updateHUD();
 
     if (gameSettings.lives <= 0) return endGame('lives');
@@ -80,6 +82,7 @@ function checkAnswer(userInput) {
     generateNextLetter();
 }
 
+
 function handleLevelUp() {
     if (gameSettings.level > gameSettings.maxLevel) {
         return
@@ -89,7 +92,7 @@ function handleLevelUp() {
     gameSettings.level++;
 
     if (gameSettings.level == gameSettings.maxLevel) {
-        showDialog(data.messages.level9Dialog);
+        showDialog(data.messages.level14Dialog);
     } else {
         const levelDialog = data.messages[`level${gameSettings.level}Dialog`];
         if (levelDialog) {
