@@ -12,11 +12,12 @@ const sounds = {
 const gameSettings = {
     cash: 0,
     level: 1,
+    maxLevel: 9,
     lives: 3,
-    levelMultiplier: 20,
+    levelMultiplier: 40,
     baseCashReward: 5,
-    initialTime: 10,
-    timeBonus: 2,
+    initialTime: 15,
+    timeBonus: 3,
 };
 
 let timer = null;
@@ -73,20 +74,27 @@ function checkAnswer(userInput) {
 
     if (gameSettings.lives <= 0) return endGame('lives');
     if (gameSettings.cash >= gameSettings.level * levelMultiplier) {
-        handleLevelUp(); // Call the new level-up function
+        handleLevelUp();
     }
 
     generateNextLetter();
 }
 
 function handleLevelUp() {
+    if (gameSettings.level > gameSettings.maxLevel) {
+        return
+    }
+    console.log(gameSettings.level)
     sounds.coins.play();
     gameSettings.level++;
 
-    const levelDialog = data.messages[`level${gameSettings.level}Dialog`];
-
-    if (levelDialog) {
-        showDialog(levelDialog);
+    if (gameSettings.level == gameSettings.maxLevel) {
+        showDialog(data.messages.level9Dialog);
+    } else {
+        const levelDialog = data.messages[`level${gameSettings.level}Dialog`];
+        if (levelDialog) {
+            showDialog(levelDialog);
+        }
     }
 
     firstLetterForNewLevel = true;
@@ -97,83 +105,52 @@ let firstLetterForNewLevel = true;
 
 function generateNextLetter() {
     const availableAddresses = [];
-    const maxImplementedLevel = 6; // Adjust this to the number of implemented levels
-    const isFinalLevel = gameSettings.level > maxImplementedLevel;
 
-    // If we are in the final level, gather all previous level addresses
-    if (isFinalLevel) {
-        // Randomly decide whether to generate the special letter (20% chance)
-        const generateSpecialLetter = Math.random() < 0.2;
-
-        if (generateSpecialLetter) {
-            // Generate a special letter with one field replaced by "???"
-            const randomLetter = {
-                firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
-                lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
-                street: `${data.firstNames[Math.floor(Math.random() * data.firstNames.length)]} ${Math.floor(Math.random() * 1000) + 1}`,
-                zipCode: `ZIP-${Math.floor(Math.random() * 10000)}`,
-                county: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
-                city: `City-${Math.floor(Math.random() * 100)}`,
-                country: "Countryland",
-                sortAs: "BIN"
-            };
-
-            // Pick one property to replace with "???"
-            const fields = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"];
-            const fieldToReplace = fields[Math.floor(Math.random() * fields.length)];
-            randomLetter[fieldToReplace] = "???";
-
-            currentLetter = randomLetter;
-        } else {
-            // For final level, gather all addresses from the previous levels
-            for (let i = 1; i <= maxImplementedLevel; i++) {
-                availableAddresses.push(...data.addresses[`Level ${i}`]);
-            }
-
-            const addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
-
-            const streetName = addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].replace("##", "").trim();
-            const formattedStreet = streetName.includes("##")
-                ? streetName
-                : `${streetName} ${Math.floor(Math.random() * 1000) + 1}`;
-
-            currentLetter = {
-                firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
-                lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
-                street: formattedStreet,
-                ...addressInfo,
-            };
-        }
+    if (firstLetterForNewLevel && gameSettings.level < gameSettings.maxLevel) {
+        availableAddresses.push(...data.addresses[`Level ${gameSettings.level}`]);
+        firstLetterForNewLevel = false;
     } else {
-        // For levels 1 through 6, generate a regular letter
-        if (firstLetterForNewLevel) {
-            availableAddresses.push(...data.addresses[`Level ${gameSettings.level}`]);
-            firstLetterForNewLevel = false;
-        } else {
-            for (let i = 1; i <= gameSettings.level; i++) {
-                availableAddresses.push(...data.addresses[`Level ${i}`]);
-            }
+        const maxLevelToConsider = Math.min(gameSettings.level, gameSettings.maxLevel);
+        for (let i = 1; i <= maxLevelToConsider; i++) {
+            availableAddresses.push(...data.addresses[`Level ${i}`]);
         }
-
-        const addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
-
-        const streetName = addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].replace("##", "").trim();
-        const formattedStreet = streetName.includes("##")
-            ? streetName
-            : `${streetName} ${Math.floor(Math.random() * 1000) + 1}`;
-
-        currentLetter = {
-            firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
-            lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
-            street: formattedStreet,
-            ...addressInfo,
-        };
     }
 
+    const addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
+
+    let city = `${addressInfo.city},`;
+    let country = addressInfo.country;
+
+    currentLetter = {
+        firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
+        lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
+        street: `${addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].trim()} ${Math.floor(Math.random() * 1000) + 1}`,
+        zipCode: addressInfo.zipCode,
+        county: addressInfo.county,
+        city: city,
+        country: country,
+        sortAs: addressInfo.sortAs,
+    };
+
+    if (gameSettings.level >= gameSettings.maxLevel) {
+        if (Math.random() < 0.5) {
+            const fields = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"];
+            const fieldToOmit = fields[Math.floor(Math.random() * fields.length)];
+            currentLetter[fieldToOmit] = "";
+            currentLetter.sortAs = "BIN";
+
+            if (fieldToOmit === "country") {
+                country = "";
+                city = addressInfo.city;
+            }
+        }
+    }
+
+    currentLetter.city = city;
+
+    console.log(currentLetter.sortAs);
     displayLetterDetails(currentLetter);
 }
-
-
 
 
 function displayLetterDetails(letter) {
@@ -182,7 +159,7 @@ function displayLetterDetails(letter) {
 
     const createInfoLine = (value, className = "") => {
         const line = document.createElement('p');
-        line.textContent = value || "—"; // Display "—" for missing details
+        line.textContent = value;
         if (className) line.classList.add(className);
         return line;
     };
@@ -191,12 +168,11 @@ function displayLetterDetails(letter) {
     letterContainer.classList.add('letter-container');
     letterContainer.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`.trim(), 'letter-name'));
     letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
-    letterContainer.appendChild(createInfoLine(`${letter.zipCode || "Unknown ZIP"} ${letter.county}`.trim(), 'letter-zip-county'));
-    letterContainer.appendChild(createInfoLine(`${letter.city}, ${letter.country}`.trim(), 'letter-location'));
+    letterContainer.appendChild(createInfoLine(`${letter.zipCode} ${letter.county}`.trim(), 'letter-zip-county'));
+    letterContainer.appendChild(createInfoLine(`${letter.city} ${letter.country}`.trim(), 'letter-location'));
 
     letterDetailsDisplay.appendChild(letterContainer);
 }
-
 
 function graphics() {
     const body = document.body;
@@ -281,7 +257,6 @@ function showDialog(message) {
     dialog.showModal();
 }
 
-
 function renderGrid() {
     let gridContainer = document.getElementById('zipcode-grid');
 
@@ -312,8 +287,6 @@ function renderGrid() {
 
     setupGridItemListeners();
 }
-
-
 
 function createGridItem(labelText) {
     const gridItem = document.createElement('button');
