@@ -141,13 +141,43 @@ button:hover {
     align-items: center;
 }
 
-.cash-button {
-    background: linear-gradient(145deg, #2d7f3a, #4b9e6b);
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: 2px solid #1b5e20;
+dialog {
+    display: flex;
+    flex-direction: column;
+    background-color: #34495e;
+    color: #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    font-size: 15px;
+    font-family: monospace;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dialog-button {
+    font-family: "Press Start 2P", sans-serif;
+    font-size: 0.8em;
+    background-color: #4a69bd;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 10px 20px;
     cursor: pointer;
+    margin: 5px;
+    transition: background-color 0.3s;
+}
+
+.dialog-button:hover {
+    background-color: #82ccdd;
+}
+
+.action-button {
+    background-color: #4caf50;
+}
+
+.cancel-button {
+    background-color: #e74c3c;
 }
