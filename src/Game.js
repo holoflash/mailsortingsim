@@ -15,7 +15,7 @@ const gameSettings = {
     lives: 5,
     initialCashReward: 5,
     initialTime: 20,
-    timeBonus: 3,
+    timeBonus: 2,
 };
 
 const requiredCashForLevel = {
