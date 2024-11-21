@@ -6,18 +6,31 @@ const sounds = {
     mistake: new Audio('../src/sounds/mistake.mp3'),
     fired: new Audio('../src/sounds/fired.mp3'),
     letterHandling: new Audio('../src/sounds/letterHandling.mp3'),
-    caughtStealing: new Audio('../src/sounds/caughtStealing.mp3'),
 };
 
 const gameSettings = {
     cash: 0,
     level: 1,
     maxLevel: Object.entries(data.addresses).length,
-    lives: 10,
-    levelMultiplier: 15,
-    baseCashReward: 5,
+    lives: 5,
+    initialCashReward: 10,
     initialTime: 20,
     timeBonus: 3,
+};
+
+const requiredCashForLevel = {
+    1: 50,
+    2: 100,
+    3: 150,
+    4: 200,
+    5: 250,
+    6: 300,
+    7: 350,
+    8: 400,
+    9: 450,
+    10: 500,
+    11: 550,
+    12: 600,
 };
 
 let timer = null;
@@ -38,7 +51,6 @@ function startGame() {
     showDialog(data.messages.level1Dialog);
 }
 
-
 function endGame(reason) {
     sounds.fired.play();
     clearInterval(timer);
@@ -47,7 +59,7 @@ function endGame(reason) {
 
     const message = {
         time: data.messages.firedOutOfTimeMessage,
-        lives: data.messages.firedMistakesMessage,
+        lives: data.messages.firedMistakesMessage + " " + data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs),
     }[reason];
 
     displayMessage(message, 'info-box warning');
@@ -55,44 +67,42 @@ function endGame(reason) {
 }
 
 function checkAnswer(userInput) {
-    const { baseCashReward, levelMultiplier, timeBonus } = gameSettings;
-    const cashReward = baseCashReward;
+    const { timeBonus, initialCashReward } = gameSettings;
+
     const isCorrect = userInput === currentLetter.sortAs;
-    const messageKey = isCorrect ? 'correctMessage' : 'incorrectMessage';
 
     if (isCorrect) {
         sounds.correct.play();
-        gameSettings.cash += cashReward;
+        sounds.coins.play();
+        gameSettings.cash += initialCashReward; // Using fixed cash reward
         timeRemaining += timeBonus;
-        displayMessage(data.messages[messageKey] + ` +$${cashReward}`, 'info-box success');
+        displayMessage(data.messages.correctMessage + ` +$${initialCashReward}`, 'info-box success');
     } else {
         sounds.mistake.play();
-        // Show the correct answer when incorrect
         gameSettings.lives--;
-        displayMessage(`Correct answer was: ${currentLetter.sortAs}`, 'info-box warning');
+        displayMessage(data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs), 'info-box warning');
     }
-
     updateHUD();
 
     if (gameSettings.lives <= 0) return endGame('lives');
-    if (gameSettings.cash >= gameSettings.level * levelMultiplier) {
+
+    const requiredCash = requiredCashForLevel[gameSettings.level];
+    console.log(requiredCash);
+    if (gameSettings.cash >= requiredCash) {
         handleLevelUp();
     }
 
     generateNextLetter();
 }
 
-
 function handleLevelUp() {
     if (gameSettings.level > gameSettings.maxLevel) {
-        return
+        return;
     }
-    console.log(gameSettings.level)
-    sounds.coins.play();
     gameSettings.level++;
 
     if (gameSettings.level == gameSettings.maxLevel) {
-        showDialog(data.messages.level14Dialog);
+        showDialog(data.messages.lastLevelDialog);
     } else {
         const levelDialog = data.messages[`level${gameSettings.level}Dialog`];
         if (levelDialog) {
@@ -103,7 +113,6 @@ function handleLevelUp() {
     firstLetterForNewLevel = true;
     renderGrid();
 }
-
 let firstLetterForNewLevel = true;
 
 function generateNextLetter() {
@@ -150,11 +159,8 @@ function generateNextLetter() {
     }
 
     currentLetter.city = city;
-
-    console.log(currentLetter.sortAs);
     displayLetterDetails(currentLetter);
 }
-
 
 function displayLetterDetails(letter) {
     const letterDetailsDisplay = document.getElementById('letter-details');
@@ -188,7 +194,6 @@ function graphics() {
 
     const instructions = document.createElement('div');
     instructions.id = 'instructions';
-    instructions.textContent = data.messages.instructions;
     body.appendChild(instructions);
 
     const gameInfo = document.createElement('div');
@@ -228,6 +233,7 @@ function showDialog(message) {
     const dialog = document.createElement('dialog');
     const dialogMessage = document.createElement('p');
     const okButton = document.createElement('button');
+    sounds.letterHandling.play();
 
     dialogMessage.textContent = message;
     okButton.textContent = "OK";

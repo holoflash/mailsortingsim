@@ -14,18 +14,20 @@ body {
     text-align: center;
     color: #f4d03f;
     text-shadow: 2px 2px #333;
-    padding: 10px;
     margin-bottom: 10px;
+    padding: 5px;
     border-bottom: 2px solid #ffffff;
 }
 
 #instructions {
     font-family: monospace;
-    font-size: 0.8em;
-    text-align: center;
+    font-size: 0.7em;
+    padding: 0;
+    margin: 0;
 }
 
 #game-info {
+    margin-top: 10px;
     display: grid;
     grid-template-columns: auto auto auto;
     background-color: #577590;
@@ -129,10 +131,6 @@ button:hover {
 #cash,
 #timer {
     font-size: 0.6rem;
-}
-
-* {
-    image-rendering: pixelated;
 }
 
 #lives {
