@@ -10,11 +10,11 @@ const sounds = {
 
 const gameSettings = {
     cash: 0,
-    level: 13,
+    level: 1,
     maxLevel: Object.entries(data.addresses).length,
-    lives: 5,
+    lives: 10,
     initialCashReward: 5,
-    initialTime: 20,
+    initialTime: 10,
     timeBonus: 3,
 };
 
