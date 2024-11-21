@@ -14,8 +14,8 @@ const gameSettings = {
     maxLevel: Object.entries(data.addresses).length,
     lives: 5,
     initialCashReward: 5,
-    initialTime: 10,
-    timeBonus: 2,
+    initialTime: 20,
+    timeBonus: 3,
 };
 
 const requiredCashForLevel = {
