@@ -10,7 +10,7 @@ const sounds = {
 
 const gameSettings = {
     cash: 0,
-    level: 1,
+    level: 13,
     maxLevel: Object.entries(data.addresses).length,
     lives: 5,
     initialCashReward: 5,
@@ -32,7 +32,6 @@ const requiredCashForLevel = {
     11: 1100,
     12: 1260,
 };
-
 
 let timer = null;
 let timeRemaining = 0;
@@ -69,7 +68,6 @@ function endGame(reason) {
 
 function checkAnswer(userInput) {
     const { timeBonus, initialCashReward } = gameSettings;
-
     const isCorrect = userInput === currentLetter.sortAs;
 
     if (isCorrect) {
@@ -84,11 +82,8 @@ function checkAnswer(userInput) {
         displayMessage(data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs), 'info-box warning');
     }
     updateHUD();
-
     if (gameSettings.lives <= 0) return endGame('lives');
-
     const requiredCash = requiredCashForLevel[gameSettings.level];
-    console.log(requiredCash);
     if (gameSettings.cash >= requiredCash) {
         handleLevelUp();
     }
@@ -114,6 +109,7 @@ function handleLevelUp() {
     firstLetterForNewLevel = true;
     renderGrid();
 }
+
 let firstLetterForNewLevel = true;
 
 function generateNextLetter() {
@@ -158,7 +154,6 @@ function generateNextLetter() {
             }
         }
     }
-
     currentLetter.city = city;
     displayLetterDetails(currentLetter);
 }
@@ -180,7 +175,6 @@ function displayLetterDetails(letter) {
     letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
     letterContainer.appendChild(createInfoLine(`${letter.zipCode} ${letter.county}`.trim(), 'letter-zip-county'));
     letterContainer.appendChild(createInfoLine(`${letter.city} ${letter.country}`.trim(), 'letter-location'));
-
     letterDetailsDisplay.appendChild(letterContainer);
 }
 
@@ -290,7 +284,6 @@ function renderGrid() {
             )
         )
     ];
-
     uniqueSortAsValues.forEach(sortAs =>
         gridContainer.appendChild(createGridItem(sortAs))
     );
