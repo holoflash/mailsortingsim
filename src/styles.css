@@ -54,7 +54,7 @@ body {
 }
 
 #letter-details {
-    font-size: 0.7em;
+    font-size: 9px;
     background-color: #1f4068;
     padding: 10px;
 }
@@ -95,19 +95,15 @@ body {
     border: 1px solid #ffffff;
     color: #ffffff;
     text-align: center;
-    font-size: 0.6em;
+    font-size: 8px;
     cursor: pointer;
     margin: 0;
-    flex: 1 1 calc(25% - 2px);
+    flex: 1 1 calc(25% - 10px);
     box-sizing: border-box;
 }
 
 .grid-item-number {
     background-color: #7954a9;
-}
-
-.grid-item:hover {
-    background-color: #82ccdd;
 }
 
 button {
@@ -120,11 +116,14 @@ button {
     cursor: pointer;
     margin: 20px auto 0;
     display: block;
-    transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #82ccdd;
+@media (hover: hover) {
+
+    button:hover,
+    .grid-item:hover {
+        background-color: #82ccdd;
+    }
 }
 
 #lives,
@@ -148,7 +147,7 @@ dialog {
     border-radius: 8px;
     width: 300px;
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     font-family: monospace;
 }
 
@@ -170,12 +169,4 @@ dialog::backdrop {
 
 .dialog-button:hover {
     background-color: #82ccdd;
-}
-
-.action-button {
-    background-color: #4caf50;
-}
-
-.cancel-button {
-    background-color: #e74c3c;
 }

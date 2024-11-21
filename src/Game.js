@@ -13,25 +13,26 @@ const gameSettings = {
     level: 1,
     maxLevel: Object.entries(data.addresses).length,
     lives: 5,
-    initialCashReward: 10,
+    initialCashReward: 5,
     initialTime: 20,
     timeBonus: 3,
 };
 
 const requiredCashForLevel = {
     1: 50,
-    2: 100,
-    3: 150,
-    4: 200,
-    5: 250,
-    6: 300,
-    7: 350,
-    8: 400,
-    9: 450,
-    10: 500,
-    11: 550,
-    12: 600,
+    2: 110,
+    3: 180,
+    4: 260,
+    5: 350,
+    6: 450,
+    7: 560,
+    8: 680,
+    9: 810,
+    10: 950,
+    11: 1100,
+    12: 1260,
 };
+
 
 let timer = null;
 let timeRemaining = 0;
