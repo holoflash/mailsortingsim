@@ -13,7 +13,7 @@ const gameSettings = {
     level: 1,
     maxLevel: Object.entries(data.addresses).length,
     lives: 5,
-    initialCashReward: 5,
+    initialCashReward: 7,
     initialTime: 20,
     timeBonus: 2,
 };
@@ -36,6 +36,10 @@ const requiredCashForLevel = {
 let timer = null;
 let timeRemaining = 0;
 let currentLetter = null;
+let firstLetterForNewLevel = true;
+let lastAddressInfo = null;
+let timerPaused = false;
+let firstLetterAtMaxLevel = true;
 
 function startGame() {
     timeRemaining = gameSettings.initialTime;
@@ -48,6 +52,7 @@ function startGame() {
         if (--timeRemaining <= 0) endGame('time');
         updateHUD();
     }, 1000);
+
     showDialog(data.messages.level1Dialog);
 }
 
@@ -110,53 +115,57 @@ function handleLevelUp() {
     renderGrid();
 }
 
-let firstLetterForNewLevel = true;
-
 function generateNextLetter() {
     const availableAddresses = [];
-
+    const maxLevelToConsider = Math.min(gameSettings.level, gameSettings.maxLevel);
     if (firstLetterForNewLevel && gameSettings.level < gameSettings.maxLevel) {
         availableAddresses.push(...data.addresses[`Level ${gameSettings.level}`]);
         firstLetterForNewLevel = false;
     } else {
-        const maxLevelToConsider = Math.min(gameSettings.level, gameSettings.maxLevel);
         for (let i = 1; i <= maxLevelToConsider; i++) {
             availableAddresses.push(...data.addresses[`Level ${i}`]);
         }
     }
 
-    const addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
+    let addressInfo;
+    do {
+        addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
+    } while (addressInfo === lastAddressInfo);
+    lastAddressInfo = addressInfo;
 
-    let city = `${addressInfo.city},`;
-    let country = addressInfo.country;
+    const city = `${addressInfo.city},`;
+    const country = addressInfo.country;
+    const street = `${addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].trim()} ${Math.floor(Math.random() * 1000) + 1}`;
 
     currentLetter = {
         firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
         lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
-        street: `${addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].trim()} ${Math.floor(Math.random() * 1000) + 1}`,
+        street,
         zipCode: addressInfo.zipCode,
         county: addressInfo.county,
-        city: city,
-        country: country,
+        city,
+        country,
         sortAs: addressInfo.sortAs,
     };
 
-    if (gameSettings.level >= gameSettings.maxLevel) {
-        if (Math.random() < 0.5) {
-            const fields = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"];
-            const fieldToOmit = fields[Math.floor(Math.random() * fields.length)];
-            currentLetter[fieldToOmit] = "";
-            currentLetter.sortAs = "BIN";
+    // If max level is reached and it's the first letter, omit a field
+    if (gameSettings.level >= gameSettings.maxLevel && firstLetterAtMaxLevel) {
+        const fieldToOmit = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"][Math.floor(Math.random() * 7)];
+        currentLetter[fieldToOmit] = "";
+        currentLetter.sortAs = "BIN";
 
-            if (fieldToOmit === "country") {
-                country = "";
-                city = addressInfo.city;
-            }
+        if (fieldToOmit === "country") {
+            currentLetter.city = addressInfo.city;
+            currentLetter.country = "";
         }
+
+        // Mark that we've handled the first letter at max level
+        firstLetterAtMaxLevel = false;
     }
-    currentLetter.city = city;
+
     displayLetterDetails(currentLetter);
 }
+
 
 function displayLetterDetails(letter) {
     const letterDetailsDisplay = document.getElementById('letter-details');
@@ -221,8 +230,6 @@ function graphics() {
     letterDetailsBox.classList.add('info-box', 'neutral');
     body.appendChild(letterDetailsBox);
 }
-
-let timerPaused = false;
 
 function showDialog(message) {
     const dialog = document.createElement('dialog');

@@ -25,8 +25,8 @@ export const messages = {
 
     startGame: "Start sorting!",
 
-    level1Dialog: "Welcome to the post office! 🎉 Sort letters addressed to Stockholm by the last two digits in the zip code. More instructions will follow soon! 📮",
-    level2Dialog: "Now, sort other Swedish cities 🇸🇪 into the SE box. Easy, right?",
+    level1Dialog: "Welcome to the post office! 🎉 Sort the letters by the last two digits of the zipcode. Place the letter in the box that matches those digits. 📮 More instructions will follow soon!",
+    level2Dialog: "Great job on Stockholm! 🎉 Now, you'll also need to sort letters for other cities in Sweden 🇸🇪. Look at the city name on the letter. If it's not Stockholm, sort it into the 'SE' box! 📨",
     level3Dialog: "We're adding the other Nordic countries now 🏔️. Sort Denmark, Norway, Finland, Iceland into the NORD box! 🌍",
     level4Dialog: "Let's get global! 🌐 Sort letters from other European countries into the EUR box. 🇪🇺",
     level5Dialog: "Time to get fancy! 🇬🇧 Sort all letters from the British Isles (UK & Ireland) into the UK-I box. God save the postman! 📬",
@@ -54,7 +54,6 @@ export const messages = {
 export const addresses = {
     "Level 1": [
         { zipCode: "182 20", county: "Danderyd", streets: ["Danderyds Torg", "Bergsängsvägen", "Högberga Allé"], city: "Stockholm", country: "Sweden", sortAs: "20" },
-
         { zipCode: "143 23", county: "Vårby", streets: ["Vårby Gårdsvägen", "Vårby Allé", "Bäckvägen"], city: "Stockholm", country: "Sweden", sortAs: "23" },
         { zipCode: "197 27", county: "Ekerö", streets: ["Ekerö Centrum", "Strandvägen", "Ekerö Torg"], city: "Stockholm", country: "Sweden", sortAs: "27" },
         { zipCode: "198 28", county: "Järfälla", streets: ["Järfälla Centrum", "Järfällagatan", "Rissne"], city: "Stockholm", country: "Sweden", sortAs: "28" },
@@ -72,7 +71,6 @@ export const addresses = {
         { zipCode: "145 83", county: "Tumba", streets: ["Tumbavägen", "Gröndalsvägen", "Lilla Tumba"], city: "Stockholm", country: "Sweden", sortAs: "83" },
         { zipCode: "137 91", county: "Västerhaninge", streets: ["Västerbyvägen", "Lilla Skogsvägen", "Kungshällagatan"], city: "Stockholm", country: "Sweden", sortAs: "91" },
     ],
-
 
     "Level 2": [
         { zipCode: "753 10", county: "Uppsala", streets: ["Stora Torget", "Dragarbrunnsgatan", "Sankt Olofsgatan"], city: "Uppsala", country: "Sweden", sortAs: "SE" },
@@ -133,14 +131,7 @@ export const addresses = {
         { zipCode: "5000", county: "Vilnius", streets: ["Gedimino prospektas", "Vilniaus katedra", "Pilies gatvė"], city: "Vilnius", country: "Lithuania", sortAs: "EUR" },
         { zipCode: "5430", county: "Kaunas", streets: ["Laisvės alėja", "Kauno pilis", "Maironio gatvė"], city: "Kaunas", country: "Lithuania", sortAs: "EUR" },
         { zipCode: "6110", county: "Klaipėda", streets: ["Tiltų gatvė", "Klaipėdos senamiestis", "Herkaus Manto gatvė"], city: "Klaipėda", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "6000", county: "Šiauliai", streets: ["Aušros alėja", "Vilniaus gatvė", "Šiaulių katedra"], city: "Šiauliai", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "3500", county: "Panevėžys", streets: ["Laisvės aikštė", "Panevėžio katedra", "Ramybės gatvė"], city: "Panevėžys", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "8000", county: "Alytus", streets: ["Jotvingių gatvė", "Neries gatvė", "Dainavos rajonas"], city: "Alytus", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "35100", county: "Marijampolė", streets: ["Vytauto gatvė", "Katedros aikštė", "Pasaulio gatvė"], city: "Marijampolė", country: "Lithuania", sortAs: "EUR" },
         { zipCode: "7110", county: "Mažeikiai", streets: ["Draugystės gatvė", "Vilniaus gatvė", "Žemaitijos gatvė"], city: "Mažeikiai", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "9210", county: "Tauragė", streets: ["Vytauto gatvė", "Tauragės pilis", "Jūros gatvė"], city: "Tauragė", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "7600", county: "Jonava", streets: ["Alytaus gatvė", "Kauno gatvė", "Jonava Market"], city: "Jonava", country: "Lithuania", sortAs: "EUR" },
-        { zipCode: "3700", county: "Utena", streets: ["Utenos miesto aikštė", "Vilniaus gatvė", "Aukštakalnio gatvė"], city: "Utena", country: "Lithuania", sortAs: "EUR" },
         { zipCode: "1001", county: "Tirana", streets: ["Rruga e Durrësit", "Rruga Myslym Shyri", "Bulevardi Zogu I"], city: "Tirana", country: "Albania", sortAs: "EUR" },
         { zipCode: "AD500", county: "Andorra la Vella Parish", streets: ["Avinguda Meritxell", "Carrer de la Unió", "Carrer Prat de la Creu"], city: "Andorra la Vella", country: "Andorra", sortAs: "EUR" },
         { zipCode: "0010", county: "Yerevan", streets: ["Mashtots Avenue", "Tigran Mets Avenue", "Northern Avenue"], city: "Yerevan", country: "Armenia", sortAs: "EUR" },
@@ -157,22 +148,11 @@ export const addresses = {
         { zipCode: "0101", county: "Tbilisi (European Georgia)", streets: ["Rustaveli Avenue", "Chavchavadze Avenue", "Agmashenebeli Avenue"], city: "Tbilisi", country: "Georgia", sortAs: "EUR" },
         { zipCode: "10115", county: "Berlin", streets: ["Unter den Linden", "Kurfürstendamm", "Friedrichstraße"], city: "Berlin", country: "Germany", sortAs: "EUR" },
         { zipCode: "10552", county: "Athens", streets: ["Ermou Street", "Panepistimiou Street", "Adrianou Street"], city: "Athens", country: "Greece", sortAs: "EUR" },
-        { zipCode: "84100", county: "Cyclades", streets: ["Apollonias Street", "Platis Gialos", "Fira"], city: "Mykonos", country: "Greece", sortAs: "EUR" },
         { zipCode: "84700", county: "Cyclades", streets: ["Kamari Beach", "Perissa Beach", "Fira"], city: "Santorini", country: "Greece", sortAs: "EUR" },
         { zipCode: "72053", county: "Crete", streets: ["El. Venizelou", "Kornarou Square", "Platanias"], city: "Heraklion", country: "Greece", sortAs: "EUR" },
         { zipCode: "73100", county: "Crete", streets: ["Kalamaki", "Mitropoleos", "Nea Chora"], city: "Chania", country: "Greece", sortAs: "EUR" },
         { zipCode: "85100", county: "Dodecanese", streets: ["Mandraki", "Hippocrates Square", "Evdoxou"], city: "Rhodes", country: "Greece", sortAs: "EUR" },
-        { zipCode: "89100", county: "Ionian Islands", streets: ["Paleokastritsa", "Gouvia", "Corfu Town"], city: "Corfu", country: "Greece", sortAs: "EUR" },
-        { zipCode: "84001", county: "Cyclades", streets: ["Parikia", "Naoussa", "Piso Livadi"], city: "Paros", country: "Greece", sortAs: "EUR" },
-        { zipCode: "82100", county: "North Aegean", streets: ["Mytilene", "Eftalou", "Pyrgos"], city: "Lesbos", country: "Greece", sortAs: "EUR" },
-        { zipCode: "63077", county: "Central Macedonia", streets: ["Halkidiki", "Nea Moudania", "Kallithea"], city: "Kassandra", country: "Greece", sortAs: "EUR" },
-        { zipCode: "19016", county: "Attica", streets: ["Kephisos", "Porto Rafti", "Markopoulo"], city: "Evia", country: "Greece", sortAs: "EUR" },
-        { zipCode: "30000", county: "Ionian Islands", streets: ["Lefkada Town", "Nidri", "Vassiliki"], city: "Lefkada", country: "Greece", sortAs: "EUR" },
-        { zipCode: "85200", county: "Cyclades", streets: ["Tinos Town", "Pyrgos", "Panormos"], city: "Tinos", country: "Greece", sortAs: "EUR" },
         { zipCode: "60100", county: "Thessaloniki", streets: ["Thessaloniki City Center", "Aristotelous Square", "Tsimiski"], city: "Thessaloniki", country: "Greece", sortAs: "EUR" },
-        { zipCode: "37002", county: "Magnesia", streets: ["Volos", "Pelion", "Makrinitsa"], city: "Skiathos", country: "Greece", sortAs: "EUR" },
-        { zipCode: "84900", county: "Cyclades", streets: ["Kea Town", "Korissia", "Vourkari"], city: "Kea", country: "Greece", sortAs: "EUR" },
-        { zipCode: "49084", county: "Ionian Islands", streets: ["Paleokastritsa", "Sidari", "Acharavi"], city: "Paxos", country: "Greece", sortAs: "EUR" },
         { zipCode: "1051", county: "Budapest", streets: ["Andrássy Avenue", "Váci Street", "Rákóczi Road"], city: "Budapest", country: "Hungary", sortAs: "EUR" },
         { zipCode: "00184", county: "Rome", streets: ["Via del Corso", "Via Veneto", "Via Condotti"], city: "Rome", country: "Italy", sortAs: "EUR" },
         { zipCode: "9490", county: "Vaduz", streets: ["Städtle", "Fürst-Franz-Josef-Strasse", "Herrengasse"], city: "Vaduz", country: "Liechtenstein", sortAs: "EUR" },
