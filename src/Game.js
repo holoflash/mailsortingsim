@@ -12,26 +12,42 @@ const gameSettings = {
     cash: 0,
     level: 1,
     maxLevel: Object.entries(data.addresses).length,
-    lives: 5,
-    initialCashReward: 7,
+    lives: 3,
+    initialCashReward: 5,
     initialTime: 20,
     timeBonus: 2,
 };
 
 const requiredCashForLevel = {
     1: 50,
-    2: 110,
-    3: 180,
-    4: 260,
-    5: 350,
-    6: 450,
-    7: 560,
-    8: 680,
-    9: 810,
-    10: 950,
-    11: 1100,
-    12: 1260,
+    2: 100,
+    3: 170,
+    4: 240,
+    5: 310,
+    6: 390,
+    7: 480,
+    8: 580,
+    9: 680,
+    10: 800,
+    11: 930,
+    12: 1070,
 };
+
+//DEBUG values
+// const requiredCashForLevel = {
+//     1: 5,
+//     2: 10,
+//     3: 15,
+//     4: 20,
+//     5: 25,
+//     6: 30,
+//     7: 35,
+//     8: 40,
+//     9: 45,
+//     10: 50,
+//     11: 55,
+//     12: 60,
+// };
 
 let timer = null;
 let timeRemaining = 0;
@@ -78,7 +94,7 @@ function checkAnswer(userInput) {
     if (isCorrect) {
         sounds.correct.play();
         sounds.coins.play();
-        gameSettings.cash += initialCashReward; // Using fixed cash reward
+        gameSettings.cash += initialCashReward;
         timeRemaining += timeBonus;
         displayMessage(data.messages.correctMessage + ` +$${initialCashReward}`, 'info-box success');
     } else {
@@ -88,6 +104,7 @@ function checkAnswer(userInput) {
     }
     updateHUD();
     if (gameSettings.lives <= 0) return endGame('lives');
+
     const requiredCash = requiredCashForLevel[gameSettings.level];
     if (gameSettings.cash >= requiredCash) {
         handleLevelUp();
@@ -100,7 +117,13 @@ function handleLevelUp() {
     if (gameSettings.level > gameSettings.maxLevel) {
         return;
     }
+
+    if (gameSettings.level > 8) {
+        gameSettings.lives++;
+    }
     gameSettings.level++;
+    displayMessage(data.messages.levelUp + gameSettings.level, 'info-box level-up');
+    updateHUD();
 
     if (gameSettings.level == gameSettings.maxLevel) {
         showDialog(data.messages.lastLevelDialog);
