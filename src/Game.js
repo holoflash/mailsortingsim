@@ -56,6 +56,7 @@ let firstLetterForNewLevel = true;
 let lastAddressInfo = null;
 let timerPaused = false;
 let firstLetterAtMaxLevel = true;
+let gameOver = false;
 
 function startGame() {
     timeRemaining = gameSettings.initialTime;
@@ -73,6 +74,7 @@ function startGame() {
 }
 
 function endGame(reason) {
+    gameOver = true;
     sounds.fired.play();
     clearInterval(timer);
     timeRemaining = 0;
@@ -343,9 +345,14 @@ function showDialog(message) {
     okButton.addEventListener('click', () => {
         dialog.close();
         document.body.removeChild(dialog);
-
-        if (gameSettings.lives == 0) {
-            location.reload();
+        if (gameOver) {
+            gameOver = false;
+            gameSettings.initialTime = 20;
+            timeRemaining = gameSettings.initialTime;
+            gameSettings.level = 1;
+            gameSettings.lives = 3;
+            gameSettings.cash = 0;
+            startGame()
         } else {
             if (timerPaused) {
                 timer = setInterval(() => {
