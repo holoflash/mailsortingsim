@@ -31,8 +31,6 @@ export const messages = {
     firedOutOfTimeMessage: "OH NO! You ran out of time! ⏰ Wanna try again? 🔄",
     firedMistakesMessage: "Whoops! You made too many mistakes! ❌ Wanna try again? 🔁",
 
-
-
     livesMessage: "Lives: {lives}",
     cashMessage: "Cash: ${cash}",
     timerMessage: "Time remaining: {time} seconds",

@@ -1,4 +1,4 @@
-const cacheName = 'pigeonholed-v1';
+const cacheName = 'pigeonholed-v1.1';
 const staticAssets = [
     './',
     './index.html',
@@ -12,6 +12,8 @@ const staticAssets = [
     './src/icons/apple-touch-icon.png',
     './src/maskable_icon_x192.png',
 
+    './src/art/pigeon.svg',
+
     './src/sounds/coins.mp3',
     './src/sounds/correct.mp3',
     './src/sounds/fired.mp3',
@@ -22,28 +24,17 @@ const staticAssets = [
     './src/fonts/PressStart2P-Regular.woff2',
 ];
 
-self.addEventListener('install', async (e) => {
+self.addEventListener('install', async e => {
     const cache = await caches.open(cacheName);
     await cache.addAll(staticAssets);
-    self.skipWaiting();
+    return self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-    e.waitUntil(
-        caches.keys().then((cacheNames) => {
-            return Promise.all(
-                cacheNames.map((cache) => {
-                    if (cache !== cacheName) {
-                        return caches.delete(cache);
-                    }
-                })
-            );
-        })
-    );
+self.addEventListener('activate', e => {
     self.clients.claim();
 });
 
-self.addEventListener('fetch', async (e) => {
+self.addEventListener('fetch', async e => {
     const req = e.request;
     const url = new URL(req.url);
 

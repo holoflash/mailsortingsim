@@ -321,20 +321,28 @@ function createGridItem(labelText) {
     return gridItem;
 }
 
-
 function showDialog(message) {
     const dialog = document.createElement('dialog');
+
+    const pigeonImage = document.createElement('img');
+    pigeonImage.src = './src/art/pigeon.svg';
+    pigeonImage.alt = 'Pigeon';
+
     const dialogMessage = document.createElement('p');
-    const okButton = document.createElement('button');
-
     dialogMessage.textContent = message;
-    okButton.textContent = "OK";
 
+    const okButton = document.createElement('button');
+    okButton.textContent = "OK";
     okButton.classList.add('dialog-button');
 
-    dialog.appendChild(dialogMessage);
-    dialog.appendChild(okButton);
+    const dialogContainer = document.createElement('div');
+    dialogContainer.classList.add('dialog-container');
 
+    dialogContainer.appendChild(pigeonImage);
+    dialogContainer.appendChild(dialogMessage);
+    dialogContainer.appendChild(okButton);
+
+    dialog.appendChild(dialogContainer);
     document.body.appendChild(dialog);
 
     if (timer) {
@@ -352,7 +360,7 @@ function showDialog(message) {
             gameSettings.level = 1;
             gameSettings.lives = 3;
             gameSettings.cash = 0;
-            startGame()
+            startGame();
         } else {
             if (timerPaused) {
                 timer = setInterval(() => {
@@ -366,7 +374,6 @@ function showDialog(message) {
 
     dialog.showModal();
 }
-
 
 function updateHUD() {
     document.getElementById('lives').textContent = data.messages.livesMessage.replace("{lives}", gameSettings.lives);
