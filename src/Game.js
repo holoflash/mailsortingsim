@@ -11,7 +11,7 @@ const sounds = {
 const gameSettings = {
     cash: 0,
     level: 1,
-    maxLevel: Object.entries(data.addresses).length,
+    maxLevel: 13,
     lives: 3,
     initialCashReward: 5,
     initialTime: 20,
@@ -33,7 +33,7 @@ const requiredCashForLevel = {
     12: 1070,
 };
 
-//DEBUG values
+// //DEBUG values
 // const requiredCashForLevel = {
 //     1: 5,
 //     2: 10,
@@ -69,7 +69,7 @@ function startGame() {
         updateHUD();
     }, 1000);
 
-    showDialog(data.messages.level1Dialog);
+    showDialog(data.messages[`level${gameSettings.level}Dialog`]);
 }
 
 function endGame(reason) {
@@ -121,17 +121,13 @@ function handleLevelUp() {
     if (gameSettings.level > 8) {
         gameSettings.lives++;
     }
+    sounds.letterHandling.play();
     gameSettings.level++;
     displayMessage(data.messages.levelUp + gameSettings.level, 'info-box level-up');
     updateHUD();
 
-    if (gameSettings.level == gameSettings.maxLevel) {
-        showDialog(data.messages.lastLevelDialog);
-    } else {
-        const levelDialog = data.messages[`level${gameSettings.level}Dialog`];
-        if (levelDialog) {
-            showDialog(levelDialog);
-        }
+    if (gameSettings.level) {
+        showDialog(data.messages[`level${gameSettings.level}Dialog`]);
     }
 
     firstLetterForNewLevel = true;
@@ -188,7 +184,6 @@ function generateNextLetter() {
 
     displayLetterDetails(currentLetter);
 }
-
 
 function displayLetterDetails(letter) {
     const letterDetailsDisplay = document.getElementById('letter-details');
@@ -258,7 +253,6 @@ function showDialog(message) {
     const dialog = document.createElement('dialog');
     const dialogMessage = document.createElement('p');
     const okButton = document.createElement('button');
-    sounds.letterHandling.play();
 
     dialogMessage.textContent = message;
     okButton.textContent = "OK";

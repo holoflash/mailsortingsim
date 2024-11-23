@@ -1,4 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@font-face {
+    font-family: 'Press Start 2P';
+    src: url('../src/fonts/PressStart2P-Regular.woff2') format('woff2'),
+        url('../src/fonts/PressStart2P-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 body {
     font-family: "Press Start 2P", sans-serif;
@@ -7,6 +14,7 @@ body {
     margin: 0 auto;
     padding: 10px;
     max-width: 500px;
+    overflow: hidden;
 }
 
 #header-title {
@@ -57,6 +65,7 @@ body {
     font-size: 9px;
     background-color: #1f4068;
     padding: 10px;
+
 }
 
 .letter-container {
@@ -74,14 +83,6 @@ body {
     font-weight: bold;
     font-size: 1.2em;
     color: #f4d03f;
-}
-
-.outgoing-warning {
-    color: #e74c3c;
-    text-align: center;
-    padding-top: 10px;
-    border-top: 1px solid #ffffff;
-    font-weight: bold;
 }
 
 .grid-container {
@@ -126,18 +127,6 @@ button {
     }
 }
 
-#lives,
-#cash,
-#timer {
-    font-size: 0.6rem;
-}
-
-#lives {
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-}
-
 dialog {
     display: flex;
     flex-direction: column;
@@ -147,12 +136,14 @@ dialog {
     border-radius: 8px;
     width: 300px;
     text-align: center;
+    align-items: center;
     font-size: 13px;
     font-family: monospace;
+    margin: auto;
 }
 
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .dialog-button {
@@ -167,6 +158,7 @@ dialog::backdrop {
     transition: background-color 0.3s;
 }
 
-.dialog-button:hover {
-    background-color: #82ccdd;
+.dialog-button:focus {
+    outline: 1px dashed #ffffff;
+    outline-offset: 4px;
 }

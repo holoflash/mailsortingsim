@@ -23,7 +23,7 @@ export const messages = {
     level10Dialog: "Central America time! 🌴 Sort cities from Guatemala, Costa Rica, Panama etc. into the C-AM box. Things are getting hard now so here's an extra life! 🌞",
     level11Dialog: "The Caribbean is calling! 🏖️ Sort cities from Jamaica, Cuba, Bahamas, and more into the CRBN box. Here's another extra life for you! 🌴",
     level12Dialog: "Oceania is next! 🏄‍♂️ Sort cities from Australia, New Zealand, and all the Polynesian islands into the OCN box. Time to ride the waves! And have another life on us 🌊",
-    lastLevelDialog: "Pay attention! If a letter is missing any details, it goes in the BIN box. This is the final level so take one last life and let's see how long you'll last! 🚮",
+    level13Dialog: "Pay attention! If a letter is missing any details, it goes in the BIN box. This is the final level so take one last life and let's see how long you'll last! 🚮",
 
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
