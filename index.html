@@ -21,7 +21,6 @@
     <link rel="icon" type="image/svg+xml" href="/src/icons/favicon.svg" />
     <link rel="shortcut icon" href="/src/icons/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/src/icons/apple-touch-icon.png" />
-
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="src/styles.css">
 </head>
@@ -29,19 +28,6 @@
 
 <body>
     <script type="module" src="src/Game.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .then(registration => {
-                        console.log('Service Worker registered with scope:', registration.scope);
-                    })
-                    .catch(registrationError => {
-                        console.error('Service Worker registration failed:', registrationError);
-                    });
-            });
-        }
-    </script>
 </body>
 
 </html>
