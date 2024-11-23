@@ -1,6 +1,7 @@
 {
   "name": "Pigeonholed",
   "short_name": "Pigeonholed",
+  "description": "Put your geographical skills to the test in Pigeonholed! Explore real-world locations, sort letters, and conquer progressively harder levels.",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",
@@ -17,6 +18,8 @@
   ],
   "start_url": "index.html",
   "display": "fullscreen",
+  "orientation": "portrait",
   "theme_color": "#8B9CB4",
-  "background_color": "#8B9CB4"
+  "background_color": "#8B9CB4",
+  "lang": "en"
 }

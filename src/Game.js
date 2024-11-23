@@ -80,12 +80,13 @@ function endGame(reason) {
 
     const message = {
         time: data.messages.firedOutOfTimeMessage,
-        lives: data.messages.firedMistakesMessage + " " + data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs),
+        lives: data.messages.firedMistakesMessage,
     }[reason];
 
-    displayMessage(message, 'info-box warning');
+    showDialog(message);
     disableGameButtons();
 }
+
 
 function checkAnswer(userInput) {
     const { timeBonus, initialCashReward } = gameSettings;
@@ -167,7 +168,6 @@ function generateNextLetter() {
         sortAs: addressInfo.sortAs,
     };
 
-    // If max level is reached and it's the first letter, omit a field
     if (gameSettings.level >= gameSettings.maxLevel && firstLetterAtMaxLevel) {
         const fieldToOmit = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"][Math.floor(Math.random() * 7)];
         currentLetter[fieldToOmit] = "";
@@ -178,7 +178,6 @@ function generateNextLetter() {
             currentLetter.country = "";
         }
 
-        // Mark that we've handled the first letter at max level
         firstLetterAtMaxLevel = false;
     }
 
@@ -249,6 +248,78 @@ function graphics() {
     body.appendChild(letterDetailsBox);
 }
 
+function renderGrid() {
+    let gridContainer = document.getElementById('zipcode-grid');
+
+    if (!gridContainer) {
+        gridContainer = document.createElement('div');
+        gridContainer.id = 'zipcode-grid';
+        gridContainer.classList.add('grid-container');
+        document.body.appendChild(gridContainer);
+    }
+
+    while (gridContainer.firstChild) {
+        gridContainer.removeChild(gridContainer.firstChild);
+    }
+
+    for (let row = 0; row < 7; row++) {
+        for (let col = 0; col < 4; col++) {
+            const gridItem = createGridItem('');
+            gridContainer.appendChild(gridItem);
+        }
+    }
+
+    const levels = Object.values(data.addresses);
+    const availableLevels = levels.slice(0, gameSettings.level);
+    const uniqueSortAsValues = [
+        ...new Set(
+            availableLevels.flatMap(level =>
+                level.map(({ sortAs }) => sortAs)
+            )
+        )
+    ];
+
+    uniqueSortAsValues.forEach((sortAs, index) => {
+        const gridItem = gridContainer.children[index];
+        const label = gridItem.querySelector('h3');
+        label.textContent = sortAs;
+
+        gridItem.classList.remove('disabled');
+
+        if (/\d/.test(sortAs)) {
+            gridItem.classList.add('grid-item-number');
+        } else {
+            gridItem.classList.add('grid-item-text');
+        }
+    });
+
+    setupGridItemListeners();
+}
+
+function createGridItem(labelText) {
+    const gridItem = document.createElement('button');
+    gridItem.className = 'grid-item';
+
+    const label = document.createElement('h3');
+    label.textContent = labelText;
+    gridItem.appendChild(label);
+
+    if (!labelText) {
+        gridItem.classList.add('disabled');
+        gridItem.style.cursor = 'default';
+    }
+
+    if (/\d/.test(labelText)) {
+        gridItem.classList.add('grid-item-number');
+    } else if (labelText) {
+        gridItem.classList.add('grid-item-text');
+        gridItem.style.cursor = 'pointer';
+    }
+
+    return gridItem;
+}
+
+
 function showDialog(message) {
     const dialog = document.createElement('dialog');
     const dialogMessage = document.createElement('p');
@@ -273,63 +344,22 @@ function showDialog(message) {
         dialog.close();
         document.body.removeChild(dialog);
 
-        if (timerPaused) {
-            timer = setInterval(() => {
-                if (--timeRemaining <= 0) endGame('time');
-                updateHUD();
-            }, 1000);
-            timerPaused = false;
+        if (gameSettings.lives == 0) {
+            location.reload();
+        } else {
+            if (timerPaused) {
+                timer = setInterval(() => {
+                    if (--timeRemaining <= 0) endGame('time');
+                    updateHUD();
+                }, 1000);
+                timerPaused = false;
+            }
         }
     });
 
     dialog.showModal();
 }
 
-function renderGrid() {
-    let gridContainer = document.getElementById('zipcode-grid');
-
-    if (!gridContainer) {
-        gridContainer = document.createElement('div');
-        gridContainer.id = 'zipcode-grid';
-        gridContainer.classList.add('grid-container');
-        document.body.appendChild(gridContainer);
-    }
-
-    while (gridContainer.firstChild) {
-        gridContainer.removeChild(gridContainer.firstChild);
-    }
-
-    const levels = Object.values(data.addresses);
-    const availableLevels = levels.slice(0, gameSettings.level);
-    const uniqueSortAsValues = [
-        ...new Set(
-            availableLevels.flatMap(level =>
-                level.map(({ sortAs }) => sortAs)
-            )
-        )
-    ];
-    uniqueSortAsValues.forEach(sortAs =>
-        gridContainer.appendChild(createGridItem(sortAs))
-    );
-
-    setupGridItemListeners();
-}
-
-function createGridItem(labelText) {
-    const gridItem = document.createElement('button');
-    gridItem.className = 'grid-item';
-
-    const label = document.createElement('h3');
-    label.textContent = labelText;
-
-    gridItem.appendChild(label);
-
-    if (/\d/.test(labelText)) {
-        gridItem.classList.add('grid-item-number');
-    }
-
-    return gridItem;
-}
 
 function updateHUD() {
     document.getElementById('lives').textContent = data.messages.livesMessage.replace("{lives}", gameSettings.lives);
@@ -351,7 +381,7 @@ function disableGameButtons() {
 }
 
 function setupGridItemListeners() {
-    document.querySelectorAll('.grid-item').forEach(item => {
+    document.querySelectorAll('.grid-item-text, .grid-item-number').forEach(item => {
         item.addEventListener('click', () => checkAnswer(item.textContent));
     });
 }

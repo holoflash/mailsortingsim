@@ -91,19 +91,32 @@ body {
 }
 
 .grid-item {
-    background-color: #4a69bd;
+    background-color: #8b9bb4;
     border: 1px solid #ffffff;
     color: #ffffff;
     text-align: center;
     font-size: 8px;
     cursor: pointer;
     margin: 0;
-    flex: 1 1 calc(25%);
+    padding: 10px;
+    flex: 1 1 calc(25% - 2px);
     box-sizing: border-box;
+    min-height: 60px;
 }
 
 .grid-item-number {
     background-color: #7954a9;
+}
+
+.grid-item-text {
+    background-color: #4a69bd;
+}
+
+.grid-item.disabled {
+    border: 1px dashed #ffffff;
+    cursor: default;
+    pointer-events: none;
+    background-color: #8b9bb4;
 }
 
 button {
@@ -119,9 +132,7 @@ button {
 }
 
 @media (hover: hover) {
-
-    button:hover,
-    .grid-item:hover {
+    button:hover {
         background-color: #82ccdd;
     }
 }
@@ -129,20 +140,21 @@ button {
 dialog {
     display: flex;
     flex-direction: column;
+    align-items: center;
     background-color: #34495e;
     color: #ffffff;
     border: 2px solid #ffffff;
     border-radius: 8px;
     width: 300px;
     text-align: center;
-    align-items: center;
     font-size: 13px;
     font-family: monospace;
     margin: auto;
+    animation: fade-in 0.3s ease-out;
 }
 
 dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .dialog-button {
@@ -154,10 +166,26 @@ dialog::backdrop {
     padding: 10px 20px;
     cursor: pointer;
     margin: 5px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.dialog-button:hover {
+    background-color: #82ccdd;
 }
 
 .dialog-button:focus {
-    outline: 1px dashed #ffffff;
+    outline: 2px dashed #ffffff;
     outline-offset: 4px;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

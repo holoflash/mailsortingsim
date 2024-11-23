@@ -28,8 +28,10 @@ export const messages = {
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
     incorrectAnswerMessage: "The correct box was {correctAnswer}.",
-    firedOutOfTimeMessage: "YOU'RE FIRED! Too slow!",
-    firedMistakesMessage: "YOU'RE FIRED! You made too many mistakes!",
+    firedOutOfTimeMessage: "OH NO! You ran out of time! ⏰ Wanna try again? 🔄",
+    firedMistakesMessage: "Whoops! You made too many mistakes! ❌ Wanna try again? 🔁",
+
+
 
     livesMessage: "Lives: {lives}",
     cashMessage: "Cash: ${cash}",
