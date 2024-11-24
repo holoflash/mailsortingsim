@@ -59,7 +59,6 @@ const gameSettings = {
 // 11: 930,
 // 12: 1070,
 
-
 let timer = null;
 let timeRemaining = 0;
 let currentLetter = null;
@@ -68,6 +67,15 @@ let lastAddressInfo = null;
 let timerPaused = false;
 let firstLetterAtMaxLevel = true;
 let gameOver = false;
+
+function getHighscore() {
+    const highscore = localStorage.getItem('highscore');
+    return highscore ? parseInt(highscore) : 0;
+}
+
+function setHighscore(newHighscore) {
+    localStorage.setItem('highscore', newHighscore);
+}
 
 function startGame() {
     timeRemaining = gameSettings.initialTime;
@@ -97,14 +105,14 @@ function endGame(reason) {
     }[reason];
 
     const finalCash = gameSettings.cash;
-    let highscore = localStorage.getItem('highscore');
-    highscore = highscore ? parseInt(highscore) : 0;
+    const highscore = getHighscore();
 
     const messageParts = [];
 
     if (finalCash > highscore) {
         messageParts.push(`${data.messages.newHighscoreMessage} $${finalCash}`);
         messageParts.push(message);
+        setHighscore(finalCash);
     } else {
         messageParts.push(message);
         messageParts.push(`${data.messages.finalCashMessage} $${finalCash}.`);
@@ -115,7 +123,6 @@ function endGame(reason) {
 
     renderDOM.disableGameButtons();
 }
-
 
 export function checkAnswer(userInput) {
     const { timeBonus, initialCashReward } = gameSettings;
@@ -214,7 +221,7 @@ function generateNextLetter() {
 }
 
 function showDialog(message) {
-    const dialog = renderDOM.renderDialog(message)
+    const dialog = renderDOM.renderDialog(message);
     if (timer) {
         clearInterval(timer);
         timerPaused = true;
@@ -247,4 +254,5 @@ function showDialog(message) {
 
     dialog.showModal();
 }
+
 startGame();

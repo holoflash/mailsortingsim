@@ -162,7 +162,6 @@ export function renderDialog(messageParts) {
 
     const dialogMessage = document.createElement('div');
 
-    // Process each part of the message
     messageParts.forEach(part => {
         const p = document.createElement('p');
         p.textContent = part;

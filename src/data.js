@@ -127,7 +127,7 @@ export const addresses = {
         { zipCode: "AD500", county: "Andorra la Vella Parish", streets: ["Avinguda Meritxell", "Carrer de la Unió", "Carrer Prat de la Creu"], city: "Andorra la Vella", country: "Andorra", sortAs: "EUR" },
         { zipCode: "0010", county: "Yerevan", streets: ["Mashtots Avenue", "Tigran Mets Avenue", "Northern Avenue"], city: "Yerevan", country: "Armenia", sortAs: "EUR" },
         { zipCode: "1010", county: "Vienna", streets: ["Graben", "Mariahilfer Straße", "Ringstraße"], city: "Vienna", country: "Austria", sortAs: "EUR" },
-        { zipCode: "AZ1001", county: "Baku", streets: ["Nizami Street", "Heydar Aliyev Avenue", "Fuzuli Square"], city: "Baku", country: "Azerbaijan", sortAs: "EUR" },
+        { zipCode: "AZ1001", county: "Baku (European)", streets: ["Nizami Street", "Heydar Aliyev Avenue", "Fuzuli Square"], city: "Baku", country: "Azerbaijan", sortAs: "EUR" },
         { zipCode: "220030", county: "Minsk", streets: ["Independence Avenue", "Zybitskaya Street", "Pobeditelei Avenue"], city: "Minsk", country: "Belarus", sortAs: "EUR" },
         { zipCode: "1000", county: "Brussels", streets: ["Rue Neuve", "Avenue Louise", "Rue des Bouchers"], city: "Brussels", country: "Belgium", sortAs: "EUR" },
         { zipCode: "71000", county: "Sarajevo", streets: ["Ferhadija Street", "Titova Street", "Maršala Tita"], city: "Sarajevo", country: "Bosnia and Herzegovina", sortAs: "EUR" },
@@ -260,7 +260,7 @@ export const addresses = {
     "Level 8": [
         { zipCode: "1001", county: "Afghanistan", streets: ["Kabul Road", "Shah-e-Do Shamshira Street", "Jade Maiwand"], city: "Kabul", country: "Afghanistan", sortAs: "ASIA" },
         { zipCode: "0002", county: "Armenia", streets: ["Mashtots Avenue", "Tigran Mets Avenue", "Northern Avenue"], city: "Yerevan", country: "Armenia", sortAs: "ASIA" },
-        { zipCode: "AZ1000", county: "Azerbaijan", streets: ["Nizami Street", "Heydar Aliyev Avenue", "Azadliq Square"], city: "Baku", country: "Azerbaijan", sortAs: "ASIA" },
+        { zipCode: "AZ1000", county: "Azerbaijan (Asian)", streets: ["Nizami Street", "Heydar Aliyev Avenue", "Azadliq Square"], city: "Baku", country: "Azerbaijan", sortAs: "ASIA" },
         { zipCode: "PO Box 1234", county: "Bahrain", streets: ["Manama Avenue", "Shaikh Khalifa Road", "Budaiya Highway"], city: "Manama", country: "Bahrain", sortAs: "ASIA" },
         { zipCode: "1207", county: "Bangladesh", streets: ["Dhanmondi 27", "Gulshan Avenue", "Motijheel"], city: "Dhaka", country: "Bangladesh", sortAs: "ASIA" },
         { zipCode: "11001", county: "Bhutan", streets: ["Norzin Lam", "Chorten Lam", "Chang Lam"], city: "Thimphu", country: "Bhutan", sortAs: "ASIA" },

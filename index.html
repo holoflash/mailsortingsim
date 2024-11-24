@@ -34,16 +34,6 @@
 
 <body>
     <script type="module" src="src/Game.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js')
-                    .catch(registrationError => {
-                    });
-            });
-        }
-    </script>
-
 </body>
 
 </html>
