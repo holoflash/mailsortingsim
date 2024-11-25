@@ -1,15 +1,10 @@
-export function graphics(headerTitleText) {
+export function graphics(title) {
     const body = document.body;
     body.textContent = '';
 
-    const headerTitle = document.createElement('div');
-    headerTitle.id = 'header-title';
-    headerTitle.textContent = headerTitleText;
-    body.appendChild(headerTitle);
-
-    const instructions = document.createElement('div');
-    instructions.id = 'instructions';
-    body.appendChild(instructions);
+    const gameTitle = document.createElement('header');
+    gameTitle.textContent = title;
+    body.appendChild(gameTitle);
 
     const gameInfo = document.createElement('div');
     gameInfo.id = 'game-info';
@@ -17,28 +12,28 @@ export function graphics(headerTitleText) {
     const livesBox = document.createElement('div');
     livesBox.id = 'lives';
     livesBox.classList.add('info-box', 'neutral');
-    gameInfo.appendChild(livesBox);
 
     const cashBox = document.createElement('div');
     cashBox.id = 'cash';
     cashBox.classList.add('info-box', 'neutral');
-    gameInfo.appendChild(cashBox);
-
-    body.appendChild(gameInfo);
 
     const messageBox = document.createElement('div');
     messageBox.id = 'message';
     messageBox.classList.add('info-box');
-    body.appendChild(messageBox);
 
     const timerBox = document.createElement('div');
     timerBox.id = 'timer';
     timerBox.classList.add('info-box', 'neutral');
-    body.appendChild(timerBox);
+
+    gameInfo.appendChild(livesBox);
+    gameInfo.appendChild(cashBox);
+    gameInfo.appendChild(messageBox);
+    gameInfo.appendChild(timerBox);
+
+    body.appendChild(gameInfo);
 
     const letterDetailsBox = document.createElement('div');
     letterDetailsBox.id = 'letter-details';
-    letterDetailsBox.classList.add('info-box', 'neutral');
     body.appendChild(letterDetailsBox);
 }
 

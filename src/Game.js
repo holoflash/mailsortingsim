@@ -18,46 +18,20 @@ const gameSettings = {
     initialTime: 20,
     timeBonus: 2,
     requiredCashForLevel: {
-        1: 50,
-        2: 100,
-        3: 170,
-        4: 240,
-        5: 310,
-        6: 390,
-        7: 480,
-        8: 580,
-        9: 680,
-        10: 800,
-        11: 930,
-        12: 1070,
+        1: 30,
+        2: 60,
+        3: 100,
+        4: 210,
+        5: 320,
+        6: 430,
+        7: 540,
+        8: 650,
+        9: 760,
+        10: 870,
+        11: 980,
+        12: 1100,
     }
 };
-//// debug values
-// 1: 5,
-// 2: 10,
-// 3: 15,
-// 4: 20,
-// 5: 25,
-// 6: 30,
-// 7: 35,
-// 8: 40,
-// 9: 45,
-// 10: 50,
-// 11: 55,
-// 12: 60,
-
-// 1: 50,
-// 2: 100,
-// 3: 170,
-// 4: 240,
-// 5: 310,
-// 6: 390,
-// 7: 480,
-// 8: 580,
-// 9: 680,
-// 10: 800,
-// 11: 930,
-// 12: 1070,
 
 let timer = null;
 let timeRemaining = 0;
@@ -79,9 +53,9 @@ function setHighscore(newHighscore) {
 
 function startGame() {
     timeRemaining = gameSettings.initialTime;
-    renderDOM.graphics(data.messages.headerTitle);
-    renderDOM.renderGrid(data.addresses, gameSettings.level, checkAnswer);
+    renderDOM.graphics(data.messages.title);
     generateNextLetter();
+    renderDOM.renderGrid(data.addresses, gameSettings.level, checkAnswer);
     renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
     renderDOM.displayMessage(data.messages.startGame, 'info-box level-up');
     timer = setInterval(() => {

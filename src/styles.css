@@ -17,42 +17,60 @@ body {
     font-family: "Press Start 2P", sans-serif;
     background-color: #8b9bb4;
     color: #ffffff;
+    display: grid;
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-columns: 1fr;
     margin: 0 auto;
-    padding: 10px;
+    padding-inline: 5px;
+    height: 100dvh;
     max-width: 500px;
-    overflow: hidden;
 }
 
-#header-title {
-    font-size: 1.8em;
+header {
     text-align: center;
-    color: #f4d03f;
-    text-shadow: 2px 2px #333;
-    margin-bottom: 10px;
-    padding: 5px;
-    border-bottom: 2px solid #ffffff;
-}
-
-#instructions {
-    font-family: monospace;
-    font-size: 0.7em;
-    padding: 0;
-    margin: 0;
+    letter-spacing: 0.12rem;
+    padding: 0.5rem;
+    color: #f1c40f;
+    text-shadow: 0.1rem 0.1rem 0 #000000;
+    font-size: 1.2rem;
 }
 
 #game-info {
-    margin-top: 10px;
     display: grid;
-    grid-template-columns: auto auto auto;
-    background-color: #577590;
-    padding: 5px;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#lives {
+    grid-column: 1;
+    text-align: left;
+}
+
+#cash {
+    grid-column: 2;
+    text-align: right;
+}
+
+#message {
+    grid-column: 1 / span 2;
+    text-align: center;
+    font-size: 0.6rem;
+}
+
+#timer {
+    grid-column: 1 / span 2;
+    text-align: center;
+    background-color: #000000;
 }
 
 .info-box {
-    font-size: 0.6em;
-    padding: 5px;
-    text-align: center;
+    font-size: 0.5rem;
+    padding: 0.5rem;
     color: #ffffff;
+    background-color: #34495e;
+    text-align: center;
 }
 
 .info-box.success {
@@ -67,34 +85,41 @@ body {
     background-color: #f1c40f;
 }
 
-#letter-details {
-    font-size: 9px;
-    background-color: #1f4068;
-    padding: 10px;
-
-}
 
 .letter-container {
-    padding: 15px;
+    border: 0.2rem solid #000000;
+    border-width: 0.2rem 0.2rem 0.8rem 0.2rem;
     background-color: #34495e;
-    display: grid;
-    gap: 5px;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    text-align: left;
+    font-size: 0.6rem;
+    margin-bottom: 1rem;
+    box-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
 .letter-container p {
-    margin: 4px 0;
+    text-align: center;
+    margin: 5px;
 }
 
 .letter-name {
     font-weight: bold;
-    font-size: 1.2em;
+    text-transform: uppercase;
+    font-size: 0.8rem;
     color: #f4d03f;
 }
 
 .grid-container {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     background-color: #577590;
+    width: 100%;
+    height: 80%;
+    padding: 0;
+    margin: 0;
 }
 
 .grid-item {
@@ -105,8 +130,6 @@ body {
     font-size: 8px;
     cursor: pointer;
     margin: 0;
-    padding: 10px;
-    flex: 1 1 calc(25% - 2px);
     box-sizing: border-box;
     min-height: 60px;
 }

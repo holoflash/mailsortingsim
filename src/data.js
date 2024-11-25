@@ -7,7 +7,7 @@ export const messages = {
         county: "County",
         location: "Location"
     },
-    headerTitle: "PIGEONHOLED",
+    title: "PIGEONHOLED",
     startGame: "Level 1",
     levelUp: "Level ",
 
