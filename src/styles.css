@@ -85,7 +85,6 @@ header {
     background-color: #f1c40f;
 }
 
-
 .letter-container {
     border: 0.2rem solid #000000;
     border-width: 0.2rem 0.2rem 0.8rem 0.2rem;
@@ -95,8 +94,7 @@ header {
     padding: 1rem;
     text-align: left;
     font-size: 0.6rem;
-    margin-bottom: 1rem;
-    box-shadow: 0.2rem 0.2rem 0.5rem rgba(0, 0, 0, 0.2);
+    margin-bottom: 5px;
     position: relative;
 }
 
