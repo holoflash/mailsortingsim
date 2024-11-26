@@ -148,6 +148,7 @@ export function disableGameButtons() {
         button.disabled = true;
     });
 }
+
 export function renderDialog(messageParts) {
     const dialog = document.createElement('dialog');
 

@@ -11,23 +11,71 @@ export const messages = {
     startGame: "Level 1",
     levelUp: "Level ",
 
-    level1Dialog: "Welcome to the post office! 📬 Sort the letters by the last two digits of the zipcode (123 xx). Place the letter in the box that matches those digits. More instructions will follow soon! ✉️",
-    level2Dialog: "Great job on Stockholm! 🎉 Now, you'll also need to sort letters for other cities in Sweden 🇸🇪. Look at the city name on the letter. If it's not Stockholm, sort it into the 'SE' box! 🏙️",
-    level3Dialog: "We're adding the other Nordic countries now. 🇩🇰 🇳🇴 🇫🇮 🇮🇸 Sort Denmark, Norway, Finland, Iceland into the NORD box! 🌍",
-    level4Dialog: "Let's get global! 🌐 Sort letters from other European countries into the EUR box. ✈️",
-    level5Dialog: "Things are getting serious! 🔥 Sort all letters from the British Isles (UK & Ireland) into the UK-I box. God save the postman! 🇬🇧",
-    level6Dialog: "Cross the pond! 🌊 Put all North American letters (USA, Canada, Mexico) into the N-AM box. 🗺️",
-    level7Dialog: "South America is calling! 🇧🇷 🇦🇷 🇨🇱 Sort cities from Brazil, Argentina, Chile etc. into the S-AM box. Don't forget your sunblock! ☀️",
-    level8Dialog: "Asia awaits! 🏯 Remember that some countries belong to multiple continents, so pay attention to the letter details. 🌏",
-    level9Dialog: "Next stop: Africa! 🦁 Sort letters from African cities into the AFR box. Hear the drums echoing tonight. 🎶",
-    level10Dialog: "Central America time! 🌞 Sort cities from Guatemala, Costa Rica, Panama etc. into the C-AM box. Things are getting hard now, so I'm giving you an extra life ❤️",
-    level11Dialog: "The Caribbean is calling! 🏝️ Sort cities from Jamaica, Cuba, Bahamas, and more into the CRBN box. Here's another extra life for you! 💖",
-    level12Dialog: "Oceania is next! 🏄 Sort cities from Australia, New Zealand, and all the Polynesian islands into the OCN box. Time to ride the waves! 🌊 And I think you might want this extra life. ♥️",
-    level13Dialog: "Pay attention! 🧐 If a letter is missing any details, it goes in the BIN box. This is the final level, so take one last life 💗 and let's see how long you'll last! ⏳",
+    level1Dialog: [
+        "WELCOME TO PIGEONHOLED! ",
+        "1. Look at the last two digits of the zipcode",
+        "2. Click on the box that matches those digits (e.g. 129 33 → 33)",
+        "More instructions will follow soon!"
+    ],
+    level2Dialog: [
+        "Great job on Stockholm! 🎉",
+        "Now, you'll also sort letters for other cities in Sweden 🇸🇪.",
+        "Look at the city name on the letter.",
+        "If it's not Stockholm, put it into the 'SE' box! 🏙️"
+    ],
+    level3Dialog: [
+        "We're adding the other Nordic countries now.🌍",
+        "Sort Denmark, Norway, Finland, Iceland into the NORD box! 🌍"
+    ],
+    level4Dialog: [
+        "Let's get global! 🌐",
+        "Sort letters from other European countries into the EUR box. ✈️"
+    ],
+    level5Dialog: [
+        "God save the postman! 🇬🇧",
+        "Sort all letters from the British Isles (UK & Ireland) into the UK-I box.",
+
+    ],
+    level6Dialog: [
+        "Cross the pond! 🌊",
+        "Put all North American letters (USA, Canada, Mexico) into the N-AM box. 🗺️"
+    ],
+    level7Dialog: [
+        "South America is calling!☀️",
+        "Sort cities from Brazil, Argentina, Chile etc. into the S-AM box."
+    ],
+    level8Dialog: [
+        "Asia awaits! 🏯",
+        "Remember that some countries belong to multiple continents, so pay attention to the letter details. 🌏"
+    ],
+    level9Dialog: [
+        "Next stop: Africa! 🦁",
+        "Sort letters from African cities into the AFR box."
+    ],
+    level10Dialog: [
+        "Central America time! 🌞",
+        "Sort cities from Guatemala, Costa Rica, Panama etc. into the C-AM box.",
+        "Things are getting hard now, so I'm giving you an extra life ❤️"
+    ],
+    level11Dialog: [
+        "The Caribbean is calling! 🏝️",
+        "Sort cities from Jamaica, Cuba, Bahamas, and more into the CRBN box.",
+        "Here's another extra life for you! 💖"
+    ],
+    level12Dialog: [
+        "Oceania is next! 🏄",
+        "Sort cities from Australia, New Zealand, and all the Polynesian islands into the OCN box.",
+        "I think you might this extra life. ♥️"
+    ],
+    level13Dialog: [
+        "Pay attention! 🧐",
+        "If a letter is missing any details, it goes in the BIN box.",
+        "This is the final level, so take one last life 💗 and let's see how long you'll last! ⏳"
+    ],
 
     correctMessage: "Correct!",
     incorrectMessage: "Incorrect.",
-    incorrectAnswerMessage: "The correct box was {correctAnswer}.",
+    incorrectAnswerMessage: "The correct box was {correctAnswer}",
     firedOutOfTimeMessage: "GAME OVER! You ran out of time! ⏰ Wanna try again?",
     firedMistakesMessage: "GAME OVER! You made too many mistakes! ❌ Wanna try again?",
     finalCashMessage: "Final cash: ",

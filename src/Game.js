@@ -1,5 +1,5 @@
 import * as data from './data.js';
-import * as renderDOM from './renderDOM.js'
+import * as renderDOM from './renderDOM.js';
 
 const sounds = {
     coins: new Audio('../src/sounds/coins.mp3'),
@@ -9,61 +9,57 @@ const sounds = {
     letterHandling: new Audio('../src/sounds/letterHandling.mp3'),
 };
 
-const gameSettings = {
+const INITIAL_GAME_STATE = {
     cash: 0,
     level: 1,
-    maxLevel: 13,
     lives: 3,
+    timeRemaining: 20,
+};
+
+const CONSTANTS = {
+    maxLevel: 13,
     initialCashReward: 5,
-    initialTime: 20,
     timeBonus: 2,
     requiredCashForLevel: {
-        1: 30,
-        2: 60,
-        3: 100,
-        4: 210,
-        5: 320,
-        6: 430,
-        7: 540,
-        8: 650,
-        9: 760,
-        10: 870,
-        11: 980,
-        12: 1100,
-    }
+        1: 40, 2: 60, 3: 110, 4: 170, 5: 240,
+        6: 320, 7: 410, 8: 510, 9: 620,
+        10: 740, 11: 870, 12: 1000,
+    },
+};
+
+const game = {
+    ...INITIAL_GAME_STATE,
+    setHighscore(newHighscore) {
+        localStorage.setItem('highscore', newHighscore);
+    },
+    getHighscore() {
+        return parseInt(localStorage.getItem('highscore') || '0', 10);
+    },
 };
 
 let timer = null;
-let timeRemaining = 0;
-let currentLetter = null;
-let firstLetterForNewLevel = true;
-let lastAddressInfo = null;
-let timerPaused = false;
-let firstLetterAtMaxLevel = true;
 let gameOver = false;
-
-function getHighscore() {
-    const highscore = localStorage.getItem('highscore');
-    return highscore ? parseInt(highscore) : 0;
-}
-
-function setHighscore(newHighscore) {
-    localStorage.setItem('highscore', newHighscore);
-}
+let currentLetter = null;
+let lastAddressInfo = null;
+let firstLetterForNewLevel = true;
+let firstLetterAtMaxLevel = true;
+let timerPaused = false;
+let timeRemaining = game.timeRemaining;
 
 function startGame() {
-    timeRemaining = gameSettings.initialTime;
+    gameOver = false;
+    timeRemaining = game.timeRemaining;
     renderDOM.graphics(data.messages.title);
     generateNextLetter();
-    renderDOM.renderGrid(data.addresses, gameSettings.level, checkAnswer);
-    renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
+    renderDOM.renderGrid(data.addresses, game.level, checkAnswer);
+    renderDOM.updateHUD(data.messages, game, timeRemaining);
     renderDOM.displayMessage(data.messages.startGame, 'info-box level-up');
     timer = setInterval(() => {
         if (--timeRemaining <= 0) endGame('time');
-        renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
+        renderDOM.updateHUD(data.messages, game, timeRemaining);
     }, 1000);
 
-    showDialog([data.messages[`level${gameSettings.level}Dialog`]]);
+    showDialog([data.messages[`level${game.level}Dialog`]]);
 }
 
 function endGame(reason) {
@@ -71,88 +67,81 @@ function endGame(reason) {
     sounds.fired.play();
     clearInterval(timer);
     timeRemaining = 0;
-    renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
+    renderDOM.updateHUD(data.messages, game, timeRemaining);
 
     const message = {
         time: data.messages.firedOutOfTimeMessage,
         lives: data.messages.firedMistakesMessage,
     }[reason];
 
-    const finalCash = gameSettings.cash;
-    const highscore = getHighscore();
-
     const messageParts = [];
 
-    if (finalCash > highscore) {
-        messageParts.push(`${data.messages.newHighscoreMessage} $${finalCash}`);
+    if (game.cash > game.getHighscore()) {
+        messageParts.push(`${data.messages.newHighscoreMessage} $${game.cash}`);
         messageParts.push(message);
-        setHighscore(finalCash);
+        game.setHighscore(game.cash);
     } else {
         messageParts.push(message);
-        messageParts.push(`${data.messages.finalCashMessage} $${finalCash}.`);
-        messageParts.push(`${data.messages.highscoreMessage} $${highscore}`);
+        messageParts.push(`${data.messages.finalCashMessage} $${game.cash}`);
+        messageParts.push(`${data.messages.highscoreMessage} $${game.getHighscore()}`);
     }
 
-    showDialog(messageParts);
+    showDialog([messageParts]);
 
     renderDOM.disableGameButtons();
 }
 
 export function checkAnswer(userInput) {
-    const { timeBonus, initialCashReward } = gameSettings;
     const isCorrect = userInput === currentLetter.sortAs;
 
     if (isCorrect) {
         sounds.correct.play();
         sounds.coins.play();
-        gameSettings.cash += initialCashReward;
-        timeRemaining += timeBonus;
-        renderDOM.displayMessage(data.messages.correctMessage + ` +$${initialCashReward}`, 'info-box success');
+        game.cash += CONSTANTS.initialCashReward;
+        timeRemaining += CONSTANTS.timeBonus;
+        renderDOM.displayMessage(data.messages.correctMessage + ` +$${CONSTANTS.initialCashReward}`, 'info-box success');
     } else {
         sounds.mistake.play();
-        gameSettings.lives--;
+        game.lives--;
         renderDOM.displayMessage(data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs), 'info-box warning');
     }
-    renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
-    if (gameSettings.lives <= 0) return endGame('lives');
+    renderDOM.updateHUD(data.messages, game, timeRemaining);
+    if (game.lives <= 0) return endGame('lives');
 
-    const requiredCash = gameSettings.requiredCashForLevel[gameSettings.level];
-    if (gameSettings.cash >= requiredCash) {
+    if (game.cash >= CONSTANTS.requiredCashForLevel[game.level]) {
         handleLevelUp();
     }
-
     generateNextLetter();
 }
 
 function handleLevelUp() {
-    if (gameSettings.level > gameSettings.maxLevel) {
+    if (game.level > CONSTANTS.maxLevel) {
         return;
     }
 
-    if (gameSettings.level > 8) {
-        gameSettings.lives++;
+    if (game.level > 8) {
+        game.lives++;
     }
     sounds.letterHandling.play();
-    gameSettings.level++;
-    renderDOM.displayMessage(data.messages.levelUp + gameSettings.level, 'info-box level-up');
-    renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
+    game.level++;
+    renderDOM.displayMessage(data.messages.levelUp + game.level, 'info-box level-up');
+    renderDOM.updateHUD(data.messages, game, timeRemaining);
 
-    if (gameSettings.level) {
-        showDialog([data.messages[`level${gameSettings.level}Dialog`]]);
+    if (game.level) {
+        showDialog([data.messages[`level${game.level}Dialog`]]);
     }
 
     firstLetterForNewLevel = true;
-    renderDOM.renderGrid(data.addresses, gameSettings.level, checkAnswer);
+    renderDOM.renderGrid(data.addresses, game.level, checkAnswer);
 }
 
 function generateNextLetter() {
     const availableAddresses = [];
-    const maxLevelToConsider = Math.min(gameSettings.level, gameSettings.maxLevel);
-    if (firstLetterForNewLevel && gameSettings.level < gameSettings.maxLevel) {
-        availableAddresses.push(...data.addresses[`Level ${gameSettings.level}`]);
+    if (firstLetterForNewLevel && game.level < CONSTANTS.maxLevel) {
+        availableAddresses.push(...data.addresses[`Level ${game.level}`]);
         firstLetterForNewLevel = false;
     } else {
-        for (let i = 1; i <= maxLevelToConsider; i++) {
+        for (let i = 1; i <= Math.min(game.level, CONSTANTS.maxLevel); i++) {
             availableAddresses.push(...data.addresses[`Level ${i}`]);
         }
     }
@@ -178,23 +167,27 @@ function generateNextLetter() {
         sortAs: addressInfo.sortAs,
     };
 
-    if (gameSettings.level >= gameSettings.maxLevel && firstLetterAtMaxLevel) {
-        const fieldToOmit = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"][Math.floor(Math.random() * 7)];
-        currentLetter[fieldToOmit] = "";
-        currentLetter.sortAs = "BIN";
+    if (game.level >= CONSTANTS.maxLevel) {
+        const shouldOmitField = firstLetterAtMaxLevel || Math.random() < 0.1;
 
-        if (fieldToOmit === "country") {
-            currentLetter.city = addressInfo.city;
-            currentLetter.country = "";
+        if (shouldOmitField) {
+            const fieldToOmit = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"][Math.floor(Math.random() * 7)];
+            currentLetter[fieldToOmit] = "";
+            currentLetter.sortAs = "BIN";
+
+            if (fieldToOmit === "country") {
+                currentLetter.city = addressInfo.city;
+                currentLetter.country = "";
+            }
+
+            firstLetterAtMaxLevel = false;
         }
-
-        firstLetterAtMaxLevel = false;
     }
 
     renderDOM.displayLetterDetails(currentLetter);
 }
 
-function showDialog(message) {
+function showDialog([message]) {
     const dialog = renderDOM.renderDialog(message);
     if (timer) {
         clearInterval(timer);
@@ -208,18 +201,13 @@ function showDialog(message) {
         document.body.removeChild(dialog);
 
         if (gameOver) {
-            gameOver = false;
-            gameSettings.initialTime = 20;
-            timeRemaining = gameSettings.initialTime;
-            gameSettings.level = 1;
-            gameSettings.lives = 3;
-            gameSettings.cash = 0;
+            Object.assign(game, INITIAL_GAME_STATE);
             startGame();
         } else {
             if (timerPaused) {
                 timer = setInterval(() => {
                     if (--timeRemaining <= 0) endGame('time');
-                    renderDOM.updateHUD(data.messages, gameSettings, timeRemaining);
+                    renderDOM.updateHUD(data.messages, game, timeRemaining);
                 }, 1000);
                 timerPaused = false;
             }
