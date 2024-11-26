@@ -24,7 +24,7 @@ export const messages = {
         "If it's not Stockholm, put it into the 'SE' box! 🏙️"
     ],
     level3Dialog: [
-        "We're adding the other Nordic countries now.🌍",
+        "We're adding the other Nordic countries now.🇳🇴🇩🇰🇮🇸🇫🇮",
         "Sort Denmark, Norway, Finland, Iceland into the NORD box! 🌍"
     ],
     level4Dialog: [

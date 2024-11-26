@@ -91,7 +91,7 @@ function endGame(reason) {
     renderDOM.disableGameButtons();
 }
 
-export function checkAnswer(userInput) {
+function checkAnswer(userInput) {
     const isCorrect = userInput === currentLetter.sortAs;
 
     if (isCorrect) {
