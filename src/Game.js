@@ -1,18 +1,18 @@
-import * as data from './data.js';
-import * as renderDOM from './renderDOM.js';
+import * as data from "./data.js";
+import * as renderDOM from "./renderDOM.js";
 
 const sounds = {
-    coins: new Audio('../src/sounds/coins.mp3'),
-    correct: new Audio('../src/sounds/correct.mp3'),
-    mistake: new Audio('../src/sounds/mistake.mp3'),
-    fired: new Audio('../src/sounds/fired.mp3'),
-    letterHandling: new Audio('../src/sounds/letterHandling.mp3'),
+    coins: new Audio("../src/sounds/coins.mp3"),
+    correct: new Audio("../src/sounds/correct.mp3"),
+    mistake: new Audio("../src/sounds/mistake.mp3"),
+    fired: new Audio("../src/sounds/fired.mp3"),
+    letterHandling: new Audio("../src/sounds/letterHandling.mp3"),
 };
 
 const INITIAL_GAME_STATE = {
     cash: 0,
     level: 1,
-    lives: 3,
+    lives: 100,
     timeRemaining: 20,
 };
 
@@ -21,19 +21,28 @@ const CONSTANTS = {
     initialCashReward: 5,
     timeBonus: 2,
     requiredCashForLevel: {
-        1: 40, 2: 60, 3: 110, 4: 170, 5: 240,
-        6: 320, 7: 410, 8: 510, 9: 620,
-        10: 740, 11: 870, 12: 1000,
+        1: 40,
+        2: 60,
+        3: 110,
+        4: 170,
+        5: 240,
+        6: 320,
+        7: 410,
+        8: 510,
+        9: 620,
+        10: 740,
+        11: 870,
+        12: 1000,
     },
 };
 
 const game = {
     ...INITIAL_GAME_STATE,
     setHighscore(newHighscore) {
-        localStorage.setItem('highscore', newHighscore);
+        localStorage.setItem("highscore", newHighscore);
     },
     getHighscore() {
-        return parseInt(localStorage.getItem('highscore') || '0', 10);
+        return parseInt(localStorage.getItem("highscore") || "0", 10);
     },
 };
 
@@ -53,9 +62,9 @@ function startGame() {
     generateNextLetter();
     renderDOM.renderGrid(data.addresses, game.level, checkAnswer);
     renderDOM.updateHUD(data.messages, game, timeRemaining);
-    renderDOM.displayMessage(data.messages.startGame, 'info-box level-up');
+    renderDOM.displayMessage(data.messages.startGame, "info-box level-up");
     timer = setInterval(() => {
-        if (--timeRemaining <= 0) endGame('time');
+        if (--timeRemaining <= 0) endGame("time");
         renderDOM.updateHUD(data.messages, game, timeRemaining);
     }, 1000);
 
@@ -83,7 +92,9 @@ function endGame(reason) {
     } else {
         messageParts.push(message);
         messageParts.push(`${data.messages.finalCashMessage} $${game.cash}`);
-        messageParts.push(`${data.messages.highscoreMessage} $${game.getHighscore()}`);
+        messageParts.push(
+            `${data.messages.highscoreMessage} $${game.getHighscore()}`
+        );
     }
 
     showDialog([messageParts]);
@@ -99,14 +110,23 @@ function checkAnswer(userInput) {
         sounds.coins.play();
         game.cash += CONSTANTS.initialCashReward;
         timeRemaining += CONSTANTS.timeBonus;
-        renderDOM.displayMessage(data.messages.correctMessage + ` +$${CONSTANTS.initialCashReward}`, 'info-box success');
+        renderDOM.displayMessage(
+            data.messages.correctMessage + ` +$${CONSTANTS.initialCashReward}`,
+            "info-box success"
+        );
     } else {
         sounds.mistake.play();
         game.lives--;
-        renderDOM.displayMessage(data.messages.incorrectAnswerMessage.replace("{correctAnswer}", currentLetter.sortAs), 'info-box warning');
+        renderDOM.displayMessage(
+            data.messages.incorrectAnswerMessage.replace(
+                "{correctAnswer}",
+                currentLetter.sortAs
+            ),
+            "info-box warning"
+        );
     }
     renderDOM.updateHUD(data.messages, game, timeRemaining);
-    if (game.lives <= 0) return endGame('lives');
+    if (game.lives <= 0) return endGame("lives");
 
     if (game.cash >= CONSTANTS.requiredCashForLevel[game.level]) {
         handleLevelUp();
@@ -124,7 +144,10 @@ function handleLevelUp() {
     }
     sounds.letterHandling.play();
     game.level++;
-    renderDOM.displayMessage(data.messages.levelUp + game.level, 'info-box level-up');
+    renderDOM.displayMessage(
+        data.messages.levelUp + game.level,
+        "info-box level-up"
+    );
     renderDOM.updateHUD(data.messages, game, timeRemaining);
 
     if (game.level) {
@@ -148,17 +171,24 @@ function generateNextLetter() {
 
     let addressInfo;
     do {
-        addressInfo = availableAddresses[Math.floor(Math.random() * availableAddresses.length)];
+        addressInfo =
+            availableAddresses[
+                Math.floor(Math.random() * availableAddresses.length)
+            ];
     } while (addressInfo === lastAddressInfo);
     lastAddressInfo = addressInfo;
 
     const city = `${addressInfo.city},`;
     const country = addressInfo.country;
-    const street = `${addressInfo.streets[Math.floor(Math.random() * addressInfo.streets.length)].trim()} ${Math.floor(Math.random() * 1000) + 1}`;
+    const street = `${addressInfo.streets[
+        Math.floor(Math.random() * addressInfo.streets.length)
+    ].trim()} ${Math.floor(Math.random() * 1000) + 1}`;
 
     currentLetter = {
-        firstName: data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
-        lastName: data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
+        firstName:
+            data.firstNames[Math.floor(Math.random() * data.firstNames.length)],
+        lastName:
+            data.lastNames[Math.floor(Math.random() * data.lastNames.length)],
         street,
         zipCode: addressInfo.zipCode,
         county: addressInfo.county,
@@ -168,10 +198,18 @@ function generateNextLetter() {
     };
 
     if (game.level >= CONSTANTS.maxLevel) {
-        const shouldOmitField = firstLetterAtMaxLevel || Math.random() < 0.1;
+        const shouldOmitField = firstLetterAtMaxLevel || Math.random() < 0.2;
 
         if (shouldOmitField) {
-            const fieldToOmit = ["firstName", "lastName", "street", "zipCode", "county", "city", "country"][Math.floor(Math.random() * 7)];
+            const fieldToOmit = [
+                "firstName",
+                "lastName",
+                "street",
+                "zipCode",
+                "county",
+                "city",
+                "country",
+            ][Math.floor(Math.random() * 7)];
             currentLetter[fieldToOmit] = "";
             currentLetter.sortAs = "BIN";
 
@@ -194,9 +232,9 @@ function showDialog([message]) {
         timerPaused = true;
     }
 
-    const okButton = dialog.querySelector('button');
+    const okButton = dialog.querySelector("button");
 
-    okButton.addEventListener('click', () => {
+    okButton.addEventListener("click", () => {
         dialog.close();
         document.body.removeChild(dialog);
 
@@ -206,7 +244,7 @@ function showDialog([message]) {
         } else {
             if (timerPaused) {
                 timer = setInterval(() => {
-                    if (--timeRemaining <= 0) endGame('time');
+                    if (--timeRemaining <= 0) endGame("time");
                     renderDOM.updateHUD(data.messages, game, timeRemaining);
                 }, 1000);
                 timerPaused = false;

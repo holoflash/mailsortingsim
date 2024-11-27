@@ -1,29 +1,29 @@
 export function graphics(title) {
     const body = document.body;
-    body.textContent = '';
+    body.textContent = "";
 
-    const gameTitle = document.createElement('header');
+    const gameTitle = document.createElement("header");
     gameTitle.textContent = title;
     body.appendChild(gameTitle);
 
-    const gameInfo = document.createElement('div');
-    gameInfo.id = 'game-info';
+    const gameInfo = document.createElement("div");
+    gameInfo.id = "game-info";
 
-    const livesBox = document.createElement('div');
-    livesBox.id = 'lives';
-    livesBox.classList.add('info-box', 'neutral');
+    const livesBox = document.createElement("div");
+    livesBox.id = "lives";
+    livesBox.classList.add("info-box", "neutral");
 
-    const cashBox = document.createElement('div');
-    cashBox.id = 'cash';
-    cashBox.classList.add('info-box', 'neutral');
+    const cashBox = document.createElement("div");
+    cashBox.id = "cash";
+    cashBox.classList.add("info-box", "neutral");
 
-    const messageBox = document.createElement('div');
-    messageBox.id = 'message';
-    messageBox.classList.add('info-box');
+    const messageBox = document.createElement("div");
+    messageBox.id = "message";
+    messageBox.classList.add("info-box");
 
-    const timerBox = document.createElement('div');
-    timerBox.id = 'timer';
-    timerBox.classList.add('info-box', 'neutral');
+    const timerBox = document.createElement("div");
+    timerBox.id = "timer";
+    timerBox.classList.add("info-box", "neutral");
 
     gameInfo.appendChild(livesBox);
     gameInfo.appendChild(cashBox);
@@ -32,24 +32,24 @@ export function graphics(title) {
 
     body.appendChild(gameInfo);
 
-    const letterDetailsBox = document.createElement('div');
-    letterDetailsBox.id = 'letter-details';
+    const letterDetailsBox = document.createElement("div");
+    letterDetailsBox.id = "letter-details";
     body.appendChild(letterDetailsBox);
 }
 
-export function displayMessage(content, type = 'info-box') {
-    const messageDisplay = document.getElementById('message');
+export function displayMessage(content, type = "info-box") {
+    const messageDisplay = document.getElementById("message");
     messageDisplay.className = type;
     messageDisplay.textContent = content;
 }
 
 export function renderGrid(addresses, level, checkAnswer) {
-    let gridContainer = document.getElementById('zipcode-grid');
+    let gridContainer = document.getElementById("zipcode-grid");
 
     if (!gridContainer) {
-        gridContainer = document.createElement('div');
-        gridContainer.id = 'zipcode-grid';
-        gridContainer.classList.add('grid-container');
+        gridContainer = document.createElement("div");
+        gridContainer.id = "zipcode-grid";
+        gridContainer.classList.add("grid-container");
         document.body.appendChild(gridContainer);
     }
 
@@ -59,117 +59,111 @@ export function renderGrid(addresses, level, checkAnswer) {
 
     for (let row = 0; row < 7; row++) {
         for (let col = 0; col < 4; col++) {
-            const gridItem = createGridItem('');
+            const gridItem = createGridItem("");
             gridContainer.appendChild(gridItem);
         }
     }
 
     const levels = Object.values(addresses);
     const availableLevels = levels.slice(0, level);
-    const uniqueSortAsValues = [
-        ...new Set(
-            availableLevels.flatMap(level =>
-                level.map(({ sortAs }) => sortAs)
-            )
-        )
-    ];
+    const uniqueSortAsValues = [...new Set(availableLevels.flatMap((level) => level.map(({ sortAs }) => sortAs)))];
 
     uniqueSortAsValues.forEach((sortAs, index) => {
         const gridItem = gridContainer.children[index];
-        const label = gridItem.querySelector('h3');
+        const label = gridItem.querySelector("h3");
         label.textContent = sortAs;
 
-        gridItem.classList.remove('disabled');
+        gridItem.classList.remove("disabled");
 
         if (/\d/.test(sortAs)) {
-            gridItem.classList.add('grid-item-number');
+            gridItem.classList.add("grid-item-number");
         } else {
-            gridItem.classList.add('grid-item-text');
+            gridItem.classList.add("grid-item-text");
         }
     });
 
-    document.querySelectorAll('.grid-item-text, .grid-item-number').forEach(item => {
-        item.addEventListener('click', () => checkAnswer(item.textContent));
+    document.querySelectorAll(".grid-item-text, .grid-item-number").forEach((item) => {
+        item.addEventListener("click", () => checkAnswer(item.textContent));
     });
 }
 
 function createGridItem(labelText) {
-    const gridItem = document.createElement('button');
-    gridItem.className = 'grid-item';
+    const gridItem = document.createElement("button");
+    gridItem.className = "grid-item";
 
-    const label = document.createElement('h3');
+    const label = document.createElement("h3");
     label.textContent = labelText;
     gridItem.appendChild(label);
 
     if (!labelText) {
-        gridItem.classList.add('disabled');
-        gridItem.style.cursor = 'default';
+        gridItem.classList.add("disabled");
+        gridItem.style.cursor = "default";
     }
 
     if (/\d/.test(labelText)) {
-        gridItem.classList.add('grid-item-number');
+        gridItem.classList.add("grid-item-number");
     } else if (labelText) {
-        gridItem.classList.add('grid-item-text');
-        gridItem.style.cursor = 'pointer';
+        gridItem.classList.add("grid-item-text");
+        gridItem.style.cursor = "pointer";
     }
 
     return gridItem;
 }
 
 export function updateHUD(messages, gameSettings, timeRemaining) {
-    document.getElementById('lives').textContent = messages.livesMessage.replace("{lives}", gameSettings.lives);
-    document.getElementById('cash').textContent = messages.cashMessage.replace("{cash}", gameSettings.cash);
-    document.getElementById('timer').textContent = messages.timerMessage.replace("{time}", timeRemaining);
+    document.getElementById("lives").textContent = messages.livesMessage.replace("{lives}", gameSettings.lives);
+    document.getElementById("cash").textContent = messages.cashMessage.replace("{cash}", gameSettings.cash);
+    document.getElementById("timer").textContent = messages.timerMessage.replace("{time}", timeRemaining);
 }
 
 export function displayLetterDetails(letter) {
-    const letterDetailsDisplay = document.getElementById('letter-details');
-    letterDetailsDisplay.textContent = '';
+    const letterDetailsDisplay = document.getElementById("letter-details");
+    letterDetailsDisplay.textContent = "";
 
     const createInfoLine = (value, className = "") => {
-        const line = document.createElement('p');
+        const line = document.createElement("p");
         line.textContent = value;
         if (className) line.classList.add(className);
         return line;
     };
 
-    const letterContainer = document.createElement('div');
-    letterContainer.classList.add('letter-container');
-    letterContainer.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`.trim(), 'letter-name'));
-    letterContainer.appendChild(createInfoLine(letter.street, 'letter-street'));
-    letterContainer.appendChild(createInfoLine(`${letter.zipCode} ${letter.county}`.trim(), 'letter-zip-county'));
-    letterContainer.appendChild(createInfoLine(`${letter.city} ${letter.country}`.trim(), 'letter-location'));
+    const letterContainer = document.createElement("div");
+    letterContainer.classList.add("letter-container");
+    letterContainer.appendChild(createInfoLine(`${letter.firstName} ${letter.lastName}`.trim(), "letter-name"));
+    letterContainer.appendChild(createInfoLine(letter.street, "letter-street"));
+    letterContainer.appendChild(createInfoLine(`${letter.zipCode} ${letter.county}`.trim(), "letter-zip-county"));
+    letterContainer.appendChild(createInfoLine(`${letter.city} ${letter.country}`.trim(), "letter-location"));
     letterDetailsDisplay.appendChild(letterContainer);
 }
 
 export function disableGameButtons() {
-    const gameButtons = document.querySelectorAll('.grid-item, .cash-button');
-    gameButtons.forEach(button => {
+    const gameButtons = document.querySelectorAll(".grid-item, .cash-button");
+    gameButtons.forEach((button) => {
         button.disabled = true;
     });
 }
 
 export function renderDialog(messageParts) {
-    const dialog = document.createElement('dialog');
+    const dialog = document.createElement("dialog");
 
-    const pigeonImage = document.createElement('img');
-    pigeonImage.src = './src/art/pigeon.svg';
-    pigeonImage.alt = 'Pigeon';
+    const pigeonImage = document.createElement("img");
+    pigeonImage.src = "./src/art/pigeon.svg";
+    pigeonImage.alt = "Pigeon";
 
-    const dialogMessage = document.createElement('div');
+    const dialogMessage = document.createElement("div");
 
-    messageParts.forEach(part => {
-        const p = document.createElement('p');
+    messageParts.forEach((part) => {
+        const p = document.createElement("p");
         p.textContent = part;
         dialogMessage.appendChild(p);
     });
 
-    const okButton = document.createElement('button');
+    const okButton = document.createElement("button");
     okButton.textContent = "OK";
-    okButton.classList.add('dialog-button');
+    okButton.classList.add("dialog-button");
 
-    const dialogContainer = document.createElement('div');
-    dialogContainer.classList.add('dialog-container');
+    const dialogContainer = document.createElement("div");
+    dialogContainer.classList.add("dialog-container");
 
     dialogContainer.appendChild(pigeonImage);
     dialogContainer.appendChild(dialogMessage);
@@ -180,4 +174,3 @@ export function renderDialog(messageParts) {
 
     return dialog;
 }
-
