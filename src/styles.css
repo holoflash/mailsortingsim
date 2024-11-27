@@ -149,6 +149,10 @@ header {
     background-color: #8b9bb4;
 }
 
+.grid-item:active {
+    background-color: #82ccdd;
+}
+
 button {
     font-family: "Press Start 2P", sans-serif;
     font-size: 1em;
