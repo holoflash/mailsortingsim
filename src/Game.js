@@ -12,7 +12,7 @@ const sounds = {
 const INITIAL_GAME_STATE = {
     cash: 0,
     level: 1,
-    lives: 100,
+    lives: 3,
     timeRemaining: 20,
 };
 
